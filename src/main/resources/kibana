@@ -1,0 +1,40 @@
+PUT cloudnote
+{
+  "settings":{
+    "number_of_shards": 5,
+    "number_of_replicas": 1
+  },
+  "mappings":{
+    "article":{
+      "properties":{
+        "id":{
+          "type":"keyword"
+        },
+        "content": {
+            "type": "text",
+            "analyzer": "ik_max_word",
+            "search_analyzer": "ik_max_word"
+        },
+        "createTime":{
+          "type":"date",
+          "format":"yyyy-MM-dd HH:mm:ss"
+        },
+        "hitNum":{
+          "type":"integer"
+        },
+        "title":{
+          "type":"text"
+        },
+        "nId":{
+          "type":"keyword"
+        },
+        "uId":{
+          "type":"keyword"
+        },
+        "is_shared":{
+          "type":"integer"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+jasypt:
+  encryptor:
+    password: EbfYkitulv73I2p0mXI50JMXoaxZTKJ7
+
+server:
+  port: 11000
+
+spring:
+  application:
+    name: cloudnote-etl
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch_wy
+      cluster-nodes: 127.0.0.1:9300
+      repositories:
+        enabled: true
+  datasource:
+    remote:
+      hikari:
+        pool-name: cloudnote-remote-database-pool
+        minimum-idle: 5
+        maximum-pool-size: 10
+        idle-timeout: 180000
+        auto-commit: true
+        read-only: true
+#      type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://123.206.20.115:3306/cloudnote?useUnicode=true&characterEncoding=utf-8&useSSL=false
+        username: ENC(E0BneqrOeRu/CKTw0qZPrQ==)
+        password: ENC(zXufuucDEJGywezE2h0YeeHQrAUNymu5f6T8fHaAvQc94iWka/bCEbOaQBULg6rM)
+
+    local:
+      hikari:
+        pool-name: cloudnote-local-database-pool
+        minimum-idle: 5
+        maximum-pool-size: 10
+        idle-timeout: 180000
+        auto-commit: true
+#       type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://119.27.181.136:3306/cloudnote?useUnicode=true&characterEncoding=utf-8&useSSL=false
+        username: ENC(0o8FlFZ2BCdKiq6OmlZp5A==)
+        password: ENC(coPcMm5NB4+zozXOh4QFEPGENB15l+UEBTuTM/LZXWezV8Od9D23ODtVtnDowYvI)
+
+mybatis:
+  config-location: classpath:/mybatis-config.xml
