@@ -3,7 +3,6 @@ package com.sxkl.project.cloudnote.etl.service;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sxkl.project.cloudnote.etl.utils.ObjectUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -12,7 +11,7 @@ import java.util.concurrent.*;
 
 @Slf4j
 @Service
-public class EtlManager implements CommandLineRunner {
+public class EtlManager {
 
     private ExecutorService pool;
 
@@ -52,9 +51,4 @@ public class EtlManager implements CommandLineRunner {
         return etlGroup.getEtlGroupNo();
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        log.info("***************启动成功！**************");
-//        doEtlGroup();
-    }
 }
