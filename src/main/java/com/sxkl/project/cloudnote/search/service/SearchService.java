@@ -35,7 +35,10 @@ public class SearchService {
                 .withIndices(ESConstant.INDEX)
                 .withHighlightFields(new HighlightBuilder.Field("title"), new HighlightBuilder.Field("content"))
                 .build();
+        long start = System.currentTimeMillis();
         List<Article> articles = template.queryForList(searchQuery, Article.class);
+        long end = System.currentTimeMillis();
+        System.out.println("查询耗时：" + (end-start));
         List<Article> results = articles.stream().map(article -> {
             article.setContent(configureContent(article.getContent()));
             article.setCreateTime(null);
@@ -43,6 +46,7 @@ public class SearchService {
             article.setUId(StringUtils.EMPTY);
             return article;
         }).collect(Collectors.toList());
+        System.out.println("处理耗时：" + (System.currentTimeMillis()-end));
         return results;
     }
 

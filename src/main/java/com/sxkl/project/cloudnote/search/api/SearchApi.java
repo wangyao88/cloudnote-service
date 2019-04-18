@@ -1,6 +1,9 @@
 package com.sxkl.project.cloudnote.search.api;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
 import com.sxkl.project.cloudnote.etl.entity.Article;
 import com.sxkl.project.cloudnote.search.service.DataService;
 import com.sxkl.project.cloudnote.search.service.SearchService;
@@ -42,12 +45,28 @@ public class SearchApi {
     }
 
     @PostMapping("/insertOrUpdate")
-    public boolean insertOrUpdate(@RequestBody Article article) {
+    public boolean insertOrUpdate(@RequestBody String articleStr) {
+        Article article = convert(articleStr);
         return dataService.insertOrUpdate(article);
+    }
+
+    private Article convert(String articleStr) {
+        JSONObject json = JSON.parseObject(articleStr);
+        Article article = new Article();
+        article.setId(json.getString("id"));
+        article.setTitle(json.getString("title"));
+        article.setContent(json.getString("content"));
+        article.setCreateTime(json.getDate("creatTime"));
+        article.setHitNum(json.getInteger("hitNum"));
+        article.setIsShared(json.getInteger("isSHared"));
+        article.setNId(json.getString("nId"));
+        article.setUId(json.getString("uId"));
+        return article;
     }
 
     @PostMapping("/delete")
     public boolean delete(String id) {
+        System.out.println(id);
         return dataService.delete(id);
     }
 }
