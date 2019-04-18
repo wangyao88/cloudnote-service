@@ -11,7 +11,7 @@ spring:
   data:
     elasticsearch:
       cluster-name: elasticsearch_wy
-      cluster-nodes: 123.206.20.115:9300
+      cluster-nodes: 127.0.0.1:9300
       repositories:
         enabled: true
   datasource:

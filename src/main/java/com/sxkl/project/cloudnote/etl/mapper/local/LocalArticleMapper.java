@@ -12,7 +12,7 @@ public interface LocalArticleMapper extends BaseLoadMapper<Article> {
 
     @Override
     @Insert("INSERT INTO cn_article(id, content, createTime, hitNum, title, nId, uId, is_shared) VALUES " +
-            "(#{id}, #{content}, #{createTime}, #{hitNum}, #{title}, #{nId}, #{uId}, #{is_shared})")
+            "(#{id}, #{content}, #{createTime}, #{hitNum}, #{title}, #{nId}, #{uId}, #{isShared})")
     void save(Article article);
 
     @Override

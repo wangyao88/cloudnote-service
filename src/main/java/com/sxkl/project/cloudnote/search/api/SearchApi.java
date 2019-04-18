@@ -26,6 +26,11 @@ public class SearchApi {
         return searchService.search(words, pageable);
     }
 
+    @GetMapping("/count")
+    public long count(String words) {
+        return searchService.count(words);
+    }
+
     @GetMapping("/ping")
     public boolean ping() {
         return dataService.ping();

@@ -22,7 +22,7 @@ public interface RemoteArticleMapper extends BaseCursorExtractMapper {
             @Result(column = "title", property = "title", jdbcType = JdbcType.VARCHAR),
             @Result(column = "nId", property = "nId", jdbcType = JdbcType.VARCHAR),
             @Result(column = "uId", property = "uId", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "is_shared", property = "is_shared", jdbcType = JdbcType.INTEGER)
+            @Result(column = "is_shared", property = "isShared", jdbcType = JdbcType.INTEGER)
     })
     List<Article> findAll();
 

@@ -28,5 +28,5 @@ public class Article extends BaseEntity {
     @Field(type = FieldType.Keyword, store = true)
     private String uId;
     @Field(type = FieldType.Integer, store = true)
-    private int is_shared;
+    private int isShared;
 }
