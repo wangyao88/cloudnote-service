@@ -3,7 +3,7 @@ jasypt:
     password: EbfYkitulv73I2p0mXI50JMXoaxZTKJ7
 
 server:
-  port: 9629
+  port: 8888
 
 spring:
   application:
