@@ -70,7 +70,6 @@ public class SearchApi {
 
     @PostMapping("/delete")
     public boolean delete(String id) {
-        System.out.println(id);
         return dataService.delete(id);
     }
 }
