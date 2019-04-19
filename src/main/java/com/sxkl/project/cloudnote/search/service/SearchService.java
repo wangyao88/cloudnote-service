@@ -35,10 +35,7 @@ public class SearchService {
                 .withIndices(ESConstant.INDEX)
                 .withHighlightFields(new HighlightBuilder.Field("title"), new HighlightBuilder.Field("content"))
                 .build();
-        long start = System.currentTimeMillis();
         List<Article> articles = template.queryForList(searchQuery, Article.class);
-        long end = System.currentTimeMillis();
-        System.out.println("查询耗时：" + (end-start));
         List<Article> results = articles.stream().map(article -> {
             article.setContent(configureContent(article.getContent()));
             article.setCreateTime(null);
@@ -46,7 +43,6 @@ public class SearchService {
             article.setUId(StringUtils.EMPTY);
             return article;
         }).collect(Collectors.toList());
-        System.out.println("处理耗时：" + (System.currentTimeMillis()-end));
         return results;
     }
 
@@ -67,6 +63,15 @@ public class SearchService {
             text = text.substring(0, 140);
         }
         return text;
+    }
+
+    public long total() {
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+//                .withQuery(multiMatchQuery(words, "title", "content"))
+                .withIndices(ESConstant.INDEX)
+                .build();
+        long total = template.count(searchQuery, Article.class);
+        return total;
     }
 }
 

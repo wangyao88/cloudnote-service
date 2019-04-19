@@ -33,6 +33,11 @@ public class SearchApi {
         return searchService.count(words);
     }
 
+    @GetMapping("/total")
+    public long total() {
+        return searchService.total();
+    }
+
     @GetMapping("/ping")
     public boolean ping() {
         return dataService.ping();
