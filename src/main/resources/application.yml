@@ -8,10 +8,17 @@ server:
 spring:
   application:
     name: cloudnote-etl
+  thymeleaf:
+    enabled: true
+    cache: false
+    encoding: UTF-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
   data:
     elasticsearch:
       cluster-name: elasticsearch_wy
-      cluster-nodes: 127.0.0.1:9300
+      cluster-nodes: 123.206.20.115:9300
       repositories:
         enabled: true
   datasource:
@@ -41,6 +48,15 @@ spring:
         jdbc-url: jdbc:mysql://119.27.181.136:3306/cloudnote?useUnicode=true&characterEncoding=utf-8&useSSL=false
         username: ENC(0o8FlFZ2BCdKiq6OmlZp5A==)
         password: ENC(coPcMm5NB4+zozXOh4QFEPGENB15l+UEBTuTM/LZXWezV8Od9D23ODtVtnDowYvI)
+  redis:
+    host: 123.206.20.115
+    password: ENC(mVuHsUa8z02/EtTGJoCNJkGgnoz2vEICEXelkgucQdWVExhCZ+c7y8QrUK/d+6Ip)
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -10ms
+        min-idle: 1
 
 mybatis:
   config-location: classpath:/mybatis-config.xml

@@ -18,6 +18,6 @@ public class JasyptUtil {
     @Test
     public void encryptPwd() {
         System.out.println("root   " + stringEncryptor.encrypt("root"));
-        System.out.println(stringEncryptor.encrypt("5ff8ff5f-c0fe-4cf0-8d4f-a56d956e9sw2"));
+        System.out.println(stringEncryptor.encrypt("5ff8ff5f-c0fe-4cf0-8d4f-a56d956e9284"));
     }
 }

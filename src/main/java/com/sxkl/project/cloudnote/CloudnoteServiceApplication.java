@@ -8,7 +8,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 
 @Slf4j
 @SpringBootApplication
-public class CloudnoteServiceApplication extends SpringBootServletInitializer {
+public class CloudnoteServiceApplication { //extends SpringBootServletInitializer
 
 	public static void main(String[] args) {
 		SpringApplication.run(CloudnoteServiceApplication.class, args);
@@ -16,8 +16,8 @@ public class CloudnoteServiceApplication extends SpringBootServletInitializer {
 		log.info("**********You Know, for Search*******");
 	}
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(CloudnoteServiceApplication.class);
-	}
+//	@Override
+//	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//		return builder.sources(CloudnoteServiceApplication.class);
+//	}
 }
