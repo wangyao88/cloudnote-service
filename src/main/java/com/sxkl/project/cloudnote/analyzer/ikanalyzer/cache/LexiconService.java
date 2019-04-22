@@ -3,21 +3,22 @@ package com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.sxkl.project.cloudnote.analyzer.ikanalyzer.lucene.IKAnalyzer;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import com.sxkl.project.cloudnote.etl.utils.UUIDUtil;
 import lombok.AllArgsConstructor;
 import lombok.Cleanup;
 import lombok.Data;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +27,6 @@ import java.util.concurrent.CompletableFuture;
 
 @Service
 public class LexiconService {
-
-    private static final String MAIN_LEXICONS_KEY = "main_lexicons";
-    private static final String QUANTIFIER_LEXICONS_KEY = "quantifier_lexicons";
-    private static final String EXT_LEXICONS_KEY = "ext_lexicons";
-    private static final String STOP_LEXICONS_KEY = "stop_lexicons";
 
     private static final String PATH_DIC_MAIN = "ikanalyzer/main2012.dic";
     private static final String PATH_DIC_QUANTIFIER = "ikanalyzer/quantifier.dic";
@@ -50,10 +46,10 @@ public class LexiconService {
 
     @PostConstruct
     private void init() {
-        kvs.add(new KeyValue(MAIN_LEXICONS_KEY, "主词库"));
-        kvs.add(new KeyValue(QUANTIFIER_LEXICONS_KEY, "量词库"));
-        kvs.add(new KeyValue(EXT_LEXICONS_KEY, "扩展词库"));
-        kvs.add(new KeyValue(STOP_LEXICONS_KEY, "停用词库"));
+        kvs.add(new KeyValue(LexiconConstant.MAIN_LEXICONS_KEY, "主词库"));
+        kvs.add(new KeyValue(LexiconConstant.QUANTIFIER_LEXICONS_KEY, "量词库"));
+        kvs.add(new KeyValue(LexiconConstant.EXT_LEXICONS_KEY, "扩展词库"));
+        kvs.add(new KeyValue(LexiconConstant.STOP_LEXICONS_KEY, "停用词库"));
     }
 
     @Data
@@ -68,8 +64,8 @@ public class LexiconService {
 //    @Transactional(transactionManager = "lexiconTransactionManager", rollbackFor = Exception.class)
     public void loadData(){
         mapper.deleteAll();
-        insertToDB(PATH_DIC_MAIN, MAIN_LEXICONS_KEY, INITIALARRAYSIZE_DIC_MAIN);
-        insertToDB(PATH_DIC_QUANTIFIER, QUANTIFIER_LEXICONS_KEY, INITIALARRAYSIZE_DIC_QUANTIFIER);
+        insertToDB(PATH_DIC_MAIN, LexiconConstant.MAIN_LEXICONS_KEY, INITIALARRAYSIZE_DIC_MAIN);
+        insertToDB(PATH_DIC_QUANTIFIER, LexiconConstant.QUANTIFIER_LEXICONS_KEY, INITIALARRAYSIZE_DIC_QUANTIFIER);
     }
 
     private void insertToDB(String fileName, String key, int initialArraySize){
@@ -85,6 +81,24 @@ public class LexiconService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<String> analysis(String words) {
+        Analyzer analyzer = new IKAnalyzer(true);
+        List<String> result = Lists.newArrayList();
+        try {
+            @Cleanup
+            TokenStream ts = analyzer.tokenStream("myfield", new StringReader(words));
+            CharTermAttribute term = ts.addAttribute(CharTermAttribute.class);
+            ts.reset();
+            while (ts.incrementToken()) {
+                result.add(term.toString());
+            }
+            ts.end();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     private List<Lexicon> getLexiconsFromFS(String fileName, int initialArraySize, String key) throws IOException {
@@ -111,19 +125,19 @@ public class LexiconService {
     }
 
     public void addExtLexicon(String lexicon) {
-        lexiconCacheManager.addLexicon(EXT_LEXICONS_KEY, lexicon);
+        lexiconCacheManager.addLexicon(LexiconConstant.EXT_LEXICONS_KEY, lexicon);
     }
 
     public void addStopLexicon(String lexicon) {
-        lexiconCacheManager.addLexicon(STOP_LEXICONS_KEY, lexicon);
+        lexiconCacheManager.addLexicon(LexiconConstant.STOP_LEXICONS_KEY, lexicon);
     }
 
     public void deleteExtLexicon(String lexicon) {
-        lexiconCacheManager.deleteLexicon(EXT_LEXICONS_KEY, lexicon);
+        lexiconCacheManager.deleteLexicon(LexiconConstant.EXT_LEXICONS_KEY, lexicon);
     }
 
     public void deleteStopLexicon(String lexicon) {
-        lexiconCacheManager.deleteLexicon(STOP_LEXICONS_KEY, lexicon);
+        lexiconCacheManager.deleteLexicon(LexiconConstant.STOP_LEXICONS_KEY, lexicon);
     }
 
     public PageInfo<String> findPageLexicons(int pageNum, int pageSize, String key) {
@@ -141,18 +155,18 @@ public class LexiconService {
     //一下方法供ikanalyzer使用
 
     public Set<String> getMainLexicons() {
-        return Collections.unmodifiableSet(lexiconCacheManager.getLexiconsFromCache(MAIN_LEXICONS_KEY));
+        return Collections.unmodifiableSet(lexiconCacheManager.getLexiconsFromCache(LexiconConstant.MAIN_LEXICONS_KEY));
     }
 
     public Set<String> getQuantifierLexicons() {
-        return Collections.unmodifiableSet(lexiconCacheManager.getLexiconsFromCache(QUANTIFIER_LEXICONS_KEY));
+        return Collections.unmodifiableSet(lexiconCacheManager.getLexiconsFromCache(LexiconConstant.QUANTIFIER_LEXICONS_KEY));
     }
 
     public Set<String> getExtLexicons() {
-        return Collections.unmodifiableSet(lexiconCacheManager.getLexiconsFromCache(EXT_LEXICONS_KEY));
+        return Collections.unmodifiableSet(lexiconCacheManager.getLexiconsFromCache(LexiconConstant.EXT_LEXICONS_KEY));
     }
 
     public Set<String> getStopLexicons() {
-        return Collections.unmodifiableSet(lexiconCacheManager.getLexiconsFromCache(STOP_LEXICONS_KEY));
+        return Collections.unmodifiableSet(lexiconCacheManager.getLexiconsFromCache(LexiconConstant.STOP_LEXICONS_KEY));
     }
 }

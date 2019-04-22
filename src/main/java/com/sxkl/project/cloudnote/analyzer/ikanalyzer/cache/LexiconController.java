@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/lexicon")
@@ -53,5 +54,11 @@ public class LexiconController {
     @ResponseBody
     public void loadData() {
         lexiconService.loadData();
+    }
+
+    @GetMapping("/analysis")
+    @ResponseBody
+    public List<String> analysis(@RequestParam("words")  String words) {
+        return lexiconService.analysis(words);
     }
 }
