@@ -1,5 +1,4 @@
-package com.sxkl.project.cloudnote.etl.datasource;
-
+package com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -15,30 +14,30 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(basePackages = "com.sxkl.project.cloudnote.etl.mapper.local", sqlSessionTemplateRef = "localSqlSessionTemplate")
-public class LocalDataSourceConfig {
+@MapperScan(basePackages = "com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache", sqlSessionTemplateRef = "lexiconSqlSessionTemplate")
+public class LexiconDataSourceConfig {
 
-    @Bean(name = "localDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.local.hikari")
-    public HikariDataSource localDataSource() {
+    @Bean(name = "lexiconDataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.search.hikari")
+    public HikariDataSource lexiconDataSource() {
         HikariDataSource dataSource = new HikariDataSource();
         return dataSource;
     }
 
-    @Bean(name = "localSqlSessionFactory")
-    public SqlSessionFactory localSqlSessionFactory(@Qualifier("localDataSource") DataSource dataSource) throws Exception {
+    @Bean(name = "lexiconSqlSessionFactory")
+    public SqlSessionFactory lexiconSqlSessionFactory(@Qualifier("lexiconDataSource") DataSource dataSource) throws Exception {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(dataSource);
         return bean.getObject();
     }
 
-    @Bean(name = "localTransactionManager")
-    public DataSourceTransactionManager localTransactionManager(@Qualifier("localDataSource") DataSource dataSource) {
+    @Bean(name = "lexiconTransactionManager")
+    public DataSourceTransactionManager lexiconTransactionManager(@Qualifier("lexiconDataSource") DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
     }
 
-    @Bean(name = "localSqlSessionTemplate")
-    public SqlSessionTemplate localSqlSessionTemplate(@Qualifier("localSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
+    @Bean(name = "lexiconSqlSessionTemplate")
+    public SqlSessionTemplate lexiconSqlSessionTemplate(@Qualifier("lexiconSqlSessionFactory") SqlSessionFactory sqlSessionFactory) throws Exception {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
 }

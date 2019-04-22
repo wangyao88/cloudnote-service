@@ -11,6 +11,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 public class CloudnoteServiceApplication { //extends SpringBootServletInitializer
 
 	public static void main(String[] args) {
+		System.setProperty("es.set.netty.runtime.available.processors", "false");
 		SpringApplication.run(CloudnoteServiceApplication.class, args);
 		log.info("***************启动成功！**************");
 		log.info("**********You Know, for Search*******");
@@ -18,6 +19,7 @@ public class CloudnoteServiceApplication { //extends SpringBootServletInitialize
 
 //	@Override
 //	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+//		System.setProperty("es.set.netty.runtime.available.processors", "false");
 //		return builder.sources(CloudnoteServiceApplication.class);
 //	}
 }
