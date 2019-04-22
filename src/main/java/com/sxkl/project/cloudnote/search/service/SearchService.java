@@ -1,5 +1,6 @@
 package com.sxkl.project.cloudnote.search.service;
 
+import com.sxkl.project.cloudnote.analyzer.ikanalyzer.IKAnalyzerHandler;
 import com.sxkl.project.cloudnote.etl.entity.Article;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +24,12 @@ import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
 @Service
 public class SearchService {
 
+    private static final String HOT_LABELS_ZSET_KEY_IN_REDIS = "hot_labels";
+
     @Autowired
     private ElasticsearchTemplate template;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     public List<Article> search(String words, @PageableDefault(sort = "hitNum", direction = Sort.Direction.DESC) Pageable pageable) {
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
@@ -40,7 +46,17 @@ public class SearchService {
             article.setUId(StringUtils.EMPTY);
             return article;
         }).collect(Collectors.toList());
+        if(!results.isEmpty()) {
+            saveSearchWordsToRedis(words);
+        }
         return results;
+    }
+
+    private void saveSearchWordsToRedis(String words) {
+        List<String> results = IKAnalyzerHandler.handle(words);
+        results.forEach(result -> {
+            redisTemplate.opsForZSet().incrementScore(HOT_LABELS_ZSET_KEY_IN_REDIS, result, 1);
+        });
     }
 
     public long count(String words) {
