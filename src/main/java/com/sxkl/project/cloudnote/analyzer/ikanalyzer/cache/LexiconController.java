@@ -72,8 +72,23 @@ public class LexiconController {
         return lexiconService.analysis(words);
     }
 
-    @GetMapping("/tablePage")
-    public String tablePage() {
-        return "lexicon/table";
+    @GetMapping("/mainDictPage")
+    public String mainDictPage() {
+        return "lexicon/dict/main";
+    }
+
+    @GetMapping("/quantifierDictPage")
+    public String quantifierDictPage() {
+        return "lexicon/dict/quantifier";
+    }
+
+    @GetMapping("/extDictPage")
+    public String extDictPage() {
+        return "lexicon/dict/ext";
+    }
+
+    @GetMapping("/stopDictPage")
+    public String stopDictPage() {
+        return "lexicon/dict/stop";
     }
 }

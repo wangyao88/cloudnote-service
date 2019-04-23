@@ -1,8 +1,8 @@
 <!-- DataTables -->
-<link th:href="@{/plugins/datatables/dataTables.bootstrap4.min.css}" href="../../static/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
-<link th:href="@{/plugins/datatables/buttons.bootstrap4.min.css}" href="../../static/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link th:href="@{/plugins/datatables/dataTables.bootstrap4.min.css}" href="../../../static/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link th:href="@{/plugins/datatables/buttons.bootstrap4.min.css}" href="../../../static/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 <!-- Responsive datatable examples -->
-<link th:href="@{/plugins/datatables/responsive.bootstrap4.min.css}" href="../../static/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link th:href="@{/plugins/datatables/responsive.bootstrap4.min.css}" href="../../../static/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
 <div class="row">
     <div class="col-12">
@@ -26,19 +26,19 @@
 </div>
 
 <!-- Required datatable js -->
-<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}" src="../../static/plugins/datatables/jquery.dataTables.min.js"></script>
-<script th:src="@{/plugins/datatables/dataTables.bootstrap4.min.js}" src="../../static/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}" src="../../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script th:src="@{/plugins/datatables/dataTables.bootstrap4.min.js}" src="../../../static/plugins/datatables/dataTables.bootstrap4.min.js"></script>
 <!-- Buttons examples -->
-<script th:src="@{/plugins/datatables/dataTables.buttons.min.js}" src="../../static/plugins/datatables/dataTables.buttons.min.js"></script>
-<script th:src="@{/plugins/datatables/buttons.bootstrap4.min.js}" src="../../static/plugins/datatables/buttons.bootstrap4.min.js"></script>
-<script th:src="@{/plugins/datatables/jszip.min.js}" src="../../static/plugins/datatables/jszip.min.js"></script>
-<script th:src="@{/plugins/datatables/pdfmake.min.js}" src="../../static/plugins/datatables/pdfmake.min.js"></script>
-<script th:src="@{/plugins/datatables/vfs_fonts.js}" src="../../static/plugins/datatables/vfs_fonts.js"></script>
-<script th:src="@{/plugins/datatables/buttons.html5.min.js}" src="../../static/plugins/datatables/buttons.html5.min.js"></script>
-<script th:src="@{/plugins/datatables/buttons.print.min.js}" src="../../static/plugins/datatables/buttons.print.min.js"></script>
+<script th:src="@{/plugins/datatables/dataTables.buttons.min.js}" src="../../../static/plugins/datatables/dataTables.buttons.min.js"></script>
+<script th:src="@{/plugins/datatables/buttons.bootstrap4.min.js}" src="../../../static/plugins/datatables/buttons.bootstrap4.min.js"></script>
+<script th:src="@{/plugins/datatables/jszip.min.js}" src="../../../static/plugins/datatables/jszip.min.js"></script>
+<script th:src="@{/plugins/datatables/pdfmake.min.js}" src="../../../static/plugins/datatables/pdfmake.min.js"></script>
+<script th:src="@{/plugins/datatables/vfs_fonts.js}" src="../../../static/plugins/datatables/vfs_fonts.js"></script>
+<script th:src="@{/plugins/datatables/buttons.html5.min.js}" src="../../../static/plugins/datatables/buttons.html5.min.js"></script>
+<script th:src="@{/plugins/datatables/buttons.print.min.js}" src="../../../static/plugins/datatables/buttons.print.min.js"></script>
 <!-- Responsive examples -->
-<script th:src="@{/plugins/datatables/dataTables.responsive.min.js}" src="../../static/plugins/datatables/dataTables.responsive.min.js"></script>
-<script th:src="@{/plugins/datatables/responsive.bootstrap4.min.js}" src="../../static/plugins/datatables/responsive.bootstrap4.min.js"></script>
+<script th:src="@{/plugins/datatables/dataTables.responsive.min.js}" src="../../../static/plugins/datatables/dataTables.responsive.min.js"></script>
+<script th:src="@{/plugins/datatables/responsive.bootstrap4.min.js}" src="../../../static/plugins/datatables/responsive.bootstrap4.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -49,12 +49,6 @@
             searching: true,
             serverSide: true,
             ordering: false,
-            paginate: {
-                first: "首页",
-                last: "尾页",
-                next: "下一页",
-                previous: "上一页"
-            },
             pagingType: "full_numbers",
             columns: [
                 {"data": "id"},
@@ -72,6 +66,8 @@
                 }
             }
         });
+        table.buttons().container()
+            .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
 
         $("#datatable-buttons_filter").css("display","none");
 
@@ -79,7 +75,7 @@
 
         $(document).on( 'click','#go', function () {
             table.search($('#searchforme').val()).draw();
-        } );
+        });
 
         $(document).on('keyup','#searchforme', function() {
             if($(this).val().length > 0){
@@ -91,11 +87,8 @@
                 $('#searchforme').val('');
                 $(this).css('display','none');
                 table.search('').draw();
-            } );
-        } );
-
-        table.buttons().container()
-            .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+            });
+        });
     });
 
 </script>

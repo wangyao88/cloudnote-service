@@ -231,7 +231,14 @@
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-box"></i><span> 词库管理 </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('/lexicon/tablePage', '')">词库列表</a></li>
+                                    <li><a href="javascript: void(0);" aria-expanded="false">词库分类 <span class="menu-arrow"></span></a>
+                                        <ul class="nav-third-level nav" aria-expanded="false">
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('/lexicon/mainDictPage')">主词库库</a></li>
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('/lexicon/quantifierDictPage')">量词库</a></li>
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('/lexicon/extDictPage')">扩展词库</a></li>
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('/lexicon/stopDictPage')">停用词库</a></li>
+                                        </ul>
+                                    </li>
                                     <li><a href="javascript: void(0);" onclick="gotoPage('/lexicon/statisticPage')">词库统计</a></li>
                                     <li><a href="javascript: void(0);" onclick="gotoPage('/lexicon/analysisPage')">在线分词</a></li>
                                 </ul>
