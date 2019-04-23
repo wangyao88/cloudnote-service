@@ -1,0 +1,93 @@
+<!-- DataTables -->
+<link th:href="@{/plugins/datatables/dataTables.bootstrap4.min.css}" href="../../../static/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link th:href="@{/plugins/datatables/buttons.bootstrap4.min.css}" href="../../../static/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Responsive datatable examples -->
+<link th:href="@{/plugins/datatables/responsive.bootstrap4.min.css}" href="../../../static/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box table-responsive">
+            <h4 class="m-t-0 header-title"><b>扩展词库</b></h4>
+            <p class="text-muted font-14 m-b-30">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;扩展主词库词语，定制化特定场景分词。
+            </p>
+            <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>类型</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Required datatable js -->
+<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}" src="../../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script th:src="@{/plugins/datatables/dataTables.bootstrap4.min.js}" src="../../../static/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script th:src="@{/plugins/datatables/dataTables.buttons.min.js}" src="../../../static/plugins/datatables/dataTables.buttons.min.js"></script>
+<script th:src="@{/plugins/datatables/buttons.bootstrap4.min.js}" src="../../../static/plugins/datatables/buttons.bootstrap4.min.js"></script>
+<script th:src="@{/plugins/datatables/jszip.min.js}" src="../../../static/plugins/datatables/jszip.min.js"></script>
+<script th:src="@{/plugins/datatables/pdfmake.min.js}" src="../../../static/plugins/datatables/pdfmake.min.js"></script>
+<script th:src="@{/plugins/datatables/vfs_fonts.js}" src="../../../static/plugins/datatables/vfs_fonts.js"></script>
+<script th:src="@{/plugins/datatables/buttons.html5.min.js}" src="../../../static/plugins/datatables/buttons.html5.min.js"></script>
+<script th:src="@{/plugins/datatables/buttons.print.min.js}" src="../../../static/plugins/datatables/buttons.print.min.js"></script>
+<!-- Responsive examples -->
+<script th:src="@{/plugins/datatables/dataTables.responsive.min.js}" src="../../../static/plugins/datatables/dataTables.responsive.min.js"></script>
+<script th:src="@{/plugins/datatables/responsive.bootstrap4.min.js}" src="../../../static/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var table = $('#datatable-buttons').DataTable({
+            lengthChange: false,
+            buttons: ['copy', 'excel', 'pdf'],
+            processing: true,
+            searching: true,
+            serverSide: true,
+            ordering: false,
+            pagingType: "full_numbers",
+            columns: [
+                {"data": "id"},
+                {"data": "name"},
+                {"data": "discriminator"}
+            ],
+            ajax: {
+                "url": "/lexicon/findPageLexicons",
+                "data": function (params) {
+                    var info = $('#datatable-buttons').DataTable().page.info();
+                    params.pageNum = info.page+1;
+                    params.pageSize = info.length;
+                    params.key = "ext_lexicons";
+                    params.search = $('#searchforme').val() || "";
+                }
+            }
+        });
+        table.buttons().container()
+            .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+
+        $("#datatable-buttons_filter").css("display","none");
+
+        $("#datatable-buttons_filter").parent().append('<div class="input-group pull-right"><input id="searchforme" type="text" class="form-control" placeholder="Search for..."><button id="clearsearchinput" type="button" class="btn btn-round btn-xs" style="position:absolute; top:6px;right:42px; z-index:99;display:none;background-color:transparent;"><i class="fa fa-close"></i></button><span class="input-group-btn"><button id="go" class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span></div>');
+
+        $(document).on( 'click','#go', function () {
+            table.search($('#searchforme').val()).draw();
+        });
+
+        $(document).on('keyup','#searchforme', function() {
+            if($(this).val().length > 0){
+                $('#clearsearchinput').css('display','block');
+            }else{
+                $('#clearsearchinput').css('display','none');
+            }
+            $(document).on('click','#clearsearchinput', function () {
+                $('#searchforme').val('');
+                $(this).css('display','none');
+                table.search('').draw();
+            });
+        });
+    });
+
+</script>

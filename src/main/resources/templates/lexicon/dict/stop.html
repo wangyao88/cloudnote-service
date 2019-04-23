@@ -1,0 +1,94 @@
+<!-- DataTables -->
+<link th:href="@{/plugins/datatables/dataTables.bootstrap4.min.css}" href="../../../static/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link th:href="@{/plugins/datatables/buttons.bootstrap4.min.css}" href="../../../static/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<!-- Responsive datatable examples -->
+<link th:href="@{/plugins/datatables/responsive.bootstrap4.min.css}" href="../../../static/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box table-responsive">
+            <h4 class="m-t-0 header-title"><b>停用词库</b></h4>
+            <p class="text-muted font-14 m-b-30">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;停用词是指在信息检索中，为节省存储空间和提高搜索效率，
+                在处理自然语言数据（或文本）之前或之后会自动过滤掉某些字或词，这些字或词即被称为Stop Words（停用词）。这些停用词都是人工输入、非自动化生成的，生成后的停用词会形成一个停用词表。但是，并没有一个明确的停用词表能够适用于所有的工具。甚至有一些工具是明确地避免使用停用词来支持短语搜索的。
+            </p>
+            <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>类型</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Required datatable js -->
+<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}" src="../../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script th:src="@{/plugins/datatables/dataTables.bootstrap4.min.js}" src="../../../static/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+<!-- Buttons examples -->
+<script th:src="@{/plugins/datatables/dataTables.buttons.min.js}" src="../../../static/plugins/datatables/dataTables.buttons.min.js"></script>
+<script th:src="@{/plugins/datatables/buttons.bootstrap4.min.js}" src="../../../static/plugins/datatables/buttons.bootstrap4.min.js"></script>
+<script th:src="@{/plugins/datatables/jszip.min.js}" src="../../../static/plugins/datatables/jszip.min.js"></script>
+<script th:src="@{/plugins/datatables/pdfmake.min.js}" src="../../../static/plugins/datatables/pdfmake.min.js"></script>
+<script th:src="@{/plugins/datatables/vfs_fonts.js}" src="../../../static/plugins/datatables/vfs_fonts.js"></script>
+<script th:src="@{/plugins/datatables/buttons.html5.min.js}" src="../../../static/plugins/datatables/buttons.html5.min.js"></script>
+<script th:src="@{/plugins/datatables/buttons.print.min.js}" src="../../../static/plugins/datatables/buttons.print.min.js"></script>
+<!-- Responsive examples -->
+<script th:src="@{/plugins/datatables/dataTables.responsive.min.js}" src="../../../static/plugins/datatables/dataTables.responsive.min.js"></script>
+<script th:src="@{/plugins/datatables/responsive.bootstrap4.min.js}" src="../../../static/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var table = $('#datatable-buttons').DataTable({
+            lengthChange: false,
+            buttons: ['copy', 'excel', 'pdf'],
+            processing: true,
+            searching: true,
+            serverSide: true,
+            ordering: false,
+            pagingType: "full_numbers",
+            columns: [
+                {"data": "id"},
+                {"data": "name"},
+                {"data": "discriminator"}
+            ],
+            ajax: {
+                "url": "/lexicon/findPageLexicons",
+                "data": function (params) {
+                    var info = $('#datatable-buttons').DataTable().page.info();
+                    params.pageNum = info.page+1;
+                    params.pageSize = info.length;
+                    params.key = "stop_lexicons";
+                    params.search = $('#searchforme').val() || "";
+                }
+            }
+        });
+        table.buttons().container()
+            .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+
+        $("#datatable-buttons_filter").css("display","none");
+
+        $("#datatable-buttons_filter").parent().append('<div class="input-group pull-right"><input id="searchforme" type="text" class="form-control" placeholder="Search for..."><button id="clearsearchinput" type="button" class="btn btn-round btn-xs" style="position:absolute; top:6px;right:42px; z-index:99;display:none;background-color:transparent;"><i class="fa fa-close"></i></button><span class="input-group-btn"><button id="go" class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span></div>');
+
+        $(document).on( 'click','#go', function () {
+            table.search($('#searchforme').val()).draw();
+        });
+
+        $(document).on('keyup','#searchforme', function() {
+            if($(this).val().length > 0){
+                $('#clearsearchinput').css('display','block');
+            }else{
+                $('#clearsearchinput').css('display','none');
+            }
+            $(document).on('click','#clearsearchinput', function () {
+                $('#searchforme').val('');
+                $(this).css('display','none');
+                table.search('').draw();
+            });
+        });
+    });
+
+</script>
