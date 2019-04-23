@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/lexicon")
@@ -42,12 +43,15 @@ public class LexiconController {
 
     @GetMapping("/findPageLexicons")
     @ResponseBody
-    public PageInfo<String> findPageLexicons(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize,
-                                             @RequestParam("key") String key, @RequestParam("search") String search) {
+    public LexiconPageInfo findPageLexicons(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize,
+                                            @RequestParam("key") String key, @RequestParam("search") String search) {
+        PageInfo<String> pageInfo;
         if(StringUtils.isEmpty(search)) {
-            return lexiconService.findPageLexicons(pageNum, pageSize, key);
+            pageInfo = lexiconService.findPageLexicons(pageNum, pageSize, key);
+        }else {
+            pageInfo = lexiconService.findPageLexicons(pageNum, pageSize, key, "%"+search+"%");
         }
-        return lexiconService.findPageLexicons(pageNum, pageSize, key, "%"+search+"%");
+        return new LexiconPageInfo(pageInfo, lexiconService.getKvs().get(key));
     }
 
     @PostMapping("loadData")
@@ -56,9 +60,20 @@ public class LexiconController {
         lexiconService.loadData();
     }
 
+    @PostMapping("refreshDict")
+    @ResponseBody
+    public void refreshDict() {
+        lexiconService.refreshDict();
+    }
+
     @GetMapping("/analysis")
     @ResponseBody
     public List<String> analysis(@RequestParam("words")  String words) {
         return lexiconService.analysis(words);
+    }
+
+    @GetMapping("/tablePage")
+    public String tablePage() {
+        return "lexicon/table";
     }
 }

@@ -1,6 +1,6 @@
 package com.sxkl.project.cloudnote.search.service;
 
-import com.sxkl.project.cloudnote.analyzer.ikanalyzer.IKAnalyzerHandler;
+import com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache.LexiconService;
 import com.sxkl.project.cloudnote.etl.entity.Article;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -30,6 +30,8 @@ public class SearchService {
     private ElasticsearchTemplate template;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+    @Autowired
+    private LexiconService lexiconService;
 
     public List<Article> search(String words, @PageableDefault(sort = "hitNum", direction = Sort.Direction.DESC) Pageable pageable) {
         SearchQuery searchQuery = new NativeSearchQueryBuilder()
@@ -53,7 +55,7 @@ public class SearchService {
     }
 
     private void saveSearchWordsToRedis(String words) {
-        List<String> results = IKAnalyzerHandler.handle(words);
+        List<String> results = lexiconService.analysis(words);
         results.forEach(result -> {
             redisTemplate.opsForZSet().incrementScore(HOT_LABELS_ZSET_KEY_IN_REDIS, result, 1);
         });

@@ -3,12 +3,12 @@ package com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.sxkl.project.cloudnote.analyzer.ikanalyzer.dic.Dictionary;
 import com.sxkl.project.cloudnote.analyzer.ikanalyzer.lucene.IKAnalyzer;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import com.sxkl.project.cloudnote.etl.utils.UUIDUtil;
-import lombok.AllArgsConstructor;
 import lombok.Cleanup;
-import lombok.Data;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
@@ -34,7 +34,7 @@ public class LexiconService {
     private static final int INITIALARRAYSIZE_DIC_QUANTIFIER = 316;
     private static final int BATCH_SIZE = 1000;
 
-    private static List<KeyValue> kvs = Lists.newArrayList();
+    private static Map<String, String> kvs = Maps.newHashMap();
 
     @Autowired
     private LexiconMapper mapper;
@@ -46,17 +46,10 @@ public class LexiconService {
 
     @PostConstruct
     private void init() {
-        kvs.add(new KeyValue(LexiconConstant.MAIN_LEXICONS_KEY, "主词库"));
-        kvs.add(new KeyValue(LexiconConstant.QUANTIFIER_LEXICONS_KEY, "量词库"));
-        kvs.add(new KeyValue(LexiconConstant.EXT_LEXICONS_KEY, "扩展词库"));
-        kvs.add(new KeyValue(LexiconConstant.STOP_LEXICONS_KEY, "停用词库"));
-    }
-
-    @Data
-    @AllArgsConstructor
-    class KeyValue{
-        private String key;
-        private String value;
+        kvs.put(LexiconConstant.MAIN_LEXICONS_KEY, "主词库");
+        kvs.put(LexiconConstant.QUANTIFIER_LEXICONS_KEY, "量词库");
+        kvs.put(LexiconConstant.EXT_LEXICONS_KEY, "扩展词库");
+        kvs.put(LexiconConstant.STOP_LEXICONS_KEY, "停用词库");
     }
 
     //以下方法供页面调用
@@ -81,6 +74,10 @@ public class LexiconService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void refreshDict() {
+        Dictionary.getSingleton().refreshDict();
     }
 
     public List<String> analysis(String words) {
@@ -120,8 +117,8 @@ public class LexiconService {
         return lexicons;
     }
 
-    public List<KeyValue> getKvs() {
-        return Collections.unmodifiableList(kvs);
+    public Map<String, String> getKvs() {
+        return Collections.unmodifiableMap(kvs);
     }
 
     public void addExtLexicon(String lexicon) {

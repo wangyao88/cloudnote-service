@@ -15,6 +15,6 @@ public class EtlJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        etlManager.doEtlGroup();
+//        etlManager.doEtlGroup();
     }
 }

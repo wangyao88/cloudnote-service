@@ -25,16 +25,10 @@
  */
 package com.sxkl.project.cloudnote.analyzer.ikanalyzer.dic;
 
-import com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache.LexiconCacheManagerFactory;
-import com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache.LexiconConstant;
+import com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache.LexiconServiceFactory;
 import com.sxkl.project.cloudnote.analyzer.ikanalyzer.cfg.Configuration;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -68,6 +62,12 @@ public class Dictionary {
 
 	private Dictionary(Configuration cfg) {
 		this.cfg = cfg;
+		this.loadMainDict();
+		this.loadStopWordDict();
+		this.loadQuantifierDict();
+	}
+
+	public void refreshDict() {
 		this.loadMainDict();
 		this.loadStopWordDict();
 		this.loadQuantifierDict();
@@ -204,8 +204,8 @@ public class Dictionary {
 	private void loadMainDict() {
 		// 建立一个主词典实例
 		_MainDict = new DictSegment((char) 0);
-		Set<String> mainLexicons = LexiconCacheManagerFactory.getLexiconCacheManager().getLexiconsFromCache(LexiconConstant.MAIN_LEXICONS_KEY);
-		mainLexicons.forEach(lexicon -> _MainDict.fillSegment(lexicon.trim().toLowerCase() .toCharArray()));
+		Set<String> mainLexicons = LexiconServiceFactory.getLexiconService().getMainLexicons();
+		mainLexicons.forEach(lexicon -> _MainDict.fillSegment(lexicon.trim().toLowerCase().toCharArray()));
 		// 加载扩展词典
 		this.loadExtDict();
 	}
@@ -214,8 +214,8 @@ public class Dictionary {
 	 * 加载用户配置的扩展词典到主词库表
 	 */
 	private void loadExtDict() {
-		Set<String> extLexicons = LexiconCacheManagerFactory.getLexiconCacheManager().getLexiconsFromCache(LexiconConstant.EXT_LEXICONS_KEY);
-		extLexicons.forEach(lexicon -> _MainDict.fillSegment(lexicon.trim().toLowerCase() .toCharArray()));
+		Set<String> extLexicons = LexiconServiceFactory.getLexiconService().getExtLexicons();
+		extLexicons.forEach(lexicon -> _MainDict.fillSegment(lexicon.trim().toLowerCase().toCharArray()));
 	}
 
 	/**
@@ -223,8 +223,8 @@ public class Dictionary {
 	 */
 	private void loadStopWordDict() {
 		_StopWordDict = new DictSegment((char) 0);
-		Set<String> stopLexicons = LexiconCacheManagerFactory.getLexiconCacheManager().getLexiconsFromCache(LexiconConstant.STOP_LEXICONS_KEY);
-		stopLexicons.forEach(lexicon -> _StopWordDict.fillSegment(lexicon.trim().toLowerCase() .toCharArray()));
+		Set<String> stopLexicons = LexiconServiceFactory.getLexiconService().getStopLexicons();
+		stopLexicons.forEach(lexicon -> _StopWordDict.fillSegment(lexicon.trim().toLowerCase().toCharArray()));
 	}
 
 	/**
@@ -232,7 +232,7 @@ public class Dictionary {
 	 */
 	private void loadQuantifierDict() {
 		_QuantifierDict = new DictSegment((char) 0);
-		Set<String> quantifierLexicons = LexiconCacheManagerFactory.getLexiconCacheManager().getLexiconsFromCache(LexiconConstant.QUANTIFIER_LEXICONS_KEY);
-		quantifierLexicons.forEach(lexicon -> _QuantifierDict.fillSegment(lexicon.trim().toLowerCase() .toCharArray()));
+		Set<String> quantifierLexicons = LexiconServiceFactory.getLexiconService().getQuantifierLexicons();
+		quantifierLexicons.forEach(lexicon -> _QuantifierDict.fillSegment(lexicon.trim().toLowerCase().toCharArray()));
 	}
 }

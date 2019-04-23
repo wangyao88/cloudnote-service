@@ -6,18 +6,18 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 
 @Service
-public class LexiconCacheManagerFactory {
+public class LexiconServiceFactory {
 
     @Autowired
-    private LexiconCacheManager lexiconCacheManager;
-    private static LexiconCacheManager manager;
+    private LexiconService lexiconService;
+    private static LexiconService service;
 
     @PostConstruct
     private void init() {
-        manager = lexiconCacheManager;
+        service = lexiconService;
     }
 
-    public static LexiconCacheManager getLexiconCacheManager() {
-        return manager;
+    public static LexiconService getLexiconService() {
+        return service;
     }
 }
