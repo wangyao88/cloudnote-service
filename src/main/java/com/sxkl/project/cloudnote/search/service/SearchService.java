@@ -1,8 +1,11 @@
 package com.sxkl.project.cloudnote.search.service;
 
+import com.google.common.collect.Lists;
 import com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache.LexiconService;
 import com.sxkl.project.cloudnote.etl.entity.Article;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
+import com.sxkl.project.cloudnote.search.entity.HotLabel;
+import com.sxkl.project.cloudnote.search.entity.HotLabelPageInfo;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,12 +15,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
 
@@ -87,6 +94,59 @@ public class SearchService {
                 .build();
         long total = template.count(searchQuery, Article.class);
         return total;
+    }
+
+    public HotLabelPageInfo findPageHotLabels(int pageNum, int pageSize, String search) {
+        int start = (pageNum-1) * pageSize + 1;
+        int end = pageNum * pageSize;
+
+        int startForZset = start == 0 ? 0 : start - 1;
+        int endForZset = end - 1;
+
+        Long total = redisTemplate.opsForZSet().size(HOT_LABELS_ZSET_KEY_IN_REDIS);
+        List<HotLabel> hotLabels = getHotLabels(startForZset, endForZset);
+        HotLabelPageInfo pageInfo = new HotLabelPageInfo();
+        pageInfo.setData(hotLabels);
+        pageInfo.setRecordsTotal(total);
+        pageInfo.setRecordsFiltered(total);
+        pageInfo.setStart(start);
+        pageInfo.setEnd(end);
+        pageInfo.setLength(pageSize);
+        pageInfo.setPage(pageNum);
+        pageInfo.setPages(getPages(pageSize, total));
+        return pageInfo;
+    }
+
+    private long getPages(int pageSize, Long total) {
+        long pages = total/pageSize;
+        return total % pageSize == 0 ? pages : pages+1;
+    }
+
+    private List<HotLabel> getHotLabels(int start, int end) {
+        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        byte[] rawKey = str2Bytes(HOT_LABELS_ZSET_KEY_IN_REDIS);
+        Set<RedisZSetCommands.Tuple> tuples = redisTemplate.getConnectionFactory().getConnection().zRevRangeWithScores(rawKey, start, end);
+        List<RedisZSetCommands.Tuple> lists = tuples.stream().collect(Collectors.toList());
+        int size = lists.size();
+        List<HotLabel> hotLabels = Lists.newArrayListWithCapacity(size);
+        IntStream.range(0, size).forEach(num->{
+            int id = num+1;
+            RedisZSetCommands.Tuple tuple = lists.get(num);
+            String label = stringRedisSerializer.deserialize(tuple.getValue());
+            hotLabels.add(new HotLabel(id, label, tuple.getScore()));
+        });
+        return hotLabels;
+    }
+
+    private byte[] str2Bytes(String key) {
+        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        return stringRedisSerializer.serialize(key);
+    }
+
+    public void removeLabel(String label) {
+        byte[] rawKey = str2Bytes(HOT_LABELS_ZSET_KEY_IN_REDIS);
+        byte[] rawValue = str2Bytes(label);
+        redisTemplate.getConnectionFactory().getConnection().zRem(rawKey, rawValue);
     }
 }
 

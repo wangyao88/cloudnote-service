@@ -6,7 +6,11 @@ function gotoPage(pageUrl) {
             $("#main_content").html(result);
         },
         error : function() {
-            alert("获取页面信息失败，请稍候重试！");
+            swal(
+                '系统错误',
+                '获取页面信息失败，请稍候重试！',
+                'error'
+            );
         }
     });
 }
