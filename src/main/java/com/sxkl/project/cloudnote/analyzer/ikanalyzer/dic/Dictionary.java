@@ -103,6 +103,10 @@ public class Dictionary {
 		return singleton;
 	}
 
+	public static Dictionary getImmediateSingleton() {
+		return singleton;
+	}
+
 	/**
 	 * 批量加载新词条
 	 * 

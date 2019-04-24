@@ -78,7 +78,7 @@ public class LexiconService {
     }
 
     public void refreshDict() {
-        Dictionary.getSingleton().refreshDict();
+        Dictionary.getImmediateSingleton().refreshDict();
     }
 
     public List<String> analysis(String words) {
@@ -124,7 +124,7 @@ public class LexiconService {
 
     public void addExtLexicon(String lexicon) {
         lexiconCacheManager.addLexicon(LexiconConstant.EXT_LEXICONS_KEY, lexicon);
-        Dictionary dictionary = Dictionary.getSingleton();
+        Dictionary dictionary = Dictionary.getImmediateSingleton();
         if(ObjectUtils.isNotNull(dictionary)) {
             dictionary.addExtWords(Lists.newArrayList(lexicon));
         }
@@ -132,7 +132,7 @@ public class LexiconService {
 
     public void addStopLexicon(String lexicon) {
         lexiconCacheManager.addLexicon(LexiconConstant.STOP_LEXICONS_KEY, lexicon);
-        Dictionary dictionary = Dictionary.getSingleton();
+        Dictionary dictionary = Dictionary.getImmediateSingleton();
         if(ObjectUtils.isNotNull(dictionary)) {
             dictionary.addStopWords(Lists.newArrayList(lexicon));
         }
@@ -140,7 +140,7 @@ public class LexiconService {
 
     public void deleteExtLexicon(String lexicon) {
         lexiconCacheManager.deleteLexicon(LexiconConstant.EXT_LEXICONS_KEY, lexicon);
-        Dictionary dictionary = Dictionary.getSingleton();
+        Dictionary dictionary = Dictionary.getImmediateSingleton();
         if(ObjectUtils.isNotNull(dictionary)) {
             dictionary.disableExtWords(Lists.newArrayList(lexicon));
         }
@@ -148,7 +148,7 @@ public class LexiconService {
 
     public void deleteStopLexicon(String lexicon) {
         lexiconCacheManager.deleteLexicon(LexiconConstant.STOP_LEXICONS_KEY, lexicon);
-        Dictionary dictionary = Dictionary.getSingleton();
+        Dictionary dictionary = Dictionary.getImmediateSingleton();
         if(ObjectUtils.isNotNull(dictionary)) {
             dictionary.disableStopWords(Lists.newArrayList(lexicon));
         }
@@ -182,5 +182,15 @@ public class LexiconService {
 
     public Set<String> getStopLexicons() {
         return Collections.unmodifiableSet(lexiconCacheManager.getLexiconsFromCache(LexiconConstant.STOP_LEXICONS_KEY));
+    }
+
+    public List<Map<String, Object>> statisticLexcion() {
+        List<Map<String, Object>> datas = mapper.statisticLexcion();
+        datas.forEach(data -> {
+            Object discriminator = data.get("discriminator");
+            String prettyDiscriminator = kvs.get(data.get("discriminator"));
+            data.put("prettyDiscriminator", prettyDiscriminator);
+        });
+        return datas;
     }
 }

@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface LexiconMapper {
@@ -25,6 +26,9 @@ public interface LexiconMapper {
 
     @InsertProvider(type = LexiconMapperProvider.class, method = "batchAddLexicon")
     int batchAddLexicon(@Param("lexicons") List<Lexicon> lexicons);
+
+    @Select("SELECT discriminator, count(name) as num FROM cn_lexicon GROUP BY discriminator")
+    List<Map<String,Object>> statisticLexcion();
 
     class LexiconMapperProvider {
 

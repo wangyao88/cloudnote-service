@@ -1,0 +1,32 @@
+<script type="text/javascript">
+    function doJson() {
+        var text = $("#jsonStr").val();
+        var result = JSON.stringify(JSON.parse(text), null, 2);
+        $("#jsonResult").html(result);
+    }
+</script>
+<div class="row">
+    <div class="col-12">
+        <div class="p-20">
+            <form class="form-horizontal" role="form">
+                <div class="form-group row">
+                    <div class="col-12">
+                        <textarea id="jsonStr" class="form-control" rows="5" placeholder="json字符串"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-1">
+                        <button onclick="doJson()" type="button" class="btn btn-purple btn-rounded waves-effect w-md waves-light">
+                            格式化
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-12">
+                        <textarea id="jsonResult" class="form-control" rows="5" style="height: 400px;" placeholder="json格式化结果"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,38 @@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('keyup','#words', function() {
+            var words = $(this).val();
+            if(words.length > 0){
+                $.ajax({
+                    url: "tool/translate",
+                    data: {
+                        words: words
+                    },
+                    type:"get",
+                    success: function(result) {
+                        result = JSON.parse(result);
+                        var trans = result.sentences[0].trans;
+                        $("#result").html(trans);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            }
+        });
+    });
+</script>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card-box">
+            <textarea id="words" class="form-control" rows="5" placeholder="请输入英语" style="height: 400px"></textarea>
+        </div>
+
+    </div>
+    <div class="col-lg-6">
+        <div class="card-box">
+            <textarea id="result" class="form-control" rows="5" placeholder="翻译结果" style="height: 400px"></textarea>
+        </div>
+
+    </div>
+</div>

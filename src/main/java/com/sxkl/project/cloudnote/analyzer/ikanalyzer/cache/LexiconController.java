@@ -92,6 +92,17 @@ public class LexiconController {
         return "lexicon/dict/stop";
     }
 
+    @GetMapping("/statisticPage")
+    public String statisticPage() {
+        return "lexicon/statistic";
+    }
+
+    @GetMapping("/statisticLexcion")
+    @ResponseBody
+    public List<Map<String, Object>> statisticLexcion() {
+        return lexiconService.statisticLexcion();
+    }
+
     @GetMapping("/analysisPage")
     public String analysisPage() {
         return "lexicon/analysis";
