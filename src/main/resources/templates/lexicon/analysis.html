@@ -13,7 +13,7 @@
             cancelButtonClass: 'btn btn-danger m-l-10',
             preConfirm: function () {
                 return new Promise(function (resolve, reject) {
-                    $.get('/lexicon/analysis', {words: analysisWord}, function(words,status,xhr){
+                    $.get('lexicon/analysis', {words: analysisWord}, function(words,status,xhr){
                         if(status == 'success') {
                             var content = "";
                             var length = words.length-1;

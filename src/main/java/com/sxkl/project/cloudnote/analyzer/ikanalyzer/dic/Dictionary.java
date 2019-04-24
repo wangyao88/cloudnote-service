@@ -109,7 +109,7 @@ public class Dictionary {
 	 * @param words
 	 *            Collection<String>词条列表
 	 */
-	public void addWords(Collection<String> words) {
+	public void addMainWords(Collection<String> words) {
 		if (words != null) {
 			for (String word : words) {
 				if (word != null) {
@@ -121,17 +121,65 @@ public class Dictionary {
 		}
 	}
 
+	public void addExtWords(Collection<String> words) {
+		if (words != null) {
+			for (String word : words) {
+				if (word != null) {
+					// 批量加载词条到主内存词典中
+					singleton._MainDict.fillSegment(word.trim().toLowerCase()
+							.toCharArray());
+				}
+			}
+		}
+	}
+
+	public void addStopWords(Collection<String> words) {
+		if (words != null) {
+			for (String word : words) {
+				if (word != null) {
+					// 批量加载词条到主内存词典中
+					singleton._StopWordDict.fillSegment(word.trim().toLowerCase()
+							.toCharArray());
+				}
+			}
+		}
+	}
+
 	/**
 	 * 批量移除（屏蔽）词条
 	 * 
 	 * @param words
 	 */
-	public void disableWords(Collection<String> words) {
+	public void disableMainWords(Collection<String> words) {
 		if (words != null) {
 			for (String word : words) {
 				if (word != null) {
 					// 批量屏蔽词条
 					singleton._MainDict.disableSegment(word.trim()
+							.toLowerCase().toCharArray());
+				}
+			}
+		}
+	}
+
+	public void disableExtWords(Collection<String> words) {
+		if (words != null) {
+			for (String word : words) {
+				if (word != null) {
+					// 批量屏蔽词条
+					singleton._MainDict.disableSegment(word.trim()
+							.toLowerCase().toCharArray());
+				}
+			}
+		}
+	}
+
+	public void disableStopWords(Collection<String> words) {
+		if (words != null) {
+			for (String word : words) {
+				if (word != null) {
+					// 批量屏蔽词条
+					singleton._StopWordDict.disableSegment(word.trim()
 							.toLowerCase().toCharArray());
 				}
 			}

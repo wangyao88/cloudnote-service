@@ -4,10 +4,12 @@ jasypt:
 
 server:
   port: 8888
+  servlet:
+    context-path: /cloudnote-service
 
 spring:
   application:
-    name: cloudnote-etl
+    name: cloudnote-service
   thymeleaf:
     enabled: true
     cache: false

@@ -25,7 +25,6 @@
  */
 package com.sxkl.project.cloudnote.analyzer.ikanalyzer.dic;
 
-import com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache.LexiconCacheManagerFactory;
 import com.sxkl.project.cloudnote.analyzer.ikanalyzer.cfg.Configuration;
 
 import java.io.BufferedReader;

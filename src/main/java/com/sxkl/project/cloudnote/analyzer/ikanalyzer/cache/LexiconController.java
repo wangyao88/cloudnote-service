@@ -19,25 +19,25 @@ public class LexiconController {
 
     @PostMapping("/addExtLexicon")
     @ResponseBody
-    public void addExtLexicon(String lexicon) {
+    public void addExtLexicon(@RequestParam("lexicon") String lexicon) {
         lexiconService.addExtLexicon(lexicon);
     }
 
     @PostMapping("/addStopLexicon")
     @ResponseBody
-    public void addStopLexicon(String lexicon) {
+    public void addStopLexicon(@RequestParam("lexicon") String lexicon) {
         lexiconService.addStopLexicon(lexicon);
     }
 
     @PostMapping("/deleteExtLexicon")
     @ResponseBody
-    public void deleteExtLexicon(String lexicon) {
+    public void deleteExtLexicon(@RequestParam("lexicon") String lexicon) {
         lexiconService.deleteExtLexicon(lexicon);
     }
 
     @PostMapping("/deleteStopLexicon")
     @ResponseBody
-    public void deleteStopLexicon(String lexicon) {
+    public void deleteStopLexicon(@RequestParam("lexicon") String lexicon) {
         lexiconService.deleteStopLexicon(lexicon);
     }
 

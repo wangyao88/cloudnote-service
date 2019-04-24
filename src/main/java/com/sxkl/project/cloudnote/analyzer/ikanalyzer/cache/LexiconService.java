@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sxkl.project.cloudnote.analyzer.ikanalyzer.dic.Dictionary;
 import com.sxkl.project.cloudnote.analyzer.ikanalyzer.lucene.IKAnalyzer;
+import com.sxkl.project.cloudnote.etl.utils.ObjectUtils;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import com.sxkl.project.cloudnote.etl.utils.UUIDUtil;
 import lombok.Cleanup;
@@ -123,18 +124,34 @@ public class LexiconService {
 
     public void addExtLexicon(String lexicon) {
         lexiconCacheManager.addLexicon(LexiconConstant.EXT_LEXICONS_KEY, lexicon);
+        Dictionary dictionary = Dictionary.getSingleton();
+        if(ObjectUtils.isNotNull(dictionary)) {
+            dictionary.addExtWords(Lists.newArrayList(lexicon));
+        }
     }
 
     public void addStopLexicon(String lexicon) {
         lexiconCacheManager.addLexicon(LexiconConstant.STOP_LEXICONS_KEY, lexicon);
+        Dictionary dictionary = Dictionary.getSingleton();
+        if(ObjectUtils.isNotNull(dictionary)) {
+            dictionary.addStopWords(Lists.newArrayList(lexicon));
+        }
     }
 
     public void deleteExtLexicon(String lexicon) {
         lexiconCacheManager.deleteLexicon(LexiconConstant.EXT_LEXICONS_KEY, lexicon);
+        Dictionary dictionary = Dictionary.getSingleton();
+        if(ObjectUtils.isNotNull(dictionary)) {
+            dictionary.disableExtWords(Lists.newArrayList(lexicon));
+        }
     }
 
     public void deleteStopLexicon(String lexicon) {
         lexiconCacheManager.deleteLexicon(LexiconConstant.STOP_LEXICONS_KEY, lexicon);
+        Dictionary dictionary = Dictionary.getSingleton();
+        if(ObjectUtils.isNotNull(dictionary)) {
+            dictionary.disableStopWords(Lists.newArrayList(lexicon));
+        }
     }
 
     public PageInfo<String> findPageLexicons(int pageNum, int pageSize, String key) {

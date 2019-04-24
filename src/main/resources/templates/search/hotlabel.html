@@ -59,7 +59,7 @@
             buttonsStyling: false
         }).then(function () {
             $.ajax({
-                url: "/search/removeLabel",
+                url: "search/removeLabel",
                 type: "post",
                 data: {
                     label: label
@@ -97,7 +97,7 @@
         table = $('#datatable-buttons').DataTable({
             lengthChange: false,
             processing: true,
-            searching: true,
+            searching: false,
             serverSide: true,
             ordering: false,
             pagingType: "full_numbers",
@@ -110,7 +110,7 @@
                     }}
             ],
             ajax: {
-                "url": "/search/findPageHotLabels",
+                "url": "search/findPageHotLabels",
                 "data": function (params) {
                     var info = $('#datatable-buttons').DataTable().page.info();
                     params.pageNum = info.page+1;
@@ -118,25 +118,6 @@
                     params.search = $('#searchforme').val() || "";
                 }
             }
-        });
-
-        $("#datatable-buttons_filter").css("display","none");
-
-        $(document).on( 'click','#go', function () {
-            table.search($('#searchforme').val()).draw();
-        });
-
-        $(document).on('keyup','#searchforme', function() {
-            if($(this).val().length > 0){
-                $('#clearsearchinput').css('display','block');
-            }else{
-                $('#clearsearchinput').css('display','none');
-            }
-            $(document).on('click','#clearsearchinput', function () {
-                $('#searchforme').val('');
-                $(this).css('display','none');
-                table.search('').draw();
-            });
         });
     });
 

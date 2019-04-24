@@ -17,6 +17,7 @@
                     <th>序号</th>
                     <th>名称</th>
                     <th>类型</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
             </table>
@@ -40,8 +41,95 @@
 <script th:src="@{/plugins/datatables/responsive.bootstrap4.min.js}" src="../../../static/plugins/datatables/responsive.bootstrap4.min.js"></script>
 
 <script type="text/javascript">
+    var table;
+
+    function addExtLexicon() {
+        swal({
+            title: '新增扩展词',
+            input: 'text',
+            showCancelButton: true,
+            confirmButtonText: '提交',
+            showLoaderOnConfirm: true,
+            cancelButtonText: '取消',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger m-l-10',
+            preConfirm: function (lexicon) {
+                return new Promise(function (resolve, reject) {
+                    $.post('lexicon/addExtLexicon', {lexicon: lexicon}, function(words,status,xhr){
+                        if(status == 'success') {
+                            table.ajax.reload(function() {
+
+                            }, false);
+                            resolve();
+                        }
+                        if(status == 'error') {
+                            swal(
+                                '系统错误',
+                                '添加扩展词失败，请稍候重试！',
+                                'error'
+                            );
+                        }
+                    })
+                })
+            },
+            allowOutsideClick: false
+        }).then(function (lexicon) {
+            swal({
+                type: 'success',
+                title: '扩展词\"'+lexicon+'\"添加成功！',
+            })
+        })
+    }
+
+    function removeExtLexicon(lexicon) {
+        swal({
+            title: '你确定要删除吗?',
+            text: "此操作不能恢复!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '删除',
+            cancelButtonText: '取消',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger m-l-10',
+            buttonsStyling: false
+        }).then(function () {
+            $.ajax({
+                url: "lexicon/deleteExtLexicon",
+                type: "post",
+                data: {
+                    lexicon: lexicon
+                },
+                success: function(result) {
+                    swal(
+                        '已删除!',
+                        '扩展词\"'+lexicon+'\"已删除！',
+                        'success'
+                    );
+                    table.ajax.reload(function() {
+
+                    }, false);
+                },
+                error: function() {
+                    swal(
+                        '系统错误',
+                        '删除扩展词失败，请稍候重试！',
+                        'error'
+                    );
+                }
+            });
+        }, function (dismiss) {
+            if (dismiss === 'cancel') {
+                swal(
+                    '已取消',
+                    '扩展词\"'+lexicon+'\"未删除 :)',
+                    'error'
+                );
+            }
+        });
+    }
+
     $(document).ready(function() {
-        var table = $('#datatable-buttons').DataTable({
+        table = $('#datatable-buttons').DataTable({
             lengthChange: false,
             buttons: ['copy', 'excel', 'pdf'],
             processing: true,
@@ -52,10 +140,13 @@
             columns: [
                 {"data": "id"},
                 {"data": "name"},
-                {"data": "discriminator"}
+                {"data": "discriminator"},
+                {data: null, render: function (data, type, row, meta) {
+                        return '<button onclick="removeExtLexicon(\''+row.name+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> <i class="fa fa-remove"></i> </button>';
+                    }}
             ],
             ajax: {
-                "url": "/lexicon/findPageLexicons",
+                "url": "lexicon/findPageLexicons",
                 "data": function (params) {
                     var info = $('#datatable-buttons').DataTable().page.info();
                     params.pageNum = info.page+1;
@@ -65,12 +156,32 @@
                 }
             }
         });
-        table.buttons().container()
-            .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+
+        var toolsHtml = '' +
+            '<div class="row">'+
+                '<div class="col-md-6">'+
+                    '<button onclick="addExtLexicon()" type="button" class="btn btn-gradient btn-rounded waves-light waves-effect w-md">'+
+                        '新增'+
+                    '</button>'+
+                '</div>'+
+                '<div class="col-md-6">'+
+                    '<div class="input-group pull-right">'+
+                        '<input id="searchforme" type="text" class="form-control" placeholder="Search for...">'+
+                        '<button id="clearsearchinput" type="button" class="btn btn-round btn-xs" style="position:absolute; top:6px;right:42px; z-index:99;display:none;background-color:transparent;">'+
+                            '<i class="fa fa-close"></i>'+
+                        '</button>'+
+                        '<span class="input-group-btn">'+
+                            '<button id="go" class="btn btn-default" type="button">'+
+                                '<i class="fa fa-search"></i>'+
+                            '</button>'+
+                        '</span>'+
+                    '</div>'+
+                '</div>'+
+            '</div>';
 
         $("#datatable-buttons_filter").css("display","none");
-
-        $("#datatable-buttons_filter").parent().append('<div class="input-group pull-right"><input id="searchforme" type="text" class="form-control" placeholder="Search for..."><button id="clearsearchinput" type="button" class="btn btn-round btn-xs" style="position:absolute; top:6px;right:42px; z-index:99;display:none;background-color:transparent;"><i class="fa fa-close"></i></button><span class="input-group-btn"><button id="go" class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span></div>');
+        $("#datatable-buttons_wrapper").prepend(toolsHtml);
+        // $("#datatable-buttons_filter").parent().append('<div class="input-group pull-right"><input id="searchforme" type="text" class="form-control" placeholder="Search for..."><button id="clearsearchinput" type="button" class="btn btn-round btn-xs" style="position:absolute; top:6px;right:42px; z-index:99;display:none;background-color:transparent;"><i class="fa fa-close"></i></button><span class="input-group-btn"><button id="go" class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span></div>');
 
         $(document).on( 'click','#go', function () {
             table.search($('#searchforme').val()).draw();
@@ -88,6 +199,8 @@
                 table.search('').draw();
             });
         });
+
+        table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
     });
 
 </script>
