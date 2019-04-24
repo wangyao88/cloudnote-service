@@ -1,0 +1,55 @@
+<script type="text/javascript">
+    function analysis() {
+        var analysisWord = $("#analysisWord").val();
+        $.ajax({
+            url : "/lexicon/analysis",
+            data: {
+                words: analysisWord
+            },
+            type : "get",
+            success : function(words) {
+                var content = "";
+                var length = words.length-1;
+                $(words).each(function (index, word) {
+                    content += word;
+                    if(index < length) {
+                        content += ", ";
+                    }
+                });
+                $("#analysisResult").html(content);
+            },
+            error : function() {
+                alert("获取页面信息失败，请稍候重试！");
+            }
+        });
+    }
+</script>
+<div class="row">
+    <div class="col-12">
+        <div class="p-20">
+            <form class="form-horizontal" role="form">
+                <div class="form-group row">
+                    <label class="col-1 col-form-label">分词短语</label>
+                    <div class="col-11">
+                        <input id="analysisWord" type="text" class="form-control" placeholder="请输入分词内容">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-1 col-form-label"></label>
+                    <div class="col-11">
+                        <button type="button" class="btn btn-purple btn-rounded waves-effect w-md waves-light"
+                                onclick="analysis()">
+                            Purple
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-1 col-form-label">分词结果</label>
+                    <div class="col-11">
+                        <textarea id="analysisResult" class="form-control" rows="5" style="height: 400px;"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

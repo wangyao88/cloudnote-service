@@ -91,4 +91,9 @@ public class LexiconController {
     public String stopDictPage() {
         return "lexicon/dict/stop";
     }
+
+    @GetMapping("/analysisPage")
+    public String analysisPage() {
+        return "lexicon/analysis";
+    }
 }
