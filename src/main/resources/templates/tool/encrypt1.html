@@ -1,0 +1,132 @@
+<script type="text/javascript">
+    function base64Encode() {
+        var unEncodeValue = $("#base64EncodeStr").val();
+        var str = CryptoJS.enc.Utf8.parse(unEncodeValue);
+        var base64 = CryptoJS.enc.Base64.stringify(str);
+        $("#base64DecodeStr").val(base64);
+    }
+
+    function base64Decode() {
+        var unDecodeValue = $("#base64DecodeStr").val();
+        var words = CryptoJS.enc.Base64.parse(unDecodeValue);
+        var parseStr = words.toString(CryptoJS.enc.Utf8);
+        $("#base64EncodeStr").val(parseStr);
+
+    }
+    
+    function md5() {
+        var md5Str = $("#md5Str").val();
+        var str = CryptoJS.enc.Utf8.parse(md5Str);
+        var md5 = CryptoJS.MD5(str);
+        $("#md5Result").val(md5);
+    }
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card-box">
+            <h4 class="header-title m-t-0 m-b-30">各种加解密</h4>
+            <ul class="nav nav-pills navtab-bg nav-justified">
+                <li class="nav-item">
+                    <a href="#base64" data-toggle="tab" aria-expanded="true" class="nav-link active">
+                        BASE64
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#aes" data-toggle="tab" aria-expanded="false" class="nav-link">
+                        AES
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#des" data-toggle="tab" aria-expanded="false" class="nav-link">
+                        DES
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#md5" data-toggle="tab" aria-expanded="false" class="nav-link">
+                        MD5
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#hash" data-toggle="tab" aria-expanded="false" class="nav-link">
+                        散列/哈希
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="base64">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="p-20">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <textarea id="base64EncodeStr" class="form-control" rows="5" style="height: 250px;" placeholder="明文"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-4"></div>
+                                        <div class="col-1">
+                                            <button onclick="base64Encode()" type="button" class="btn btn-purple btn-rounded waves-effect w-md waves-light">
+                                                BASE64编码
+                                            </button>
+                                        </div>
+                                        <div class="col-1"></div>
+                                        <div class="col-1">
+                                            <button onclick="base64Decode()" type="button" class="btn btn-purple btn-rounded waves-effect w-md waves-light">
+                                                BASE64解码
+                                            </button>
+                                        </div>
+                                        <div class="col-5"></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <textarea id="base64DecodeStr" class="form-control" rows="5" style="height: 250px;" placeholder="BASE64"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="aes">
+                    aes
+                </div>
+                <div class="tab-pane fade" id="des">
+                    des
+                </div>
+                <div class="tab-pane fade" id="md5">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="p-20">
+                                <form class="form-horizontal" role="form">
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <textarea id="md5Str" class="form-control" rows="5" style="height: 250px;" placeholder="明文"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-5"></div>
+                                        <div class="col-1">
+                                            <button onclick="md5()" type="button" class="btn btn-purple btn-rounded waves-effect w-md waves-light">
+                                                MD5加密
+                                            </button>
+                                        </div>
+                                        <div class="col-5"></div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <textarea id="md5Result" class="form-control" rows="5" style="height: 250px;" placeholder="BASE64"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="hash">
+                    hash
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

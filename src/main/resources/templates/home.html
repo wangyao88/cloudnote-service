@@ -175,30 +175,16 @@
                                 <div class="dropdown-item noti-title">
                                     <h6 class="text-overflow m-0">欢迎!</h6>
                                 </div>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="fi-head"></i> <span>我的账号</span>
-                                </a>
-
-                                <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                    <i class="fi-cog"></i> <span>设置</span>
-                                </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <i class="fi-lock"></i> <span>锁屏</span>
                                 </a>
-
                                 <!-- item-->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item">
                                     <i class="fi-power"></i> <span>注销</span>
                                 </a>
-
                             </div>
                         </li>
-
                     </ul>
 
                     <ul class="list-inline menu-left mb-0">
@@ -239,56 +225,31 @@
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href="javascript: void(0);" aria-expanded="false">词库分类 <span class="menu-arrow"></span></a>
                                         <ul class="nav-third-level nav" aria-expanded="false">
-                                            <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/mainDictPage')">主词库库</a></li>
-                                            <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/quantifierDictPage')">量词库</a></li>
-                                            <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/extDictPage')">扩展词库</a></li>
-                                            <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/stopDictPage')">停用词库</a></li>
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/mainDictPage', '主词库')">主词库</a></li>
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/quantifierDictPage', '量词库')">量词库</a></li>
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/extDictPage', '扩展词库')">扩展词库</a></li>
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/stopDictPage', '停用词库')">停用词库</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/statisticPage')">词库统计</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/analysisPage')">在线分词</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/statisticPage', '词库统计')">词库统计</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/analysisPage', '在线分词')">在线分词</a></li>
                                 </ul>
                             </li>
 
                             <li>
-                                <a href="javascript: void(0);"><i class="fi-bar-graph-2"></i><span> 搜索管理 </span> <span class="menu-arrow"></span></a>
-                                <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('search/historyPage')">搜索记录</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('search/statisticPage')">搜索统计</a></li>
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);"><i class="fi-mail"></i><span> 在线搜索 </span> <span class="menu-arrow"></span></a>
-                                <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('search/onlineArticlePage')">搜索文章</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('search/onlineNewsPage')">搜素新闻</a></li>
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);" onclick="gotoPage('search/hotLabelPage')"><i class="fi-map"></i> <span> 热门关键字 </span></a>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);"><i class="fi-paper-stack"></i><span> 生活小工具 </span> <span class="menu-arrow"></span></a>
-                                <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('tool/weatherPage')">天气预报</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('tool/calendarPage')">日历</a></li>
-                                </ul>
+                                <a href="javascript: void(0);" onclick="gotoPage('search/hotLabelPage', '热门关键字')"><i class="fi-map"></i> <span> 热门关键字 </span></a>
                             </li>
 
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-share"></i> <span> 开发工具箱 </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level nav" aria-expanded="false">
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('tool/jsonPage')">json格式化</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('tool/translatePage')">在线翻译</a></li>
-                                    <li><a href="javascript: void(0);" aria-expanded="false">加密解密 <span class="menu-arrow"></span></a>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('tool/jsonPage', 'json格式化')">json格式化</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('tool/translatePage', '在线翻译')">在线翻译</a></li>
+                                    <li><a href="javascript: void(0);" aria-expanded="false">加密算法 <span class="menu-arrow"></span></a>
                                         <ul class="nav-third-level nav" aria-expanded="false">
-                                            <li><a href="javascript: void(0);" onclick="gotoPage('tool/base64Page')">base64</a></li>
-                                            <li><a href="javascript: void(0);" onclick="gotoPage('tool/asePage')">ASE</a></li>
-                                            <li><a href="javascript: void(0);" onclick="gotoPage('tool/desPage')">DES</a></li>
-                                            <li><a href="javascript: void(0);" onclick="gotoPage('tool/md5Page')">MD5</a></li>
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('tool/summaryPage', '摘要算法')">摘要算法</a></li>
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('tool/base64Page', '编码算法')">编码算法</a></li>
+                                            <li><a href="javascript: void(0);" onclick="gotoPage('tool/encryptPage', '加密算法')">加密算法</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -297,9 +258,13 @@
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-layout"></i> <span> 系统管理 </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/loadDataPage')">加载词库</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/refreshDictPage')">刷新词库</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/loadDataPage', '加载词库')">加载词库</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/refreshDictPage', '刷新词库')">刷新词库</a></li>
                                 </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript: void(0);" onclick="logout()"><i class="fi-mail"></i><span> 注销 </span></a>
                             </li>
                         </ul>
 
@@ -326,13 +291,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="page-title-box">
-                                    <h4 class="page-title float-left">首页</h4>
-
-                                    <ol class="breadcrumb float-right">
-                                        <li class="breadcrumb-item"><a href="#">曼妙云端云笔记</a></li>
-                                        <li class="breadcrumb-item"><a href="#">首页</a></li>
-                                    </ol>
-
+                                    <h4 class="page-title float-left" id="title">首页</h4>
                                     <div class="clearfix"></div>
                                 </div>
                             </div>
@@ -368,6 +327,8 @@
         <script th:src="@{/js/metisMenu.min.js}" src="../static/js/metisMenu.min.js"></script>
         <script th:src="@{/js/waves.js}" src="../static/js/waves.js"></script>
         <script th:src="@{/js/jquery.slimscroll.js}" src="../static/js/jquery.slimscroll.js"></script>
+        <script th:src="@{/plugins/encrypt/core-min.js}" src="../static/plugins/encrypt/core-min.js"></script>
+        <script th:src="@{/plugins/encrypt/enc-base64-min.js}" src="../static/plugins/encrypt/enc-base64-min.js"></script>
 
         <!-- App js -->
         <script th:src="@{/js/jquery.core.js}" src="../static/js/jquery.core.js"></script>

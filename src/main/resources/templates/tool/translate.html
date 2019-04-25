@@ -1,23 +1,38 @@
 <script type="text/javascript">
+    function translate(outputId, country, words) {
+        $.ajax({
+            url: "tool/translate"+country,
+            data: {
+                words: words
+            },
+            type:"get",
+            success: function(result) {
+                result = JSON.parse(result);
+                var trans = result.sentences[0].trans;
+                $(outputId).html(trans);
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
     $(document).ready(function () {
-        $(document).on('keyup','#words', function() {
+        $(document).on('keyup','#input_zh', function() {
             var words = $(this).val();
             if(words.length > 0){
-                $.ajax({
-                    url: "tool/translate",
-                    data: {
-                        words: words
-                    },
-                    type:"get",
-                    success: function(result) {
-                        result = JSON.parse(result);
-                        var trans = result.sentences[0].trans;
-                        $("#result").html(trans);
-                    },
-                    error: function (data) {
-                        console.log(data);
-                    }
-                });
+                translate("#result_en", "EN", words);
+            }else {
+                $("#result_en").html("");
+            }
+        });
+
+        $(document).on('keyup','#input_en', function() {
+            var words = $(this).val();
+            if(words.length > 0){
+                translate("#result_zh", "ZH", words);
+            }else {
+                $("#result_zh").html("");
             }
         });
     });
@@ -25,13 +40,28 @@
 <div class="row">
     <div class="col-lg-6">
         <div class="card-box">
-            <textarea id="words" class="form-control" rows="5" placeholder="请输入英语" style="height: 400px"></textarea>
+            <textarea id="input_zh" class="form-control" rows="5" placeholder="请输入汉语" style="height: 200px"></textarea>
         </div>
 
     </div>
     <div class="col-lg-6">
         <div class="card-box">
-            <textarea id="result" class="form-control" rows="5" placeholder="翻译结果" style="height: 400px"></textarea>
+            <textarea id="result_en" class="form-control" rows="5" placeholder="翻译结果" style="height: 200px"></textarea>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card-box">
+            <textarea id="input_en" class="form-control" rows="5" placeholder="请输入英语" style="height: 200px"></textarea>
+        </div>
+
+    </div>
+    <div class="col-lg-6">
+        <div class="card-box">
+            <textarea id="result_zh" class="form-control" rows="5" placeholder="翻译结果" style="height: 200px"></textarea>
         </div>
 
     </div>

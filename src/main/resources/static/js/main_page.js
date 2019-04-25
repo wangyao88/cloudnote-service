@@ -1,4 +1,5 @@
-function gotoPage(pageUrl) {
+function gotoPage(pageUrl, title) {
+    $("#title").html(title);
     $.ajax({
         url : pageUrl,
         type : "get",

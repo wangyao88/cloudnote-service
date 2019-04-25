@@ -5,6 +5,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/tool")
 public class ToolController {
+
+    @Autowired
+    private ToolService toolService;
 
     @GetMapping("/jsonPage")
     public String jsonPage() {
@@ -25,13 +29,30 @@ public class ToolController {
         return "tool/translate";
     }
 
-    @GetMapping("/translate")
+    @GetMapping("/translateZH")
     @ResponseBody
-    public String translate(@RequestParam("words") String words) throws UnirestException {
-//        https://www.cnblogs.com/fanyang1/p/9414088.html
-        String url = "http://translate.google.cn/translate_a/single?client=gtx&dt=t&dj=1&ie=UTF-8&sl=auto&tl=en&q="+words;
-        HttpResponse<JsonNode> response = Unirest.get(url).asJson();
-        JsonNode body = response.getBody();
-        return body.toString();
+    public String translateZH(@RequestParam("words") String words) throws UnirestException {
+        return toolService.translateZH(words);
+    }
+
+    @GetMapping("/translateEN")
+    @ResponseBody
+    public String translateEN(@RequestParam("words") String words) throws UnirestException {
+        return toolService.translateEN(words);
+    }
+
+    @GetMapping("/summaryPage")
+    public String summaryPage() {
+        return "tool/summary";
+    }
+
+    @GetMapping("/base64Page")
+    public String base64Page() {
+        return "tool/base64";
+    }
+
+    @GetMapping("/encryptPage")
+    public String encryptPage() {
+        return "tool/encrypt";
     }
 }

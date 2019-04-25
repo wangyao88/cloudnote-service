@@ -1,0 +1,49 @@
+<script type="text/javascript">
+    function base64Encode() {
+        var unEncodeValue = $("#base64EncodeStr").val();
+        var str = CryptoJS.enc.Utf8.parse(unEncodeValue);
+        var base64 = CryptoJS.enc.Base64.stringify(str);
+        $("#base64DecodeStr").val(base64);
+    }
+
+    function base64Decode() {
+        var unDecodeValue = $("#base64DecodeStr").val();
+        var words = CryptoJS.enc.Base64.parse(unDecodeValue);
+        var parseStr = words.toString(CryptoJS.enc.Utf8);
+        $("#base64EncodeStr").val(parseStr);
+
+    }
+</script>
+<div class="row">
+    <div class="col-12">
+        <div class="p-20">
+            <form class="form-horizontal" role="form">
+                <div class="form-group row">
+                    <div class="col-12">
+                        <textarea id="base64EncodeStr" class="form-control" rows="5" style="height: 250px;" placeholder="明文"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4"></div>
+                    <div class="col-1">
+                        <button onclick="base64Encode()" type="button" class="btn btn-purple btn-rounded waves-effect w-md waves-light">
+                            BASE64编码
+                        </button>
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-1">
+                        <button onclick="base64Decode()" type="button" class="btn btn-purple btn-rounded waves-effect w-md waves-light">
+                            BASE64解码
+                        </button>
+                    </div>
+                    <div class="col-5"></div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-12">
+                        <textarea id="base64DecodeStr" class="form-control" rows="5" style="height: 250px;" placeholder="BASE64"></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
