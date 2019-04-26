@@ -38,6 +38,7 @@ public abstract class BaseController<T extends BaseEntity> {
     @PostMapping("/update")
     @ResponseBody
     protected OperateResult update(@RequestBody T entity) throws Exception{
+        System.out.println(entity);
         return getBaseService().update(entity);
     }
 

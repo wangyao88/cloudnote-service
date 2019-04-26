@@ -1,0 +1,171 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-12">
+                    <div class="p-20">
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">用户名</label>
+                            <div class="col-10">
+                                <input id="name" type="text" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                            <div class="col-10">
+                                <input id="password" type="password" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">密码复杂度</label>
+                            <div class="col-10">
+                                <div id="process" class="progress-bar bg-warning" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4"></div>
+                            <div class="col-1">
+                                <button onclick="updateUser()" type="button" class="btn btn-success btn-rounded waves-light waves-effect w-md">提交</button>
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-1">
+                                <button onclick="gotoPage('user/tablePage', '用户列表')" type="button" class="btn btn-danger btn-rounded waves-light waves-effect w-md">取消</button>
+                            </div>
+                            <div class="col-5"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- end row -->
+
+        </div> <!-- end card-box -->
+    </div><!-- end col -->
+</div>
+
+<script th:inline="javascript">
+
+    function setProcess(password){
+        if(password.length < 4){
+            return 0;
+        }
+        var ls = 0;
+        if (password.match(/[a-z]/ig)){
+            ls++;
+        }
+        if (password.match(/[0-9]/ig)){
+            ls++;
+        }
+        if (password.match(/(.[^a-z0-9])/ig)){
+            ls++;
+        }
+        if (password.length < 6 && ls > 0){
+            ls--;
+        }
+        if (password.length > 10){
+            ls++;
+        }
+        var val = ls*25;
+        var process = $('#process');
+        process.css('width', val+'%');
+        process.attr('aria-valuenow', val);
+        process.html(val+'%');
+    }
+
+    var oldPassword;
+    function getUserById() {
+        $.ajax({
+            url : 'user/findOne',
+            type : 'get',
+            data: {
+                id: [[${id}]]
+            },
+            dataType: 'json',
+            success : function(user) {
+                $('#name').val(user.name);
+                $('#password').val(user.password);
+                oldPassword = user.password;
+                setProcess(oldPassword);
+            },
+            error : function() {
+                swal(
+                    '系统错误',
+                    '获取用户失败，请稍候重试！',
+                    'error'
+                );
+            }
+        });
+    }
+
+    function updateUser() {
+        alert();
+        var name = $('#name').val();
+        var password = $('#password').val();
+        if(password != oldPassword) {
+            swal({
+                title: '密码更改，请输入原密码！',
+                input: 'password',
+                showCancelButton: true,
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                showLoaderOnConfirm: true,
+                confirmButtonClass: 'btn btn-success',
+                cancelButtonClass: 'btn btn-danger m-l-10',
+                preConfirm: function (password) {
+                    return new Promise(function (resolve, reject) {
+                        setTimeout(function () {
+                            if (password !== oldPassword) {
+                                reject('密码错误')
+                            } else {
+                                resolve()
+                            }
+                        }, 20)
+                    })
+                },
+                allowOutsideClick: false
+            }).then(function (password) {
+                swal({
+                    type: 'success',
+                    title: '密码正确',
+                })
+            })
+        }
+        if(name == "") {
+            swal(
+                '警告',
+                '获用户名不能为空！',
+                'warning'
+            );
+        }
+        $.ajax({
+            url : 'user/update',
+            type : 'post',
+            data: {
+                id: [[${id}]],
+                name: name,
+                password: password
+            },
+            dataType: 'json',
+            success : function(result) {
+                if(result.status) {
+                    swal(
+                        '成功',
+                        result.msg,
+                        'success'
+                    );
+                }
+            },
+            error : function() {
+                swal(
+                    '系统错误',
+                    '更新用户失败，请稍候重试！',
+                    'error'
+                );
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        getUserById();
+    });
+</script>

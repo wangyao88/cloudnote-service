@@ -42,51 +42,8 @@
 <script type="text/javascript">
     var table;
 
-    function removeLabel(label) {
-        swal({
-            title: '你确定要删除吗?',
-            text: "此操作不能恢复!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: '删除',
-            cancelButtonText: '取消',
-            confirmButtonClass: 'btn btn-success',
-            cancelButtonClass: 'btn btn-danger m-l-10',
-            buttonsStyling: false
-        }).then(function () {
-            $.ajax({
-                url: "search/removeLabel",
-                type: "post",
-                data: {
-                    label: label
-                },
-                success: function(result) {
-                    swal(
-                        '已删除!',
-                        '关键字\"'+label+'\"已删除！',
-                        'success'
-                    );
-                    table.ajax.reload(function() {
+    function updateUasePage(id) {
 
-                    }, false);
-                },
-                error: function() {
-                    swal(
-                        '系统错误',
-                        '删除关键字失败，请稍候重试！',
-                        'error'
-                    );
-                }
-            });
-        }, function (dismiss) {
-            if (dismiss === 'cancel') {
-                swal(
-                    '已取消',
-                    '关键字\"'+label+'\"未删除 :)',
-                    'error'
-                );
-            }
-        });
     }
 
     $(document).ready(function() {
@@ -101,7 +58,15 @@
                 {data: "index"},
                 {data: "name"},
                 {data: null, render: function (data, type, row, meta) {
-                        return '<button onclick="removeLabel(\''+row.id+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> <i class="fa fa-remove"></i> </button>';
+                        var content = '<div class="button-list">'+
+                                        '<button onclick="removeOne(\''+row.id+'\', \'user/removeOne\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> ' +
+                                            '<i class="fa fa-remove"></i> ' +
+                                          '</button>'+
+                                        '<button onclick="gotoUpdatePage(\'user/updatePage\',\'更新用户\',\''+row.id+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-warning"> ' +
+                                            '<i class="fa fa-wrench"></i>' +
+                                        '</button>'
+                                       '</div>';
+                        return content;
                     }}
             ],
             ajax: {
