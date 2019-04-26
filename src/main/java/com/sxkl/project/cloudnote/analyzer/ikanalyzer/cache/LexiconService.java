@@ -42,8 +42,8 @@ public class LexiconService {
     @Autowired
     private LexiconCacheManager lexiconCacheManager;
     @Autowired
-    @Qualifier("lexiconSqlSessionTemplate")
-    private SqlSessionTemplate lexiconSqlSessionTemplate;
+    @Qualifier("mainSqlSessionTemplate")
+    private SqlSessionTemplate mainSqlSessionTemplate;
 
     @PostConstruct
     private void init() {
@@ -55,7 +55,7 @@ public class LexiconService {
 
     //以下方法供页面调用
 
-//    @Transactional(transactionManager = "lexiconTransactionManager", rollbackFor = Exception.class)
+//    @Transactional(transactionManager = "mainTransactionManager", rollbackFor = Exception.class)
     public void loadData(){
         mapper.deleteAll();
         insertToDB(PATH_DIC_MAIN, LexiconConstant.MAIN_LEXICONS_KEY, INITIALARRAYSIZE_DIC_MAIN);

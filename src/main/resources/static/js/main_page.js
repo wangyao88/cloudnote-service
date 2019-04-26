@@ -15,3 +15,9 @@ function gotoPage(pageUrl, title) {
         }
     });
 }
+
+function logout() {
+    $.get("logout").done(function () {
+        window.location.href = "login";
+    });
+}

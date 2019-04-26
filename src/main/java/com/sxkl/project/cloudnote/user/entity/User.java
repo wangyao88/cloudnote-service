@@ -1,19 +1,19 @@
 package com.sxkl.project.cloudnote.user.entity;
 
-public class User {
+import com.sxkl.project.cloudnote.base.entity.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
-    private static final String NAME = "wy";
-    private static final String PASSWORD = "v";
+@Data
+@AllArgsConstructor
+public class User extends BaseEntity {
 
-    public static String getName() {
-        return NAME;
-    }
+    private String id;
+    private String name;
+    private String password;
 
-    public static boolean checkPassword(String password) {
-        return PASSWORD.equals(password);
-    }
-
-    public static boolean login(String name, String password) {
-        return NAME.equals(name) && PASSWORD.equals(password);
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
 }

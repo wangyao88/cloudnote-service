@@ -1,36 +1,28 @@
 package com.sxkl.project.cloudnote.user.controller;
 
-
-import com.sxkl.project.cloudnote.config.WebSecurityConfig;
-import com.sxkl.project.cloudnote.user.entity.User;
+import com.sxkl.project.cloudnote.base.controller.BaseController;
+import com.sxkl.project.cloudnote.base.service.BaseService;
+import com.sxkl.project.cloudnote.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class UserController {
+@RequestMapping("/user")
+public class UserController extends BaseController {
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
+    @Autowired
+    private UserService userService;
+
+    @Override
+    protected BaseService getBaseService() {
+        return userService;
     }
 
-    @PostMapping("/login")
-    public String doLogin(@RequestParam("name") String name,
-                          @RequestParam("password") String password,
-                          HttpSession session) {
-        boolean result = User.login(name, password);
-        if(result) {
-            session.setAttribute(WebSecurityConfig.SESSION_KEY, User.getName());
-            return "redirect:";
-        }
-        return "redirect:login";
+    @GetMapping("/tablePage")
+    public String tablePage() {
+        return "user/table";
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.removeAttribute(WebSecurityConfig.SESSION_KEY);
-        return "redirect:login";
-    }
 }

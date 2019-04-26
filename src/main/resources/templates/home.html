@@ -180,7 +180,7 @@
                                     <i class="fi-lock"></i> <span>锁屏</span>
                                 </a>
                                 <!-- item-->
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <a href="javascript:void(0);" onclick="logout()" class="dropdown-item notify-item">
                                     <i class="fi-power"></i> <span>注销</span>
                                 </a>
                             </div>
@@ -233,11 +233,51 @@
                                     </li>
                                     <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/statisticPage', '词库统计')">词库统计</a></li>
                                     <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/analysisPage', '在线分词')">在线分词</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/loadDataPage', '加载词库')">加载词库</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/refreshDictPage', '刷新词库')">刷新词库</a></li>
                                 </ul>
                             </li>
 
                             <li>
                                 <a href="javascript: void(0);" onclick="gotoPage('search/hotLabelPage', '热门关键字')"><i class="fi-map"></i> <span> 热门关键字 </span></a>
+                            </li>
+
+                            <li>
+                                <a href="javascript: void(0);"><i class="fi-clock"></i> <span> 考勤打卡 </span> <span class="menu-arrow"></span></a>
+                                <ul class="nav-second-level nav" aria-expanded="false">
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('attendance/punchPage', '项目列表')">日常打卡</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('attendance/leavePage', '项目笔记')">请假管理</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('attendance/statisticPage', '项目生命周期')">出勤统计</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript: void(0);"><i class="fa fa-handshake-o"></i> <span> 待办事项 </span> <span class="menu-arrow"></span></a>
+                                <ul class="nav-second-level nav" aria-expanded="false">
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('todo/viewPage', '待办视图')">待办视图</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('todo/tablePage', '待办列表')">待办列表</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript: void(0);"><i class="fi-globe"></i> <span> 公司履历 </span> <span class="menu-arrow"></span></a>
+                                <ul class="nav-second-level nav" aria-expanded="false">
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('company/tablePage', '项目列表')">公司列表</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('company/notePage', '项目笔记')">公司资料</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript: void(0);"><i class="fa fa-superpowers"></i> <span> 项目管理 </span> <span class="menu-arrow"></span></a>
+                                <ul class="nav-second-level nav" aria-expanded="false">
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('project/tablePage', '项目列表')">项目列表</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('project/notePage', '项目笔记')">项目笔记</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('project/lifePage', '项目生命周期')">项目生命周期</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript: void(0);" onclick="gotoPage('resume/indexPage', '简历')"><i class="fa fa-modx"></i> <span> 简历 </span></a>
                             </li>
 
                             <li>
@@ -256,7 +296,14 @@
                             </li>
 
                             <li>
-                                <a href="javascript: void(0);"><i class="fi-layout"></i> <span> 系统管理 </span> <span class="menu-arrow"></span></a>
+                                <a href="javascript: void(0);"><i class="fa fa-user-circle-o"></i> <span> 用户管理 </span> <span class="menu-arrow"></span></a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('user/tablePage', '用户列表')">用户列表</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
+                                <a href="javascript: void(0);"><i class="fi-layout"></i> <span> 系统设置 </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/loadDataPage', '加载词库')">加载词库</a></li>
                                     <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/refreshDictPage', '刷新词库')">刷新词库</a></li>
