@@ -1,10 +1,119 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-sfsdfsd
-</body>
-</html>
+<!-- DataTables -->
+<link th:href="@{/plugins/datatables/dataTables.bootstrap4.min.css}" href="../../static/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<link th:href="@{/plugins/datatables/buttons.bootstrap4.min.css}" href="../../static/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+<!-- Responsive datatable examples -->
+<link th:href="@{/plugins/datatables/responsive.bootstrap4.min.css}" href="../../static/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-box table-responsive">
+            <h4 class="m-t-0 header-title"><b>用户列表</b></h4>
+            <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Required datatable js -->
+<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}" src="../../static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script th:src="@{/plugins/datatables/dataTables.bootstrap4.min.js}" src="../../static/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Buttons examples -->
+<script th:src="@{/plugins/datatables/dataTables.buttons.min.js}" src="../../static/plugins/datatables/dataTables.buttons.min.js"></script>
+<script th:src="@{/plugins/datatables/buttons.bootstrap4.min.js}" src="../../static/plugins/datatables/buttons.bootstrap4.min.js"></script>
+<script th:src="@{/plugins/datatables/jszip.min.js}" src="../../static/plugins/datatables/jszip.min.js"></script>
+<script th:src="@{/plugins/datatables/pdfmake.min.js}" src="../../static/plugins/datatables/pdfmake.min.js"></script>
+<script th:src="@{/plugins/datatables/vfs_fonts.js}" src="../../static/plugins/datatables/vfs_fonts.js"></script>
+<script th:src="@{/plugins/datatables/buttons.html5.min.js}" src="../../static/plugins/datatables/buttons.html5.min.js"></script>
+<script th:src="@{/plugins/datatables/buttons.print.min.js}" src="../../static/plugins/datatables/buttons.print.min.js"></script>
+
+<!-- Responsive examples -->
+<script th:src="@{/plugins/datatables/dataTables.responsive.min.js}" src="../../static/plugins/datatables/dataTables.responsive.min.js"></script>
+<script th:src="@{/plugins/datatables/responsive.bootstrap4.min.js}" src="../../static/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+<script type="text/javascript">
+    var table;
+
+    function removeLabel(label) {
+        swal({
+            title: '你确定要删除吗?',
+            text: "此操作不能恢复!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '删除',
+            cancelButtonText: '取消',
+            confirmButtonClass: 'btn btn-success',
+            cancelButtonClass: 'btn btn-danger m-l-10',
+            buttonsStyling: false
+        }).then(function () {
+            $.ajax({
+                url: "search/removeLabel",
+                type: "post",
+                data: {
+                    label: label
+                },
+                success: function(result) {
+                    swal(
+                        '已删除!',
+                        '关键字\"'+label+'\"已删除！',
+                        'success'
+                    );
+                    table.ajax.reload(function() {
+
+                    }, false);
+                },
+                error: function() {
+                    swal(
+                        '系统错误',
+                        '删除关键字失败，请稍候重试！',
+                        'error'
+                    );
+                }
+            });
+        }, function (dismiss) {
+            if (dismiss === 'cancel') {
+                swal(
+                    '已取消',
+                    '关键字\"'+label+'\"未删除 :)',
+                    'error'
+                );
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        table = $('#datatable-buttons').DataTable({
+            lengthChange: false,
+            processing: true,
+            searching: false,
+            serverSide: true,
+            ordering: false,
+            pagingType: "full_numbers",
+            columns: [
+                {data: "index"},
+                {data: "name"},
+                {data: null, render: function (data, type, row, meta) {
+                        return '<button onclick="removeLabel(\''+row.id+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> <i class="fa fa-remove"></i> </button>';
+                    }}
+            ],
+            ajax: {
+                "url": "user/findPage",
+                "data": function (params) {
+                    var info = $('#datatable-buttons').DataTable().page.info();
+                    params.pageNum = info.page+1;
+                    params.pageSize = info.length;
+                    params.name = $('#searchforme').val() || "";
+                }
+            }
+        });
+    });
+
+</script>

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class BasePageInfo<BaseEntity> {
+public class BasePageInfo<T extends BaseEntity> {
 
     private long recordsTotal;
     private int page;
@@ -15,9 +15,9 @@ public class BasePageInfo<BaseEntity> {
     private int start;
     private int end;
     private long recordsFiltered;
-    private List<BaseEntity> data;
+    private List<T> data;
 
-    public BasePageInfo(PageInfo<BaseEntity> pageInfo) {
+    public BasePageInfo(PageInfo<T> pageInfo) {
         this.recordsTotal = pageInfo.getTotal();
         this.data = pageInfo.getList();
         this.pages = pageInfo.getPages();

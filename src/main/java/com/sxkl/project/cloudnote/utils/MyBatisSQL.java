@@ -1,6 +1,7 @@
 package com.sxkl.project.cloudnote.utils;
 
 import com.sxkl.project.cloudnote.etl.utils.ObjectUtils;
+import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import org.apache.ibatis.jdbc.AbstractSQL;
 
 /**
@@ -9,7 +10,11 @@ import org.apache.ibatis.jdbc.AbstractSQL;
 public class MyBatisSQL extends AbstractSQL<MyBatisSQL> {
 
 	public MyBatisSQL whereIfNotNull(Object param, String conditions) {
-		if(ObjectUtils.isNotNull(param)){
+		if(param instanceof String ) {
+			if(StringUtils.isNotBlank(param+"")) {
+				super.WHERE(conditions);
+			}
+		}else if(ObjectUtils.isNotNull(param)){
 			super.WHERE(conditions);
 		}
 		return this;

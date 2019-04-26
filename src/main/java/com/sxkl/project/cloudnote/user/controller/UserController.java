@@ -2,6 +2,7 @@ package com.sxkl.project.cloudnote.user.controller;
 
 import com.sxkl.project.cloudnote.base.controller.BaseController;
 import com.sxkl.project.cloudnote.base.service.BaseService;
+import com.sxkl.project.cloudnote.user.entity.User;
 import com.sxkl.project.cloudnote.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user")
-public class UserController extends BaseController {
+public class UserController extends BaseController<User> {
 
     @Autowired
     private UserService userService;

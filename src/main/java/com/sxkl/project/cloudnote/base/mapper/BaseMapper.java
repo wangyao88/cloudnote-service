@@ -1,20 +1,22 @@
 package com.sxkl.project.cloudnote.base.mapper;
 
+import com.sxkl.project.cloudnote.base.entity.BaseEntity;
+
 import java.util.List;
 
-public interface BaseMapper<BaseEntity> {
+public interface BaseMapper<T extends BaseEntity> {
 
-    void add(BaseEntity entity);
+    void add(T entity);
 
     void removeOne(String id);
 
-    void removeAll(BaseEntity entity);
+    void removeAll(T entity);
 
-    void update(BaseEntity entity);
+    void update(T entity);
 
-    BaseEntity findOne(String id);
+    T findOne(String id);
 
-    List<BaseEntity> findAll();
+    List<T> findAll();
 
-    List<BaseEntity> findByCondition(BaseEntity entity);
+    List<T> findByCondition(T entity);
 }
