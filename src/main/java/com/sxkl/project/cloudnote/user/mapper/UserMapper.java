@@ -1,6 +1,7 @@
 package com.sxkl.project.cloudnote.user.mapper;
 
 import com.sxkl.project.cloudnote.base.mapper.BaseMapper;
+import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import com.sxkl.project.cloudnote.user.entity.User;
 import com.sxkl.project.cloudnote.utils.MyBatisSQL;
 import org.apache.ibatis.annotations.*;
@@ -46,13 +47,17 @@ public interface UserMapper extends BaseMapper<User> {
     @ResultMap("userResult")
     List<User> findByCondition(User user);
 
+    @Select("select id, name from cn_user where name=#{name}")
+    @ResultMap("userResult")
+    List<User> findByName(User user);
+
     class UserMapperProvider {
 
         public String findByCondition(User user) {
             return MyBatisSQL.builder()
                     .SELECT("id, name")
                     .FROM("cn_user")
-                    .whereIfNotNull(user.getName(), "name=#{name}")
+                    .whereIfNotNull(user.getName(), "name like #{name}")
                     .whereIfNotNull(user.getId(), "id=#{id}")
                     .build();
         }

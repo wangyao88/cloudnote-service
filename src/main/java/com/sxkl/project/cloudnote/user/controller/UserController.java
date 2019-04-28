@@ -51,4 +51,15 @@ public class UserController extends BaseController<User> {
     public OperateResult getPublicKey() {
         return userService.getPublicKey();
     }
+
+    @GetMapping("/addPage")
+    public String addPage() {
+        return "user/add";
+    }
+
+    @PostMapping("checkName")
+    @ResponseBody
+    public OperateResult checkName(@RequestParam("name") String name) {
+        return userService.checkName(name);
+    }
 }

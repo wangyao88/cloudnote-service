@@ -5,6 +5,7 @@ import com.sxkl.project.cloudnote.base.entity.BaseEntity;
 import com.sxkl.project.cloudnote.base.entity.BasePageInfo;
 import com.sxkl.project.cloudnote.base.entity.OperateResult;
 import com.sxkl.project.cloudnote.base.service.BaseService;
+import com.sxkl.project.cloudnote.etl.utils.UUIDUtil;
 import com.sxkl.project.cloudnote.utils.PaginationHelper;
 import com.sxkl.project.cloudnote.utils.RequestUtils;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ public abstract class BaseController<T extends BaseEntity> {
     @PostMapping("/add")
     @ResponseBody
     protected OperateResult add(@RequestBody T entity) throws Exception{
+        entity.setId(UUIDUtil.getUUID());
         return getBaseService().add(entity);
     }
 

@@ -8,25 +8,18 @@
                             <label class="col-2 col-form-label">用&nbsp;&nbsp;户&nbsp;&nbsp;名</label>
                             <div class="col-10">
                                 <input id="name" type="text" class="form-control" value="">
-                                <!--<p id="name" class="form-control-static"></p>-->
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-2 col-form-label">原&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
-                            <div class="col-10">
-                                <input id="oldPassword" type="password" class="form-control" value="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-2 col-form-label">新&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
                             <div class="col-10">
-                                <input id="newPassword" type="password" class="form-control" value="">
+                                <input id="password" type="password" class="form-control" value="">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-2 col-form-label">确认密码</label>
                             <div class="col-10">
-                                <input id="repeatNewPassword" type="password" class="form-control" value="">
+                                <input id="repeatPassword" type="password" class="form-control" value="">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -38,7 +31,7 @@
                         <div class="form-group row">
                             <div class="col-4"></div>
                             <div class="col-1">
-                                <button onclick="updateUser()" type="button" class="btn btn-success btn-rounded waves-light waves-effect w-md">提交</button>
+                                <button onclick="addUser()" type="button" class="btn btn-success btn-rounded waves-light waves-effect w-md">提交</button>
                             </div>
                             <div class="col-1"></div>
                             <div class="col-1">
@@ -62,7 +55,7 @@
     var publicKey;
 
     function getProcess(){
-        var password = $('#newPassword').val();
+        var password = $('#password').val();
         if(password.length < 4){
             return 0;
         }
@@ -90,81 +83,59 @@
         return val;
     }
 
-    function getUserById() {
-        $.ajax({
-            url : 'user/findOne',
-            type : 'get',
-            data: {
-                id: [[${id}]]
-            },
-            dataType: 'json',
-            success : function(user) {
-                $('#name').val(user.name);
-            },
-            error : function() {
-                swal('系统错误', '获取用户失败，请稍候重试！', 'error');
-            }
-        });
-    }
-    
     function encryptPassword(password) {
         var encrypt = new JSEncrypt();
         encrypt.setPublicKey(publicKey);
         return encrypt.encrypt(password);
     }
 
-    function updateUser() {
-        // setProcess(oldPassword);
-        var oldPassword = $('#oldPassword').val();
-        var newPassword = $('#newPassword').val();
-        var repeatNewPassword = $('#repeatNewPassword').val();
-        if(newPassword !== repeatNewPassword) {
+    function addUser() {
+        var name = $('#name').val();
+        var password = $('#password').val();
+        var repeatPassword = $('#repeatPassword').val();
+        if(password !== repeatPassword) {
             swal('系统错误', '两次密码输入不一致！', 'error');
         }else if(getProcess() < 50) {
             swal('系统错误', '密码过于简单！请重新输入', 'error');
         }else {
-            var id = [[${id}]];
             $.ajax({
-                url : 'user/checkOldPassword',
+                url : 'user/checkName',
                 type : 'post',
                 data: {
-                    id: id,
-                    password: encryptPassword(oldPassword)
+                    name: name,
                 },
                 dataType: 'json',
                 success : function(result) {
                     if(result.status) {
-                        doUpdate(id, newPassword);
+                        doAdd(name, password);
                     }else {
-                        swal('系统错误', '原密码输入错误！', 'error');
+                        swal('系统错误', '用户名已存在！', 'error');
                     }
                 },
                 error : function() {
-                    swal('系统错误', '更新密码失败，请稍候重试！', 'error');
+                    swal('系统错误', '新增用户失败，请稍候重试！', 'error');
                 }
             });
         }
     }
 
-    function doUpdate(id, newPassword) {
+    function doAdd(name, password) {
         $.ajax({
-            url : 'user/updatePassword',
+            url : 'user/add',
             type : 'post',
-            data: {
-                id: id,
-                password: encryptPassword(newPassword)
-            },
+            data: JSON.stringify({name: name, password: encryptPassword(password)}),
+            contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success : function(result) {
                 if(result.status) {
-                    swal('系统提示', '密码设置成功！', 'success');
+                    swal('系统提示', '新增用户成功！', 'success');
                     setTimeout(gotoPage('user/tablePage', '用户列表'), 20);
                 }else {
-                    swal('系统提示', '密码设置错误！', 'error');
+                    swal('系统提示', '新增用户失败！', 'error');
                 }
             },
             error : function() {
-                swal('系统提示', '更新密码失败，请稍候重试！', 'error');
+                swal('系统提示', '新增用户失败，请稍候重试！', 'error');
             }
         });
     }
@@ -188,9 +159,8 @@
     }
 
     $(document).ready(function () {
-        getUserById();
         getPublicKey();
-        $("#newPassword").keyup(function () {
+        $("#password").keyup(function () {
             getProcess();
         })
     });

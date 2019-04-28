@@ -1,9 +1,11 @@
 package com.sxkl.project.cloudnote.user.service;
 
+import com.sxkl.project.cloudnote.base.entity.BaseEntity;
 import com.sxkl.project.cloudnote.base.entity.OperateResult;
 import com.sxkl.project.cloudnote.base.mapper.BaseMapper;
 import com.sxkl.project.cloudnote.base.service.BaseService;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
+import com.sxkl.project.cloudnote.etl.utils.UUIDUtil;
 import com.sxkl.project.cloudnote.user.entity.User;
 import com.sxkl.project.cloudnote.user.mapper.UserMapper;
 import com.sxkl.project.cloudnote.utils.DESUtil;
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserService extends BaseService {
+public class UserService extends BaseService<User> {
 
     @Autowired
     private UserMapper userMapper;
@@ -82,5 +84,24 @@ public class UserService extends BaseService {
         } catch (Exception e) {
             return OperateResult.buildFail();
         }
+    }
+
+    public OperateResult checkName(String name) {
+        User user = new User();
+        user.setName(name);
+        List<User> users = userMapper.findByName(user);
+        if(users.isEmpty()) {
+            return OperateResult.buildSuccess();
+        }
+        return OperateResult.buildFail();
+    }
+
+    @Override
+    public OperateResult add(User user) throws Exception {
+        String password = user.getPassword();
+        password = getfrontPassword(password);
+        DESUtil des = new DESUtil();
+        user.setPassword(des.encrypt(password));
+        return super.add(user);
     }
 }

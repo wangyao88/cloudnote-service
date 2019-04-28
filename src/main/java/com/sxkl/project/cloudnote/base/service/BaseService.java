@@ -7,6 +7,7 @@ import com.sxkl.project.cloudnote.base.aop.Operation;
 import com.sxkl.project.cloudnote.base.entity.BaseEntity;
 import com.sxkl.project.cloudnote.base.entity.OperateResult;
 import com.sxkl.project.cloudnote.base.mapper.BaseMapper;
+import com.sxkl.project.cloudnote.etl.utils.UUIDUtil;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -17,6 +18,7 @@ public abstract class BaseService<T extends BaseEntity> {
 
     @Operation
     public OperateResult add(T entity) throws Exception{
+        entity.setId(UUIDUtil.getUUID());
         getMapper().add(entity);
         return OperateResult.buildSuccess();
     }
