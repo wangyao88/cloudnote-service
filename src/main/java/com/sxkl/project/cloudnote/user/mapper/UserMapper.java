@@ -23,17 +23,21 @@ public interface UserMapper extends BaseMapper<User> {
     @UpdateProvider(type = UserMapperProvider.class, method = "updateByCondition")
     void update(User user);
 
-    @Override
     @Results(id = "userResult", value = {
             @Result(column = "id", property = "id", jdbcType = JdbcType.VARCHAR, id = true),
             @Result(column = "name", property = "name", jdbcType = JdbcType.VARCHAR),
             @Result(column = "password", property = "password", jdbcType = JdbcType.VARCHAR)
     })
     @Select("select id, name, password from cn_user where id=#{id}")
+    User findUserById(@Param("id") String id);
+
+    @Override
+    @ResultMap("userResult")
+    @Select("select id, name from cn_user where id=#{id}")
     User findOne(@Param("id") String id);
 
     @Override
-    @Select("select id, name, password from cn_user")
+    @Select("select id, name from cn_user")
     @ResultMap("userResult")
     List<User> findAll();
 
@@ -46,10 +50,10 @@ public interface UserMapper extends BaseMapper<User> {
 
         public String findByCondition(User user) {
             return MyBatisSQL.builder()
-                    .SELECT("id, name, password")
+                    .SELECT("id, name")
                     .FROM("cn_user")
                     .whereIfNotNull(user.getName(), "name=#{name}")
-                    .whereIfNotNull(user.getPassword(), "password=#{password}")
+                    .whereIfNotNull(user.getId(), "id=#{id}")
                     .build();
         }
 
@@ -58,7 +62,7 @@ public interface UserMapper extends BaseMapper<User> {
                     .UPDATE("cn_user")
                     .setIfNotNull(user.getName(), "name=#{name}")
                     .setIfNotNull(user.getPassword(), "password=#{password}")
-                    .setIfNotNull(user.getId(), "id=#{id}")
+                    .whereIfNotNull(user.getId(), "id=#{id}")
                     .build();
         }
     }

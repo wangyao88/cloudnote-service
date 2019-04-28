@@ -16,7 +16,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     private static final Set<String> RESOURCE_PATH =
             Sets.newHashSet("/css/", "/fonts/", "/images/",
                             "/js/", "/pages/", "/plugins/", "/scss/",
-                            "/error/", "/login", "/es/");
+                            "/error/", "/login", "/es/", "/user/getPublicKey");
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

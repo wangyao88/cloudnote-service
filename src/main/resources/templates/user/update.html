@@ -5,15 +5,28 @@
                 <div class="col-12">
                     <div class="p-20">
                         <div class="form-group row">
-                            <label class="col-2 col-form-label">用户名</label>
+                            <label class="col-2 col-form-label">用&nbsp;&nbsp;户&nbsp;&nbsp;名</label>
                             <div class="col-10">
                                 <input id="name" type="text" class="form-control" value="">
+                                <!--<p id="name" class="form-control-static"></p>-->
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-2 col-form-label">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+                            <label class="col-2 col-form-label">原&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
                             <div class="col-10">
-                                <input id="password" type="password" class="form-control" value="">
+                                <input id="oldPassword" type="password" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">新&nbsp;&nbsp;密&nbsp;&nbsp;码</label>
+                            <div class="col-10">
+                                <input id="newPassword" type="password" class="form-control" value="">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">确认密码</label>
+                            <div class="col-10">
+                                <input id="repeatNewPassword" type="password" class="form-control" value="">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -43,9 +56,13 @@
     </div><!-- end col -->
 </div>
 
-<script th:inline="javascript">
+<script th:src="@{/plugins/encrypt/jsencrypt.min.js}" src="../../static/plugins/encrypt/jsencrypt.min.js"></script>
 
-    function setProcess(password){
+<script th:inline="javascript">
+    var publicKey;
+
+    function getProcess(){
+        var password = $('#newPassword').val();
         if(password.length < 4){
             return 0;
         }
@@ -70,9 +87,9 @@
         process.css('width', val+'%');
         process.attr('aria-valuenow', val);
         process.html(val+'%');
+        return val;
     }
 
-    var oldPassword;
     function getUserById() {
         $.ajax({
             url : 'user/findOne',
@@ -83,89 +100,98 @@
             dataType: 'json',
             success : function(user) {
                 $('#name').val(user.name);
-                $('#password').val(user.password);
-                oldPassword = user.password;
-                setProcess(oldPassword);
             },
             error : function() {
-                swal(
-                    '系统错误',
-                    '获取用户失败，请稍候重试！',
-                    'error'
-                );
+                swal('系统错误', '获取用户失败，请稍候重试！', 'error');
             }
         });
     }
+    
+    function encryptPassword(password) {
+        var encrypt = new JSEncrypt();
+        encrypt.setPublicKey(publicKey);
+        return encrypt.encrypt(password);
+    }
 
     function updateUser() {
-        alert();
-        var name = $('#name').val();
-        var password = $('#password').val();
-        if(password != oldPassword) {
-            swal({
-                title: '密码更改，请输入原密码！',
-                input: 'password',
-                showCancelButton: true,
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                showLoaderOnConfirm: true,
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger m-l-10',
-                preConfirm: function (password) {
-                    return new Promise(function (resolve, reject) {
-                        setTimeout(function () {
-                            if (password !== oldPassword) {
-                                reject('密码错误')
-                            } else {
-                                resolve()
-                            }
-                        }, 20)
-                    })
+        // setProcess(oldPassword);
+        var oldPassword = $('#oldPassword').val();
+        var newPassword = $('#newPassword').val();
+        var repeatNewPassword = $('#repeatNewPassword').val();
+        if(newPassword !== repeatNewPassword) {
+            swal('系统错误', '两次密码输入不一致！', 'error');
+        }else if(getProcess() < 50) {
+            swal('系统错误', '密码过于简单！请重新输入', 'error');
+        }else {
+            var id = [[${id}]];
+            $.ajax({
+                url : 'user/checkOldPassword',
+                type : 'post',
+                data: {
+                    id: id,
+                    password: encryptPassword(oldPassword)
                 },
-                allowOutsideClick: false
-            }).then(function (password) {
-                swal({
-                    type: 'success',
-                    title: '密码正确',
-                })
-            })
+                dataType: 'json',
+                success : function(result) {
+                    if(result.status) {
+                        doUpdate(id, newPassword);
+                    }else {
+                        swal('系统错误', '原密码输入错误！', 'error');
+                    }
+                },
+                error : function() {
+                    swal('系统错误', '更新密码失败，请稍候重试！', 'error');
+                }
+            });
         }
-        if(name == "") {
-            swal(
-                '警告',
-                '获用户名不能为空！',
-                'warning'
-            );
-        }
+    }
+
+    function doUpdate(id, newPassword) {
         $.ajax({
-            url : 'user/update',
+            url : 'user/updatePassword',
             type : 'post',
             data: {
-                id: [[${id}]],
-                name: name,
-                password: password
+                id: id,
+                password: encryptPassword(newPassword)
             },
             dataType: 'json',
             success : function(result) {
                 if(result.status) {
-                    swal(
-                        '成功',
-                        result.msg,
-                        'success'
-                    );
+                    swal('系统提示', '密码设置成功！', 'success');
+                    setTimeout(gotoPage('user/tablePage', '用户列表'), 20);
+                }else {
+                    swal('系统提示', '原密码输入错误！', 'error');
                 }
             },
             error : function() {
-                swal(
-                    '系统错误',
-                    '更新用户失败，请稍候重试！',
-                    'error'
-                );
+                swal('系统提示', '更新密码失败，请稍候重试！', 'error');
+            }
+        });
+    }
+
+    function getPublicKey() {
+        $.ajax({
+            url : 'user/getPublicKey',
+            type : 'get',
+            dataType: 'json',
+            success : function(result) {
+                if(result.status) {
+                    publicKey = result.data;
+                }else {
+                    swal('系统提示', '获取公钥失败！', 'error');
+                }
+            },
+            error : function() {
+                swal('系统提示', '获取公钥失败，请稍候重试！', 'error');
             }
         });
     }
 
     $(document).ready(function () {
         getUserById();
+        getPublicKey();
+        $("#newPassword").keyup(function () {
+            getProcess();
+        })
     });
 </script>

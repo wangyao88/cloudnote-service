@@ -7,6 +7,8 @@ import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import com.sxkl.project.cloudnote.user.entity.User;
 import com.sxkl.project.cloudnote.user.mapper.UserMapper;
 import com.sxkl.project.cloudnote.utils.DESUtil;
+import com.sxkl.project.cloudnote.utils.RSACoder;
+import com.sxkl.project.cloudnote.utils.RsaKeyManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +39,48 @@ public class UserService extends BaseService {
             return OperateResult.builder().msg("用户名密码错误").status(Boolean.FALSE).build();
         }
         return OperateResult.builder().status(Boolean.TRUE).data(users).build();
+    }
+
+    public OperateResult updatePassword(String id, String password) {
+        try {
+            User user = new User();
+            user.setId(id);
+            password = getfrontPassword(password);
+            DESUtil des = new DESUtil();
+            user.setPassword(des.encrypt(password));
+            userMapper.update(user);
+            return OperateResult.buildSuccess();
+        }catch (Exception e) {
+            return OperateResult.buildFail(e);
+        }
+    }
+
+    private String getfrontPassword(String password) throws Exception {
+        byte[] decodedData = RSACoder.decryptByPrivateKey(password,RsaKeyManager.getPrivateKey());
+        password = new String(decodedData);
+        return password;
+    }
+
+    public OperateResult checkOldPassword(String id, String password) {
+        try {
+            password = getfrontPassword(password);
+        } catch (Exception e) {
+            return OperateResult.builder().e(e).status(Boolean.FALSE).build();
+        }
+        DESUtil des = new DESUtil();
+        User user = userMapper.findUserById(id);
+        if(user.getPassword().equals(des.encrypt(password))) {
+            return OperateResult.buildSuccess();
+        }
+        return OperateResult.buildFail();
+    }
+
+    public OperateResult getPublicKey() {
+        try {
+            String publicKey = RsaKeyManager.getPublickey();
+            return OperateResult.builder().data(publicKey).status(Boolean.TRUE).build();
+        } catch (Exception e) {
+            return OperateResult.buildFail();
+        }
     }
 }
