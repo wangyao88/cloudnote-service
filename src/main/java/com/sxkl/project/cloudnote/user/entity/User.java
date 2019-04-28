@@ -1,16 +1,13 @@
 package com.sxkl.project.cloudnote.user.entity;
 
 import com.sxkl.project.cloudnote.base.entity.BaseEntity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class User extends BaseEntity {
 
-    private String id;
     private String name;
     private String password;
 

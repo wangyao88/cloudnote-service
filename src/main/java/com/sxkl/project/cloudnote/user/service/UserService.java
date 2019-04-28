@@ -43,11 +43,9 @@ public class UserService extends BaseService<User> {
         return OperateResult.builder().status(Boolean.TRUE).data(users).build();
     }
 
-    public OperateResult updatePassword(String id, String password) {
+    public OperateResult updatePassword(User user) {
         try {
-            User user = new User();
-            user.setId(id);
-            password = getfrontPassword(password);
+            String password = getfrontPassword(user.getPassword());
             DESUtil des = new DESUtil();
             user.setPassword(des.encrypt(password));
             userMapper.update(user);
