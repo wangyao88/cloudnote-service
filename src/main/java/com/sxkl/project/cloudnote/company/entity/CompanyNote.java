@@ -10,7 +10,6 @@ public class CompanyNote extends BaseEntity {
 
     private String title;
     private String content;
-    private Date createDate;
+    private String companyName;
     private String companyId;
-    private String userId;
 }

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 public abstract class BaseController<T extends BaseEntity> {
@@ -40,6 +41,8 @@ public abstract class BaseController<T extends BaseEntity> {
         }
         entity.setId(UUIDUtil.getUUID());
         entity.setUserId(userId);
+        entity.setCreateDate(new Date());
+        System.out.println(entity);
         return getBaseService().add(entity);
     }
 

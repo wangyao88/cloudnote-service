@@ -12,8 +12,8 @@ import java.util.List;
 public interface CompanyMapper extends BaseMapper<Company> {
 
     @Override
-    @Insert("insert into cn_company(id, name, flag, address, inDate, outDate, userId) values " +
-            "(#{id}, #{name}, #{flag}, #{address}, #{inDate}, #{outDate}, #{userId})")
+    @Insert("insert into cn_company(id, name, flag, address, inDate, outDate, createDate, userId) values " +
+            "(#{id}, #{name}, #{flag}, #{address}, #{inDate}, #{outDate}, #{createDate}, #{userId})")
     void add(Company company);
 
     @Override
@@ -32,13 +32,14 @@ public interface CompanyMapper extends BaseMapper<Company> {
             @Result(column = "address", property = "address", jdbcType = JdbcType.VARCHAR),
             @Result(column = "inDate", property = "inDate", jdbcType = JdbcType.TIMESTAMP),
             @Result(column = "outDate", property = "outDate", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "createDate", property = "createDate", jdbcType = JdbcType.TIMESTAMP),
             @Result(column = "userId", property = "userId", jdbcType = JdbcType.VARCHAR)
     })
-    @Select("select id, name, flag, address, inDate, outDate, userId from cn_company where id=#{id}")
+    @Select("select id, name, flag, address, inDate, outDate, createDate, userId from cn_company where id=#{id}")
     Company findOne(@Param("id") String id);
 
     @Override
-    @Select("select id, name, flag, address, inDate, outDate, userId from cn_company")
+    @Select("select id, name, flag, address, inDate, outDate, createDate, userId from cn_company")
     @ResultMap("companyResult")
     List<Company> findAll();
 
@@ -55,7 +56,7 @@ public interface CompanyMapper extends BaseMapper<Company> {
 
         public String findByCondition(Company company) {
             return MyBatisSQL.builder()
-                    .SELECT("id, name, flag, address, inDate, outDate, userId")
+                    .SELECT("id, name, flag, address, inDate, outDate, createDate, userId")
                     .FROM("cn_company")
                     .whereIfNotNull(company.getName(), "name like #{name}")
                     .whereIfNotNull(company.getId(), "id=#{id}")

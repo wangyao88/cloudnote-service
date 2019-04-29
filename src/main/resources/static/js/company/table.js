@@ -18,7 +18,7 @@ $(document).ready(function() {
                         '<i class="fa fa-remove"></i> ' +
                     '</button>'+
                     '<button onclick="gotoUpdatePage(\'company/updatePage\',\'更新公司信息\',\''+row.id+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-warning"> ' +
-                        '<i class="fa fa-keyboard-o"></i>' +
+                        '<i class="fa fa-wrench"></i>' +
                     '</button>'
                 '</div>';
                 return content;

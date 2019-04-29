@@ -28,6 +28,8 @@
         <!-- Responsive datatable examples -->
         <link th:href="@{/plugins/datatables/responsive.bootstrap4.min.css}" href="../static/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
+        <!-- bootstrap datetimepicker -->
+        <link th:href="@{/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css}" href="../static/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
 
         <script th:src="@{/js/modernizr.min.js}" src="../static/js/modernizr.min.js"></script>
     </head>
@@ -270,8 +272,8 @@
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-globe"></i> <span> 公司履历 </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level nav" aria-expanded="false">
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('company/tablePage', '项目列表')">公司列表</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('company/notePage', '项目笔记')">公司资料</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('company/tablePage', '公司列表')">公司列表</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('companyNote/tablePage', '办公资料')">办公资料</a></li>
                                 </ul>
                             </li>
 
@@ -414,6 +416,14 @@
         <script th:src="@{/plugins/datatables/responsive.bootstrap4.min.js}" src="../static/plugins/datatables/responsive.bootstrap4.min.js"></script>
 
         <script th:src="@{/plugins/encrypt/jsencrypt.min.js}" src="../static/plugins/encrypt/jsencrypt.min.js"></script>
+
+        <!-- bootstrap datetimepicker -->
+        <script th:src="@{/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js}" src="../static/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
+        <script th:src="@{/plugins/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js}" src="../static/plugins/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+
+        <!--tinymce js-->
+        <script th:src="@{/plugins/tinymce/tinymce.min.js}" src="../static/plugins/tinymce/tinymce.min.js"></script>
+        <script th:src="@{/plugins/tinymce/zh_CN.js}" src="../static/plugins/tinymce/zh_CN.js"></script>
 
         <script th:src="@{/js/main_page.js}" src="../static/js/main_page.js"></script>
 

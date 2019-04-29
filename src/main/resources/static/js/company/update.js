@@ -1,4 +1,25 @@
-function addCompany() {
+function getCompanyById() {
+    $.ajax({
+        url : 'company/findOne',
+        type : 'get',
+        data: {id: id},
+        dataType: 'json',
+        success : function(company) {
+            $('#name').val(company.name);
+            $('#flag').val(company.flag);
+            $('#address').val(company.address);
+            $("#inDate").datetimepicker("setDate", new Date(company.inDate));
+            if(company.outDate) {
+                $("#outDate").datetimepicker("setDate", new Date(company.outDate));
+            }
+        },
+        error : function() {
+            swal('系统错误', '获取公司信息失败，请稍候重试！', 'error');
+        }
+    });
+}
+
+function updateCompany() {
     var name = $('#name').val();
     var inDateStr = $('#inDate').val();
     var outDateStr = $('#outDate').val();
@@ -19,29 +40,15 @@ function addCompany() {
             return;
         }
     }
-    $.ajax({
-        url : 'company/checkName',
-        type : 'post',
-        data: {name: name},
-        dataType: 'json',
-        success : function(result) {
-            if(result.status) {
-                var data = JSON.stringify({
-                    name: name,
-                    flag: $('#flag').val(),
-                    address: $('#address').val(),
-                    inDate: inDate,
-                    outDate: outDate
-                });
-                addOne('company/add', data, 'company/tablePage', '公司');
-            }else {
-                swal('系统错误', '公司名已存在！', 'error');
-            }
-        },
-        error : function() {
-            swal('系统错误', '新增公司失败，请稍候重试！', 'error');
-        }
+    var data = JSON.stringify({
+        id: id,
+        name: name,
+        flag: $('#flag').val(),
+        address: $('#address').val(),
+        inDate: inDate,
+        outDate: outDate
     });
+    updateOne('company/update', data, 'company/tablePage', '公司');
 }
 
 function initDatepicker(dateId) {
@@ -56,6 +63,7 @@ function initDatepicker(dateId) {
 }
 
 $(document).ready(function () {
+    getCompanyById();
     initDatepicker('#inDate');
     initDatepicker('#outDate');
 });

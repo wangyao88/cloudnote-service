@@ -1,0 +1,7 @@
+<div class="row" th:replace="/companynote/form::companynote_form(update)"></div>
+
+<script th:inline="javascript">
+    var id = [[${id}]];
+</script>
+<script th:src="@{/js/companynote/content.js}" src="../../static/js/companynote/content.js"></script>
+<script th:src="@{/js/companynote/update.js}" src="../../static/js/companynote/update.js"></script>
