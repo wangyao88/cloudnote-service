@@ -7,7 +7,6 @@ import com.sxkl.project.cloudnote.base.entity.OperateResult;
 import com.sxkl.project.cloudnote.base.service.BaseService;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import com.sxkl.project.cloudnote.etl.utils.UUIDUtil;
-import com.sxkl.project.cloudnote.user.LoginInterceptor;
 import com.sxkl.project.cloudnote.utils.PaginationHelper;
 import com.sxkl.project.cloudnote.utils.RequestUtils;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +41,6 @@ public abstract class BaseController<T extends BaseEntity> {
         entity.setId(UUIDUtil.getUUID());
         entity.setUserId(userId);
         entity.setCreateDate(new Date());
-        System.out.println(entity);
         return getBaseService().add(entity);
     }
 
@@ -88,8 +86,9 @@ public abstract class BaseController<T extends BaseEntity> {
     }
 
     @GetMapping("/tablePage")
-    public String tablePage() {
-        return getViewName("table");
+    public ModelAndView tablePage() {
+        ModelAndView mv = new ModelAndView(getViewName("table"));
+        return mv;
     }
 
     @GetMapping("/findPage")
@@ -106,7 +105,7 @@ public abstract class BaseController<T extends BaseEntity> {
         return getBaseService().getClass().getSimpleName().substring(0, index).toLowerCase();
     }
 
-    private String getViewName(String name) {
+    protected String getViewName(String name) {
         return StringUtils.appendJoinEmpty(getEntityName(), "/", name);
     }
 }

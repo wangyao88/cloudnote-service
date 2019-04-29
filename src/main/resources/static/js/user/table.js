@@ -18,7 +18,7 @@ $(document).ready(function() {
                 return content;
             }}
     ];
-    table = loadTabel('user/findPage', columns, 'user/addPage', '新增用户');
+    table = loadTableWithSimpleSearcher('user/findPage', columns, 'user/addPage', '新增用户');
 });
 
 function updateName(id) {

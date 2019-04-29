@@ -94,7 +94,7 @@ function removeOne(id, url) {
     });
 }
 
-function loadTabel(tableUrl, columns, addUrl, addTitle) {
+function loadTable(tableUrl, columns, addUrl, addTitle, searcher) {
     var table = $('#datatable-buttons').DataTable({
         lengthChange: false,
         processing: true,
@@ -119,6 +119,12 @@ function loadTabel(tableUrl, columns, addUrl, addTitle) {
         }
     });
 
+    $("#datatable-buttons_filter").css("display","none");
+
+    if(searcher) {
+        $("#datatable-buttons_wrapper").prepend(searcher);
+        return table;
+    }
     var toolsHtml = '' +
         '<div class="row">'+
             '<div class="col-md-6">'+
@@ -141,9 +147,8 @@ function loadTabel(tableUrl, columns, addUrl, addTitle) {
             '</div>'+
         '</div>';
 
-    $("#datatable-buttons_filter").css("display","none");
     $("#datatable-buttons_wrapper").prepend(toolsHtml);
-
+    $("#datatable-buttons_filter").css("display","none");
     $(document).on( 'click','#go', function () {
         table.search($('#searchforme').val()).draw();
     });
@@ -161,6 +166,14 @@ function loadTabel(tableUrl, columns, addUrl, addTitle) {
         });
     });
     return table;
+}
+
+function loadTableWithSimpleSearcher(tableUrl, columns, addUrl, addTitle) {
+    loadTable(tableUrl, columns, addUrl, addTitle, null);
+}
+
+function loadTabelWithCustomerSearcher(tableUrl, columns, addUrl, addTitle, searcher) {
+    loadTable(tableUrl, columns, addUrl, addTitle, searcher)
 }
 
 function addOne(url, data, tableUrl, title) {

@@ -24,5 +24,5 @@ $(document).ready(function() {
                 return content;
             }}
     ];
-    table = loadTabel('company/findPage', columns, 'company/addPage', '新增公司');
+    table = loadTableWithSimpleSearcher('company/findPage', columns, 'company/addPage', '新增公司');
 });
