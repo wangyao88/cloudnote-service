@@ -1,9 +1,20 @@
 function addCompany() {
     var name = $('#name').val();
-    var inDate = $('#inDate').val();
-    var outDate = $('#outDate').val();
-    if(inDate && outDate) {
-        if(new Date(inDate) > new Date(outDate)) {
+    var inDateStr = $('#inDate').val();
+    var outDateStr = $('#outDate').val();
+    var inDate = null;
+    var outDate = null;
+    if(inDateStr) {
+        inDate = new Date(inDateStr).getTime();
+    }else {
+        swal('系统提示', '入职时间为必填项！', 'error');
+        return;
+    }
+    if(outDateStr) {
+        outDate = new Date(outDateStr).getTime();
+    }
+    if(inDateStr && outDateStr) {
+        if(inDate > outDate) {
             swal('系统提示', '入职时间大于离职时间！', 'error');
             return;
         }
@@ -22,7 +33,7 @@ function addCompany() {
                     inDate: inDate,
                     outDate: outDate
                 });
-                addOne('company/add', JSON.stringify(data), 'company/tablePage', '公司');
+                addOne('company/add', data, 'company/tablePage', '公司');
             }else {
                 swal('系统错误', '公司名已存在！', 'error');
             }

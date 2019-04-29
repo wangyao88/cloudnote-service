@@ -6,7 +6,12 @@ $(document).ready(function() {
         {data: "flag"},
         {data: "address"},
         {data: "inDate"},
-        {data: "outDate"},
+        {data: "outDate", render: function (data, type, row, meta) {
+                if(!data) {
+                    return "至今";
+                }
+                return data;
+            }},
         {data: null, render: function (data, type, row, meta) {
                 var content = '<div class="button-list">'+
                     '<button onclick="removeOne(\''+row.id+'\', \'company/removeOne\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> ' +

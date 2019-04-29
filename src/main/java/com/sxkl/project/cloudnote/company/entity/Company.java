@@ -13,5 +13,4 @@ public class Company extends BaseEntity {
     private String address;
     private Date inDate;
     private Date outDate;
-    private String userId;
 }

@@ -11,4 +11,5 @@ public class BaseEntity implements Serializable {
     protected String id;
     protected Date createDate;
     protected int index;
+    protected String userId;
 }

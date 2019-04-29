@@ -40,7 +40,7 @@ public class UserService extends BaseService<User> {
         if(users.isEmpty()) {
             return OperateResult.builder().msg("用户名密码错误").status(Boolean.FALSE).build();
         }
-        return OperateResult.builder().status(Boolean.TRUE).data(users).build();
+        return OperateResult.builder().status(Boolean.TRUE).data(users.get(0)).build();
     }
 
     public OperateResult updatePassword(User user) {

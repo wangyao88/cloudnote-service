@@ -3,7 +3,10 @@ package com.sxkl.project.cloudnote.utils;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
+import com.sxkl.project.cloudnote.etl.utils.ObjectUtils;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
+import com.sxkl.project.cloudnote.user.LoginInterceptor;
+import com.sxkl.project.cloudnote.user.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
@@ -63,5 +66,10 @@ public class RequestUtils {
             }
         }
        return entity;
+    }
+
+    public static String getUserId(HttpServletRequest request) {
+        Object attribute = request.getSession().getAttribute(LoginInterceptor.SESSION_KEY);
+        return ObjectUtils.isNull(attribute) ? StringUtils.EMPTY : ((User)attribute).getId();
     }
 }

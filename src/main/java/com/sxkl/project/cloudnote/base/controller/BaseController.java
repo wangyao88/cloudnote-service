@@ -7,6 +7,7 @@ import com.sxkl.project.cloudnote.base.entity.OperateResult;
 import com.sxkl.project.cloudnote.base.service.BaseService;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import com.sxkl.project.cloudnote.etl.utils.UUIDUtil;
+import com.sxkl.project.cloudnote.user.LoginInterceptor;
 import com.sxkl.project.cloudnote.utils.PaginationHelper;
 import com.sxkl.project.cloudnote.utils.RequestUtils;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public abstract class BaseController<T extends BaseEntity> {
@@ -27,8 +29,17 @@ public abstract class BaseController<T extends BaseEntity> {
 
     @PostMapping("/add")
     @ResponseBody
-    protected OperateResult add(@RequestBody T entity) throws Exception{
+    protected OperateResult add(@RequestBody T entity,
+                                HttpServletRequest request,
+                                HttpServletResponse response) throws Exception{
+        String userId = RequestUtils.getUserId(request);
+        if(StringUtils.isBlank(userId)) {
+            String url = "login";
+            response.sendRedirect(url);
+            return OperateResult.builder().status(Boolean.FALSE).msg("未登录").build();
+        }
         entity.setId(UUIDUtil.getUUID());
+        entity.setUserId(userId);
         return getBaseService().add(entity);
     }
 
