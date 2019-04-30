@@ -25,3 +25,12 @@ CREATE TABLE `cloudnote`.`cn_project` (
   `createDate` DATETIME NOT NULL,
   `userId` VARCHAR(36) NOT NULL,
   PRIMARY KEY (`id`));
+
+CREATE TABLE `cloudnote`.`cn_project_note` (
+  `id` VARCHAR(36) NOT NULL,
+  `title` VARCHAR(200) NOT NULL,
+  `content` TEXT(5000) NULL,
+  `projectId` VARCHAR(36) NULL,
+  `createDate` DATETIME NOT NULL,
+  `userId` VARCHAR(36) NOT NULL,
+  PRIMARY KEY (`id`));

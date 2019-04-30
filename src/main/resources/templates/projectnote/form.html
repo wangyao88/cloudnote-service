@@ -1,0 +1,45 @@
+<div class="row" th:fragment="projectnote_form(func)">
+    <div class="col-12">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-12">
+                    <div class="p-20">
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">标题</label>
+                            <div class="col-10">
+                                <input id="project_note_title" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">内容</label>
+                            <div class="col-10">
+                                <textarea id="project_note_content" name="area"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">所属项目</label>
+                            <div class="col-10">
+                                <select id="projectId" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4"></div>
+                            <div class="col-1">
+                                <button th:if=" ${func} eq 'add'" onclick="addProjectNote()" type="button" class="btn btn-success btn-rounded waves-light waves-effect w-md">提交</button>
+                                <button th:if=" ${func} eq 'update'" onclick="updateProjectNote()" type="button" class="btn btn-success btn-rounded waves-light waves-effect w-md">提交</button>
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-1">
+                                <button onclick="gotoPage('projectNote/tablePage', '项目资料列表')" type="button" class="btn btn-danger btn-rounded waves-light waves-effect w-md">取消</button>
+                            </div>
+                            <div class="col-5"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- end row -->
+
+        </div> <!-- end card-box -->
+    </div><!-- end col -->
+</div>

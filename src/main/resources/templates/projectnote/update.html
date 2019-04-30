@@ -1,0 +1,7 @@
+<div class="row" th:replace="/projectnote/form::projectnote_form(update)"></div>
+
+<script th:inline="javascript">
+    var id = [[${id}]];
+</script>
+<script th:src="@{/js/projectnote/content.js}" src="../../static/js/projectnote/content.js"></script>
+<script th:src="@{/js/projectnote/update.js}" src="../../static/js/projectnote/update.js"></script>
