@@ -1,5 +1,6 @@
 package com.sxkl.project.cloudnote.company.mapper;
 
+import com.sxkl.project.cloudnote.base.aop.ShowSql;
 import com.sxkl.project.cloudnote.base.mapper.BaseMapper;
 import com.sxkl.project.cloudnote.company.entity.CompanyNote;
 import com.sxkl.project.cloudnote.utils.MyBatisSQL;
@@ -54,10 +55,12 @@ public interface CompanyNoteMapper extends BaseMapper<CompanyNote> {
                     .SELECT("a.id, a.createDate, a.title, a.content, b.name as companyName, a.companyId, a.userId")
                     .FROM("cn_company_note a")
                     .LEFT_OUTER_JOIN("cn_company b on a.companyId=b.id")
-                    .whereIfNotNull(companyNote.getTitle(), "title like #{title}")
-                    .whereIfNotNull(companyNote.getContent(), "content like #{content}")
-                    .whereIfNotNull(companyNote.getCompanyId(), "companyId=#{companyId}")
-                    .whereIfNotNull(companyNote.getId(), "id=#{id}")
+                    .whereIfNotNull(companyNote.getTitle(), "a.title like #{title}")
+                    .whereIfNotNull(companyNote.getContent(), "a.content like #{content}")
+                    .whereIfNotNull(companyNote.getCompanyId(), "a.companyId=#{companyId}")
+                    .whereIfNotNull(companyNote.getStartDate(), "a.createDate>=#{startDate}")
+                    .whereIfNotNull(companyNote.getEndDate(), "a.createDate<=#{endDate}")
+                    .whereIfNotNull(companyNote.getId(), "a.id=#{id}")
                     .build();
         }
 

@@ -115,6 +115,7 @@ function loadTable(tableUrl, columns, addUrl, addTitle, searcher) {
                 }else {
                     params.name = '%%';
                 }
+                params.search = $('#search_text').val();
             }
         }
     });
@@ -122,7 +123,7 @@ function loadTable(tableUrl, columns, addUrl, addTitle, searcher) {
     $("#datatable-buttons_filter").css("display","none");
 
     if(searcher) {
-        $("#datatable-buttons_wrapper").prepend(searcher);
+        $("#datatable-buttons_wrapper").prepend('<input id="search_text" type="hidden">');
         return table;
     }
     var toolsHtml = '' +
@@ -169,11 +170,11 @@ function loadTable(tableUrl, columns, addUrl, addTitle, searcher) {
 }
 
 function loadTableWithSimpleSearcher(tableUrl, columns, addUrl, addTitle) {
-    loadTable(tableUrl, columns, addUrl, addTitle, null);
+    return loadTable(tableUrl, columns, addUrl, addTitle, null);
 }
 
-function loadTabelWithCustomerSearcher(tableUrl, columns, addUrl, addTitle, searcher) {
-    loadTable(tableUrl, columns, addUrl, addTitle, searcher)
+function loadTabelWithCustomerSearcher(tableUrl, columns, addUrl, addTitle) {
+    return loadTable(tableUrl, columns, addUrl, addTitle, true)
 }
 
 function addOne(url, data, tableUrl, title) {
@@ -216,6 +217,20 @@ function updateOne(url, data, tableUrl, title) {
             swal('系统提示', title+'更新失败，请稍候重试！', 'error');
         }
     });
+}
+
+function randomNum(minNum,maxNum){
+    switch(arguments.length){
+        case 1:
+            return parseInt(Math.random()*minNum+1,10);
+            break;
+        case 2:
+            return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10);
+            break;
+        default:
+            return 0;
+            break;
+    }
 }
 
 $(document).ready(function () {

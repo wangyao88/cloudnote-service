@@ -94,7 +94,9 @@ public abstract class BaseController<T extends BaseEntity> {
     @GetMapping("/findPage")
     @ResponseBody
     protected BasePageInfo<T> findPage(T entity, HttpServletRequest request) {
+        String userId = RequestUtils.getUserId(request);
         entity = RequestUtils.requestToBean(request, entity);
+        entity.setUserId(userId);
         Pageable pageable = PaginationHelper.buildPageInfo(request);
         PageInfo<T> pageInfo = getBaseService().findPage(pageable.getPageNumber(), pageable.getPageSize(), entity);
         return new BasePageInfo<>(pageInfo);

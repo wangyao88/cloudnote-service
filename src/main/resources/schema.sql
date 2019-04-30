@@ -17,3 +17,11 @@ CREATE TABLE `cloudnote`.`cn_company_note` (
   `createDate` DATETIME NOT NULL,
   `userId` VARCHAR(36) NOT NULL,
   PRIMARY KEY (`id`));
+
+CREATE TABLE `cloudnote`.`cn_project` (
+  `id` VARCHAR(36) NOT NULL,
+  `name` VARCHAR(100) NOT NULL,
+  `projectDescribe` TEXT(1000) NULL,
+  `createDate` DATETIME NOT NULL,
+  `userId` VARCHAR(36) NOT NULL,
+  PRIMARY KEY (`id`));
