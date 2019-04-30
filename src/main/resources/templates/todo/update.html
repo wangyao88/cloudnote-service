@@ -1,0 +1,7 @@
+<div class="row" th:replace="/todo/form::todo_form(update)"></div>
+
+<script th:inline="javascript">
+    var id = [[${id}]];
+</script>
+<script th:src="@{/js/todo/content.js}" src="../../static/js/todo/content.js"></script>
+<script th:src="@{/js/todo/update.js}" src="../../static/js/todo/update.js"></script>

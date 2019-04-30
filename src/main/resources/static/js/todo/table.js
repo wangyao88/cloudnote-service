@@ -52,14 +52,14 @@ function init() {
     );
 };
 
-function searchProjectNote() {
-    var title = $('#search_project_note_title').val();
-    var content = $('#search_project_note_content').val();
-    var projectId = $('#search_project_note_projectId').val();
+function searchTodo() {
+    var title = $('#search_todo_title').val();
+    var statusId = $('#search_todo_statusId').val();
+    var projectId = $('#search_todo_projectId').val();
     var dateRange = $('#daterange-btn span').text();
     var data = {
         title: '%' + title + '%',
-        content: '%' + content + '%',
+        status: statusId,
         projectId: projectId,
         dateRange: dateRange === '请选择日期范围' ? '' : dateRange
     };
@@ -69,18 +69,18 @@ function searchProjectNote() {
 }
 
 function clearSearch() {
-    $('#search_project_note_title').val('');
-    $('#search_project_note_content').val('');
-    $('#search_project_note_projectId').val('');
+    $('#search_todo_title').val('');
+    $('#search_todo_statusId').val('');
+    $('#search_todo_projectId').val('');
     $('#daterange-btn span').html('请选择日期范围');
 }
 
-function showDetail(title, content) {
+function showDetail(content) {
     layer.open({
         skin: 'layui-layer-lan',
         closeBtn: 0,
         area: ['600px', '400px'],
-        title: title,
+        title: '待办事项',
         content: content,
         anim: randomNum(0,6)
     });
@@ -89,24 +89,26 @@ function showDetail(title, content) {
 $(document).ready(function() {
     var columns = [
         {data: "index"},
-        {data: "createDate"},
-        {data: "title"},
-        {data: "content", render: function (data, type, row, meta) {
-                if(row.content.length > 20) {
-                    return row.content.substr(0, 20);
+        {data: "title", render: function (data, type, row, meta) {
+                if(row.title.length > 20) {
+                    return row.title.substr(0, 20);
                 }
-                return row.content;
+                return row.title;
             }},
+        {data: "createDate"},
+        {data: "expectedStartDate"},
+        {data: "expectedEndDate"},
         {data: "projectName"},
+        {data: "status"},
         {data: null, render: function (data, type, row, meta) {
                 var content = '<div class="button-list">'+
-                                '<button onclick="removeOne(\''+row.id+'\', \'projectNote/removeOne\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> ' +
+                                '<button onclick="removeOne(\''+row.id+'\', \'todo/removeOne\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> ' +
                                     '<i class="fa fa-remove"></i> ' +
                                 '</button>'+
-                                '<button onclick="gotoUpdatePage(\'projectNote/updatePage\',\'更新资料信息\',\''+row.id+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-warning"> ' +
+                                '<button onclick="gotoUpdatePage(\'todo/updatePage\',\'更新带吧事项\',\''+row.id+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-warning"> ' +
                                     '<i class="fa fa-wrench"></i>' +
                                 '</button>'+
-                                '<button onclick="showDetail(\''+row.title+'\',\''+row.content+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-info"> ' +
+                                '<button onclick="showDetail(\''+row.title+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-info"> ' +
                                     '<i class="fa fa-thumbs-o-up"></i>' +
                                 '</button>'+
                               '</div>';
@@ -114,6 +116,6 @@ $(document).ready(function() {
             }}
     ];
 
-    table = loadTabelWithCustomerSearcher('projectNote/findPage', columns, 'projectNote/addPage', '新增资料');
+    table = loadTabelWithCustomerSearcher('todo/findPage', columns, 'todo/addPage', '新增待办事项');
     init();
 });

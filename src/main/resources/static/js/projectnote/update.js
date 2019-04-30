@@ -30,6 +30,6 @@ function updateProjectNote() {
 
 $(document).ready(function () {
     tinyMCE.activeEditor.remove("#project_note_content");
-    initContentContainer();
+    initProjectNoteContentContainer();
     getProjectNoteById();
 });

@@ -1,9 +1,9 @@
-function initCompanyNoteContentContainer() {
+function initTodoTitleContainer() {
     $(tinyMCE.editors).each(function (index, editor) {
-        editor.remove("#company_note_content");
+        editor.remove("#todo_title");
     });
     tinymce.init({
-        selector: "textarea#company_note_content",
+        selector: "textarea#todo_title",
         theme: "modern",
         height:300,
         plugins: [
@@ -24,25 +24,44 @@ function initCompanyNoteContentContainer() {
     });
 }
 
-function initCompanySelector() {
+function initProjectSelector() {
     $.ajax({
-        url : 'company/findAll',
+        url : 'project/findAll',
         type : 'get',
         dataType: 'json',
         success : function(companies) {
-            var content = '<option value="" selected>请选择所属公司</option>';
-            $(companies).each(function (index, company) {
-                content += '<option value="'+company.id+'">'+company.name+'</option>';
+            var content = '<option value="" selected>请选择所属项目</option>';
+            $(companies).each(function (index, project) {
+                content += '<option value="'+project.id+'">'+project.name+'</option>';
             });
-            $("#companyId").html(content);
+            $("#projectId").html(content);
         },
         error : function() {
-            swal('系统错误', '获取公司信息失败，请稍候重试！', 'error');
+            swal('系统错误', '获取项目信息失败，请稍候重试！', 'error');
+        }
+    });
+}
+
+function initStatusSelector() {
+    $.ajax({
+        url : 'todo/findAllStatus',
+        type : 'get',
+        dataType: 'json',
+        success : function(statuses) {
+            var content = '<option value="" selected>请选择状态</option>';
+            $(statuses).each(function (index, status) {
+                content += '<option value="'+status.id+'">'+status.name+'</option>';
+            });
+            $("#todo_status").html(content);
+        },
+        error : function() {
+            swal('系统错误', '获取项目信息失败，请稍候重试！', 'error');
         }
     });
 }
 
 $(document).ready(function () {
-    initCompanyNoteContentContainer();
-    initCompanySelector();
+    initTodoTitleContainer();
+    initProjectSelector();
+    initStatusSelector();
 });

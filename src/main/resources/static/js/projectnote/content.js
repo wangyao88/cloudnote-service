@@ -1,4 +1,4 @@
-function initContentContainer() {
+function initProjectNoteContentContainer() {
     $(tinyMCE.editors).each(function (index, editor) {
         editor.remove("#project_note_content");
     });
@@ -43,6 +43,6 @@ function initProjectSelector() {
 }
 
 $(document).ready(function () {
-    initContentContainer();
+    initProjectNoteContentContainer();
     initProjectSelector();
 });
