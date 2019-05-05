@@ -34,6 +34,9 @@
         <!-- bootstrap daterangepicker -->
         <link th:href="@{/plugins/bootstrap-daterangepicker/daterangepicker.css}" href="../static/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
+        <!--calendar css-->
+        <link th:href="@{/plugins/fullcalendar/css/fullcalendar.min.css}" href="../static/plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet" />
+
         <script th:src="@{/js/modernizr.min.js}" src="../static/js/modernizr.min.js"></script>
     </head>
 
@@ -178,7 +181,7 @@
                             <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
                                aria-haspopup="false" aria-expanded="false">
                                 <img th:src="@{/images/users/avatar-1.jpg}" src="../static/images/users/avatar-1.jpg" alt="user" class="rounded-circle">
-                                <span class="ml-1">
+                                <span class="ml-1" th:text="${session.name}">
                                     管理员
                                     <i class="mdi mdi-chevron-down"></i>
                                 </span>
@@ -258,17 +261,17 @@
                             <li>
                                 <a href="javascript: void(0);"><i class="fi-clock"></i> <span> 考勤打卡 </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level nav" aria-expanded="false">
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('attendance/punchPage', '项目列表')">日常打卡</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('attendance/leavePage', '项目笔记')">请假管理</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('attendance/statisticPage', '项目生命周期')">出勤统计</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('attendance/punchPage', '日常打卡')">日常打卡</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('attendance/leavePage', '请假管理')">请假管理</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('attendance/statisticPage', '出勤统计')">出勤统计</a></li>
                                 </ul>
                             </li>
 
                             <li>
-                                <a href="javascript: void(0);"><i class="fa fa-handshake-o"></i> <span> 待办事项 </span> <span class="menu-arrow"></span></a>
+                                <a href="javascript: void(0);"><i class="fa fa-handshake-o"></i> <span> 待办事项 </span><span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level nav" aria-expanded="false">
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('todo/viewPage', '待办视图')">待办视图</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('todo/tablePage', '待办列表')">待办列表</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('todo/tablePage', '待办事项列表')">待办事项列表</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('todo/calendarPage', '待办事项日历')">待办事项日历</a></li>
                                 </ul>
                             </li>
 
@@ -308,6 +311,14 @@
                             </li>
 
                             <li>
+                                <a href="javascript: void(0);"><i class="fi-mail"></i> <span> 消息中心 </span> <span class="menu-arrow"></span></a>
+                                <ul class="nav-second-level" aria-expanded="false">
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('message/alertPage', '警告')">警告</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('message/noticePage', '通知')">通知</a></li>
+                                </ul>
+                            </li>
+
+                            <li>
                                 <a href="javascript: void(0);"><i class="fa fa-user-circle-o"></i> <span> 用户管理 </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level" aria-expanded="false">
                                     <li><a href="javascript: void(0);" onclick="gotoPage('user/tablePage', '用户列表')">用户列表</a></li>
@@ -315,15 +326,7 @@
                             </li>
 
                             <li>
-                                <a href="javascript: void(0);"><i class="fi-layout"></i> <span> 系统设置 </span> <span class="menu-arrow"></span></a>
-                                <ul class="nav-second-level" aria-expanded="false">
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/loadDataPage', '加载词库')">加载词库</a></li>
-                                    <li><a href="javascript: void(0);" onclick="gotoPage('lexicon/refreshDictPage', '刷新词库')">刷新词库</a></li>
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a href="javascript: void(0);" onclick="logout()"><i class="fi-mail"></i><span> 注销 </span></a>
+                                <a href="javascript: void(0);" onclick="logout()"><i class="fi-layout"></i><span> 注销 </span></a>
                             </li>
                         </ul>
 
@@ -388,6 +391,14 @@
         <script th:src="@{/js/jquery.slimscroll.js}" src="../static/js/jquery.slimscroll.js"></script>
         <script th:src="@{/plugins/encrypt/core-min.js}" src="../static/plugins/encrypt/core-min.js"></script>
         <script th:src="@{/plugins/encrypt/enc-base64-min.js}" src="../static/plugins/encrypt/enc-base64-min.js"></script>
+
+        <!-- Jquery-Ui -->
+        <script th:src="@{/plugins/jquery-ui/jquery-ui.min.js}" src="../static/plugins/jquery-ui/jquery-ui.min.js"></script>
+
+        <!-- SCRIPTS -->
+        <script th:src="@{/plugins/moment/moment.js}" src="../static/plugins/moment/moment.js"></script>
+        <script th:src="@{/plugins/fullcalendar/js/fullcalendar.min.js}" src='../static/plugins/fullcalendar/js/fullcalendar.min.js'></script>
+        <script th:src="@{/pages/jquery.calendar.js}" src="../static/pages/jquery.calendar.js"></script>
 
         <!-- App js -->
         <script th:src="@{/js/jquery.core.js}" src="../static/js/jquery.core.js"></script>

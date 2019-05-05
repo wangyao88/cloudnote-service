@@ -32,7 +32,7 @@ public class TodoController extends BaseController<Todo> {
     @Override
     public ModelAndView tablePage() {
         ModelAndView mv = new ModelAndView(getViewName("table"));
-        mv.addObject("statuses", todoService.findAllStatus());
+        mv.addObject("statusMap", todoService.findAllStatusMap());
         mv.addObject("projects", projectService.findAll());
         return mv;
     }
@@ -40,6 +40,6 @@ public class TodoController extends BaseController<Todo> {
     @GetMapping("findAllStatus")
     @ResponseBody
     public List<Status> findAllStatus() {
-        return todoService.findAllStatus();
+        return todoService.findAllStatusList();
     }
 }

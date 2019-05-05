@@ -99,7 +99,9 @@ $(document).ready(function() {
         {data: "expectedStartDate"},
         {data: "expectedEndDate"},
         {data: "projectName"},
-        {data: "status"},
+        {data: null, render: function (data, type, row, meta) {
+                return statusMap[row.status];
+            }},
         {data: null, render: function (data, type, row, meta) {
                 var content = '<div class="button-list">'+
                                 '<button onclick="removeOne(\''+row.id+'\', \'todo/removeOne\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> ' +

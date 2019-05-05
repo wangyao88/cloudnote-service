@@ -7,7 +7,11 @@ CREATE TABLE `cloudnote`.`cn_company` (
   `outDate` DATETIME NULL,
   `createDate` DATETIME NULL,
   `userId` VARCHAR(36) NOT NULL,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin
+COMMENT = '公司表';
 
 CREATE TABLE `cloudnote`.`cn_company_note` (
   `id` VARCHAR(36) NOT NULL,
@@ -16,7 +20,11 @@ CREATE TABLE `cloudnote`.`cn_company_note` (
   `companyId` VARCHAR(36) NULL,
   `createDate` DATETIME NOT NULL,
   `userId` VARCHAR(36) NOT NULL,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin
+COMMENT = '办公资料表';
 
 CREATE TABLE `cloudnote`.`cn_project` (
   `id` VARCHAR(36) NOT NULL,
@@ -24,7 +32,11 @@ CREATE TABLE `cloudnote`.`cn_project` (
   `projectDescribe` TEXT(1000) NULL,
   `createDate` DATETIME NOT NULL,
   `userId` VARCHAR(36) NOT NULL,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin
+COMMENT = '项目表';
 
 CREATE TABLE `cloudnote`.`cn_project_note` (
   `id` VARCHAR(36) NOT NULL,
@@ -33,7 +45,11 @@ CREATE TABLE `cloudnote`.`cn_project_note` (
   `projectId` VARCHAR(36) NULL,
   `createDate` DATETIME NOT NULL,
   `userId` VARCHAR(36) NOT NULL,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin
+COMMENT = '项目资料表';
 
 CREATE TABLE `cloudnote`.`cn_todo` (
   `id` VARCHAR(36) NOT NULL,
@@ -44,4 +60,8 @@ CREATE TABLE `cloudnote`.`cn_todo` (
   `expectedEndDate` DATETIME NOT NULL,
   `createDate` DATETIME NOT NULL,
   `userId` VARCHAR(36) NOT NULL,
-  PRIMARY KEY (`id`));
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin
+COMMENT = '待办事项表';

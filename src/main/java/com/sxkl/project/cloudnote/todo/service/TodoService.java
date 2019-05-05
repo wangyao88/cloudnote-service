@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class TodoService extends BaseService<Todo> {
@@ -34,7 +36,12 @@ public class TodoService extends BaseService<Todo> {
         return todoMapper;
     }
 
-    public List<Status> findAllStatus() {
+    public List<Status> findAllStatusList() {
         return Collections.unmodifiableList(statuses);
+    }
+
+    public Map<String, String> findAllStatusMap() {
+        Map<String, String> statusMap = statuses.stream().collect(Collectors.toMap(Status::getId, Status::getName));
+        return Collections.unmodifiableMap(statusMap);
     }
 }
