@@ -7,18 +7,16 @@ import com.sxkl.project.cloudnote.todo.entity.Event;
 import com.sxkl.project.cloudnote.todo.entity.Status;
 import com.sxkl.project.cloudnote.todo.entity.Todo;
 import com.sxkl.project.cloudnote.todo.mapper.TodoMapper;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
-import java.time.temporal.TemporalUnit;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -61,38 +59,46 @@ public class TodoService extends BaseService<Todo> {
                                          .withMinute(0)
                                          .withSecond(0)
                                          .withNano(0);
-
         Todo condition = new Todo();
         condition.setUserId(userId);
         condition.setStartDate(start);
         condition.setEndDate(start.plusMonths(1));
-
         List<Todo> todos = todoMapper.findByCondition(condition);
-
-        Event event1 = new Event();
-        event1.setStart(LocalDateTime.of(2019, 5, 6, 12, 23));
-        event1.setAllDay(true);
-        event1.setTitle("qweqwe");
-
-        Event event2 = new Event();
-        event2.setStart(LocalDateTime.of(2019, 5, 8, 2, 23));
-        event2.setEnd(LocalDateTime.of(2019, 5, 12, 4, 23));
-        event2.setAllDay(true);
-        event2.setTitle("dddddddd");
-        return Lists.newArrayList(event1, event2);
+        return convert(todos);
     }
 
-    public static void main(String[] args) {
-        ZoneId zone = ZoneId.systemDefault();
-        LocalDateTime start = LocalDateTime.now(zone)
-                .with(TemporalAdjusters.firstDayOfMonth())
-                .withHour(0)
-                .withMinute(0)
-                .withSecond(0)
-                .withNano(0);
+    private List<Event> convert(List<Todo> todos) {
+        return todos.stream().map(this::doConvert).collect(Collectors.toList());
+    }
 
-        Instant startInstant = start.atZone(zone).toInstant();
-        Instant endInstant = start.plusMonths(1).atZone(zone).toInstant();
-        System.out.println();
+    private Event doConvert(Todo todo) {
+        Event event = new Event();
+        event.setId(todo.getId());
+        event.setTitle(getTextFromHtml(todo.getTitle()));
+        event.setStart(todo.getExpectedStartDate());
+        event.setEnd(todo.getExpectedEndDate());
+        event.setAllDay(todo.getExpectedEndDate().minusDays(1).isAfter(todo.getExpectedStartDate()));
+        event.setTextColor("white");
+        event.setBackgroundColor(getBackgroundColorByStatus(todo.getStatus()));
+        return event;
+    }
+
+    private String getTextFromHtml(String title) {
+        return Jsoup.parse(title).text();
+    }
+
+    private String getBackgroundColorByStatus(String status) {
+        switch (status) {
+            case "0":
+                return "green";
+            case "1":
+                return "blue";
+            case "2":
+                return "purple";
+            case "3":
+                return "red";
+            default:
+                return "green";
+        }
     }
 }
