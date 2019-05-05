@@ -61,6 +61,7 @@ public interface TodoMapper extends BaseMapper<Todo> {
                     .whereIfNotNull(todo.getProjectId(), "a.projectId=#{projectId}")
                     .whereIfNotNull(todo.getStartDate(), "a.expectedEndDate>=#{startDate}")
                     .whereIfNotNull(todo.getEndDate(), "a.expectedEndDate<=#{endDate}")
+                    .whereIfNotNull(todo.getUserId(), "a.userId=#{userId}")
                     .whereIfNotNull(todo.getId(), "a.id=#{id}")
                     .build();
         }

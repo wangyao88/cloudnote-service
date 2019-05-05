@@ -57,6 +57,7 @@ public interface ProjectMapper extends BaseMapper<Project> {
                     .FROM("cn_project")
                     .whereIfNotNull(project.getName(), "name like #{name}")
                     .whereIfNotNull(project.getProjectDescribe(), "projectDescribe like #{projectDescribe}")
+                    .whereIfNotNull(project.getUserId(), "userId=#{userId}")
                     .whereIfNotNull(project.getId(), "id=#{id}")
                     .build();
         }

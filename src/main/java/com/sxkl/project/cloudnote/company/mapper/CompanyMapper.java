@@ -59,6 +59,7 @@ public interface CompanyMapper extends BaseMapper<Company> {
                     .SELECT("id, name, flag, address, inDate, outDate, createDate, userId")
                     .FROM("cn_company")
                     .whereIfNotNull(company.getName(), "name like #{name}")
+                    .whereIfNotNull(company.getUserId(), "userId=#{userId}")
                     .whereIfNotNull(company.getId(), "id=#{id}")
                     .build();
         }

@@ -59,6 +59,7 @@ public interface ProjectNoteMapper extends BaseMapper<ProjectNote> {
                     .whereIfNotNull(projectNote.getProjectId(), "a.projectId=#{projectId}")
                     .whereIfNotNull(projectNote.getStartDate(), "a.createDate>=#{startDate}")
                     .whereIfNotNull(projectNote.getEndDate(), "a.createDate<=#{endDate}")
+                    .whereIfNotNull(projectNote.getUserId(), "a.userId=#{userId}")
                     .whereIfNotNull(projectNote.getId(), "a.id=#{id}")
                     .build();
         }

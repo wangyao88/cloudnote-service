@@ -6,6 +6,7 @@ import com.sxkl.project.cloudnote.project.service.ProjectService;
 import com.sxkl.project.cloudnote.todo.entity.Status;
 import com.sxkl.project.cloudnote.todo.entity.Todo;
 import com.sxkl.project.cloudnote.todo.service.TodoService;
+import com.sxkl.project.cloudnote.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -41,5 +43,13 @@ public class TodoController extends BaseController<Todo> {
     @ResponseBody
     public List<Status> findAllStatus() {
         return todoService.findAllStatusList();
+    }
+
+    @GetMapping("calendarPage")
+    public ModelAndView calendarPage(HttpServletRequest request) {
+        String userId = RequestUtils.getUserId(request);
+        ModelAndView mv = new ModelAndView(getViewName("calendar"));
+        mv.addObject("events", todoService.findAllEvent(userId));
+        return mv;
     }
 }

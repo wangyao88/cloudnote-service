@@ -60,6 +60,7 @@ public interface CompanyNoteMapper extends BaseMapper<CompanyNote> {
                     .whereIfNotNull(companyNote.getCompanyId(), "a.companyId=#{companyId}")
                     .whereIfNotNull(companyNote.getStartDate(), "a.createDate>=#{startDate}")
                     .whereIfNotNull(companyNote.getEndDate(), "a.createDate<=#{endDate}")
+                    .whereIfNotNull(companyNote.getUserId(), "a.userId=#{userId}")
                     .whereIfNotNull(companyNote.getId(), "a.id=#{id}")
                     .build();
         }

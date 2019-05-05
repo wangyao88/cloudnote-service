@@ -100,13 +100,13 @@ $(document).ready(function() {
         {data: "projectName"},
         {data: null, render: function (data, type, row, meta) {
                 var content = '<div class="button-list">'+
-                                '<button onclick="removeOne(\''+row.id+'\', \'projectNote/removeOne\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> ' +
+                                '<button onclick="removeOne(\''+row.id+'\', \'projectNote/removeOne\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger">' +
                                     '<i class="fa fa-remove"></i> ' +
                                 '</button>'+
-                                '<button onclick="gotoUpdatePage(\'projectNote/updatePage\',\'更新资料信息\',\''+row.id+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-warning"> ' +
+                                '<button onclick="gotoUpdatePage(\'projectNote/updatePage\',\'更新资料信息\',\''+row.id+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-warning">' +
                                     '<i class="fa fa-wrench"></i>' +
                                 '</button>'+
-                                '<button onclick="showDetail(\''+row.title+'\',\''+row.content+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-info"> ' +
+                                '<button onclick="showDetail(\''+row.title+'\',\''+row.content+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-info">' +
                                     '<i class="fa fa-thumbs-o-up"></i>' +
                                 '</button>'+
                               '</div>';

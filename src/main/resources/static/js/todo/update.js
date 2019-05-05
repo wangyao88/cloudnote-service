@@ -8,8 +8,8 @@ function getTodoById() {
             tinyMCE.activeEditor.setContent(todo.title);
             $('#todo_status').val(todo.status);
             $('#projectId').val(todo.projectId);
-            $("#expectedStartDate").datetimepicker("setDate", new Date(todo.expectedStartDate));
-            $("#expectedEndDate").datetimepicker("setDate", new Date(todo.expectedEndDate));
+            $("#expectedStartDate").datetimepicker("setDate", new Date(convertDate(todo.expectedStartDate)));
+            $("#expectedEndDate").datetimepicker("setDate", new Date(convertDate(todo.expectedEndDate)));
         },
         error : function() {
             swal('系统错误', '获取待办事项失败，请稍候重试！', 'error');
@@ -26,13 +26,13 @@ function updateTodo() {
     var expectedStartDate = null;
     var expectedEndDate = null;
     if(expectedStartDateStr) {
-        expectedStartDate = new Date(expectedStartDateStr).getTime();
+        expectedStartDate = new Date(expectedStartDateStr);
     }else {
         swal('系统提示', '预计开始日期为必填项！', 'error');
         return;
     }
     if(expectedEndDateStr) {
-        expectedEndDate = new Date(expectedEndDateStr).getTime();
+        expectedEndDate = new Date(expectedEndDateStr);
     }else {
         swal('系统提示', '预计完成日期为必填项！', 'error');
         return;

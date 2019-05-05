@@ -8,9 +8,10 @@ function getCompanyById() {
             $('#name').val(company.name);
             $('#flag').val(company.flag);
             $('#address').val(company.address);
-            $("#inDate").datetimepicker("setDate", new Date(company.inDate));
+            console.log(company.inDate);
+            $("#inDate").datetimepicker("setDate", new Date(convertDate(company.inDate)));
             if(company.outDate) {
-                $("#outDate").datetimepicker("setDate", new Date(company.outDate));
+                $("#outDate").datetimepicker("setDate", new Date(convertDate(company.outDate)));
             }
         },
         error : function() {
@@ -26,13 +27,13 @@ function updateCompany() {
     var inDate = null;
     var outDate = null;
     if(inDateStr) {
-        inDate = new Date(inDateStr).getTime();
+        inDate = new Date(inDateStr);
     }else {
         swal('系统提示', '入职时间为必填项！', 'error');
         return;
     }
     if(outDateStr) {
-        outDate = new Date(outDateStr).getTime();
+        outDate = new Date(outDateStr);
     }
     if(inDateStr && outDateStr) {
         if(inDate > outDate) {

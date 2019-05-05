@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +42,8 @@ public abstract class BaseController<T extends BaseEntity> {
         }
         entity.setId(UUIDUtil.getUUID());
         entity.setUserId(userId);
-        entity.setCreateDate(new Date());
+        ZoneId zone = ZoneId.systemDefault();
+        entity.setCreateDate(LocalDateTime.now(zone));
         return getBaseService().add(entity);
     }
 

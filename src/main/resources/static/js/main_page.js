@@ -233,6 +233,10 @@ function randomNum(minNum,maxNum){
     }
 }
 
+function convertDate(dateArr) {
+    return new Date(dateArr[0], dateArr[1]-1, dateArr[2], dateArr[3], dateArr[4]);
+}
+
 $(document).ready(function () {
     getPublicKey();
 });
