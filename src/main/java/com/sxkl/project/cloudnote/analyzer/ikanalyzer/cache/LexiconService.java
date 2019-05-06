@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sxkl.project.cloudnote.analyzer.ikanalyzer.dic.Dictionary;
 import com.sxkl.project.cloudnote.analyzer.ikanalyzer.lucene.IKAnalyzer;
+import com.sxkl.project.cloudnote.base.entity.OperateResult;
 import com.sxkl.project.cloudnote.etl.utils.ObjectUtils;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import com.sxkl.project.cloudnote.etl.utils.UUIDUtil;
@@ -56,29 +57,39 @@ public class LexiconService {
     //以下方法供页面调用
 
 //    @Transactional(transactionManager = "mainTransactionManager", rollbackFor = Exception.class)
-    public void loadData(){
-        mapper.deleteAll();
-        insertToDB(PATH_DIC_MAIN, LexiconConstant.MAIN_LEXICONS_KEY, INITIALARRAYSIZE_DIC_MAIN);
-        insertToDB(PATH_DIC_QUANTIFIER, LexiconConstant.QUANTIFIER_LEXICONS_KEY, INITIALARRAYSIZE_DIC_QUANTIFIER);
+    public OperateResult loadData(){
+        try {
+            mapper.deleteAll();
+            insertToDB(PATH_DIC_MAIN, LexiconConstant.MAIN_LEXICONS_KEY, INITIALARRAYSIZE_DIC_MAIN);
+            insertToDB(PATH_DIC_QUANTIFIER, LexiconConstant.QUANTIFIER_LEXICONS_KEY, INITIALARRAYSIZE_DIC_QUANTIFIER);
+        }catch (Exception e) {
+            return OperateResult.buildFail(e);
+        }
+        return OperateResult.buildSuccess();
     }
 
-    private void insertToDB(String fileName, String key, int initialArraySize){
-        try {
-            List<Lexicon> lexicons = getLexiconsFromFS(fileName, initialArraySize, key);
-            int size = lexicons.size();
-            if(size <= BATCH_SIZE) {
-                mapper.batchAddLexicon(lexicons);
-            }else {
-                List<List<Lexicon>> partitions = Lists.partition(lexicons, BATCH_SIZE);
-                partitions.forEach(partition->CompletableFuture.runAsync(()->mapper.batchAddLexicon(partition)));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    private void insertToDB(String fileName, String key, int initialArraySize) throws Exception {
+        List<Lexicon> lexicons = getLexiconsFromFS(fileName, initialArraySize, key);
+        int size = lexicons.size();
+        if(size <= BATCH_SIZE) {
+            mapper.batchAddLexicon(lexicons);
+        }else {
+            List<List<Lexicon>> partitions = Lists.partition(lexicons, BATCH_SIZE);
+            partitions.forEach(partition->CompletableFuture.runAsync(()->mapper.batchAddLexicon(partition)));
         }
     }
 
-    public void refreshDict() {
-        Dictionary.getImmediateSingleton().refreshDict();
+    public OperateResult refreshDict() {
+        try {
+            Dictionary dictionary = Dictionary.getImmediateSingleton();
+            if(ObjectUtils.isNull(dictionary)) {
+                dictionary = Dictionary.initial(null);
+            }
+            dictionary.refreshDict();
+        }catch (Exception e) {
+            return OperateResult.buildFail(e);
+        }
+        return OperateResult.buildSuccess();
     }
 
     public List<String> analysis(String words) {

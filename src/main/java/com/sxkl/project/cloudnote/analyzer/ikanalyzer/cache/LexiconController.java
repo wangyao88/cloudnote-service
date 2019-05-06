@@ -1,6 +1,7 @@
 package com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache;
 
 import com.github.pagehelper.PageInfo;
+import com.sxkl.project.cloudnote.base.entity.OperateResult;
 import com.sxkl.project.cloudnote.etl.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,14 +57,14 @@ public class LexiconController {
 
     @PostMapping("loadData")
     @ResponseBody
-    public void loadData() {
-        lexiconService.loadData();
+    public OperateResult loadData() {
+        return lexiconService.loadData();
     }
 
     @PostMapping("refreshDict")
     @ResponseBody
-    public void refreshDict() {
-        lexiconService.refreshDict();
+    public OperateResult refreshDict() {
+        return lexiconService.refreshDict();
     }
 
     @GetMapping("/analysis")

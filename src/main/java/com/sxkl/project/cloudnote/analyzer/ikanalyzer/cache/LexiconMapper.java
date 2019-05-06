@@ -21,7 +21,7 @@ public interface LexiconMapper {
     @Delete("DELETE FROM cn_lexicon WHERE NAME=#{lexicon}")
     void deleteLexicon(@Param("lexicon") String lexicon);
 
-    @Delete("DELETE FROM cn_lexicon")
+    @Delete("DELETE FROM cn_lexicon WHERE DISCRIMINATOR in ('main_lexicons', 'quantifier_lexicons')")
     void deleteAll();
 
     @InsertProvider(type = LexiconMapperProvider.class, method = "batchAddLexicon")

@@ -86,7 +86,7 @@ function removeOne(id, url) {
         });
     }, function (dismiss) {
         if (dismiss === 'cancel') {
-            swal('已取消', '未删除 :)','error'
+            swal('已取消', '未删除 :)','success'
             );
         }
     });
