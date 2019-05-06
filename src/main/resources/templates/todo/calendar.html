@@ -72,18 +72,18 @@
                     }
                 });
             },
-            select: function(arg) {
-                var title = prompt('Event Title:');
-                if (title) {
-                    calendar.addEvent({
-                        title: title,
-                        start: arg.start,
-                        end: arg.end,
-                        allDay: arg.allDay
-                    })
-                }
-                calendar.unselect()
-            },
+            // select: function(arg) {
+            //     var title = prompt('Event Title:');
+            //     if (title) {
+            //         calendar.addEvent({
+            //             title: title,
+            //             start: arg.start,
+            //             end: arg.end,
+            //             allDay: arg.allDay
+            //         })
+            //     }
+            //     calendar.unselect()
+            // },
             eventClick: function(arg) {
                 swal({
                     title: '你确定要删除吗?',
