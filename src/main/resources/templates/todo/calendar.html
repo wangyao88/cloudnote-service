@@ -11,16 +11,12 @@
 <script th:src="@{/plugins/fullcalendar/list/main.js}" src='../../static/plugins/fullcalendar/list/main.js'></script>
 <script th:inline="javascript">
     $(document).ready(function() {
-        var events = [[${events}]];
-        console.log(events);
-
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             plugins: [ 'bootstrap', 'interaction', 'dayGrid', 'timeGrid', 'list' ],
             themeSystem: 'Bootstrap 4',
             header: {
-                left: 'prev,next today',
                 left: 'prevYear,prev,next,nextYear today',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
@@ -56,6 +52,26 @@
             navLinks: true, // can click day/week names to navigate views
             selectable: true,
             selectMirror: true,
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: function(info, successCallback, failureCallback) {
+                var data = JSON.stringify({
+                    startDateTime: new Date(info.start),
+                    endDateTime: new Date(info.end)
+                });
+                $.ajax({
+                    url : 'todo/findCalendarEvents',
+                    type : 'post',
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    success : function(events) {
+                        successCallback(events);
+                    },
+                    error: function (data) {
+                        failureCallback(data);
+                    }
+                });
+            },
             select: function(arg) {
                 var title = prompt('Event Title:');
                 if (title) {
@@ -69,22 +85,74 @@
                 calendar.unselect()
             },
             eventClick: function(arg) {
-                if (confirm('delete event?')) {
-                    arg.event.remove()
-                }
+                swal({
+                    title: '你确定要删除吗?',
+                    text: "此操作不能恢复!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: '删除',
+                    cancelButtonText: '取消',
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger m-l-10',
+                    buttonsStyling: false
+                }).then(function () {
+                    $.ajax({
+                        url: 'todo/removeOne',
+                        type: "post",
+                        data: {id: arg.event.id},
+                        dataType: 'json',
+                        success: function(result) {
+                            if(result.status) {
+                                swal('成功!', result.msg, 'success');
+                                arg.event.remove();
+                            }
+                        },
+                        error: function(result) {
+                            swal('系统错误', result.e.message, 'error');
+                        }
+                    });
+                }, function (dismiss) {
+                    if (dismiss === 'cancel') {
+                        swal('已取消', '未删除 :)','error'
+                        );
+                    }
+                });
             },
             eventDrop: function(arg) {
-                console.log(arg);
-                console.log(arg.event.start);
-                console.log(arg.event.end);
-                console.log(arg.delta);
-                if (!confirm("Are you sure about this change?")) {
-                    arg.revert();
-                }
+                var data = JSON.stringify({
+                    id: arg.event.id,
+                    expectedStartDate: new Date(arg.event.start),
+                    expectedEndDate: new Date(arg.event.end)
+                });
+                $.ajax({
+                    url : 'todo/update',
+                    type : 'post',
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    error: function (result) {
+                        console.log(result);
+                        swal('系统提示', '事件更新失败！', 'error')
+                    }
+                });
             },
-            editable: true,
-            eventLimit: true, // allow "more" link when too many events
-            events: events
+            eventResize: function(arg) {
+                var data = JSON.stringify({
+                    id: arg.event.id,
+                    expectedEndDate: new Date(arg.event.end)
+                });
+                $.ajax({
+                    url : 'todo/update',
+                    type : 'post',
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    error: function (result) {
+                        console.log(result);
+                        swal('系统提示', '事件更新失败！', 'error')
+                    }
+                });
+            }
         });
         calendar.render();
     });

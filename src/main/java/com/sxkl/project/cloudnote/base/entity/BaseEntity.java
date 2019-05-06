@@ -20,14 +20,14 @@ public class BaseEntity implements Serializable {
 
     public LocalDateTime getStartDate() {
         if(StringUtils.isBlank(getDateRange())) {
-            return null;
+            return this.startDate;
         }
         return parse(0, " 00:00:00");
     }
 
     public LocalDateTime getEndDate() {
         if(StringUtils.isBlank(getDateRange())) {
-            return null;
+            return this.endDate;
         }
         return parse(1, " 23:59:59");
     }

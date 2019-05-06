@@ -52,7 +52,7 @@ public interface TodoMapper extends BaseMapper<Todo> {
     class TodoMapperProvider {
 
         public String findByCondition(Todo todo) {
-            return MyBatisSQL.builder()
+            return  MyBatisSQL.builder()
                     .SELECT("a.id, a.createDate, a.title, a.status, b.name as projectName, a.projectId, a.expectedStartDate, a.expectedEndDate, a.userId")
                     .FROM("cn_todo a")
                     .LEFT_OUTER_JOIN("cn_project b on a.projectId=b.id")

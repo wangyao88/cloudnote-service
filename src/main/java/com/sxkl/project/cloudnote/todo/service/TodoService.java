@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +28,7 @@ public class TodoService extends BaseService<Todo> {
     @Autowired
     private TodoMapper todoMapper;
 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static List<Status> statuses = Lists.newArrayList();
 
     @PostConstruct
@@ -51,18 +53,11 @@ public class TodoService extends BaseService<Todo> {
         return Collections.unmodifiableMap(statusMap);
     }
 
-    public List<Event> findAllEvent(String userId) {
-        ZoneId zone = ZoneId.systemDefault();
-        LocalDateTime start = LocalDateTime.now()
-                                         .with(TemporalAdjusters.firstDayOfMonth())
-                                         .withHour(0)
-                                         .withMinute(0)
-                                         .withSecond(0)
-                                         .withNano(0);
+    public List<Event> findAllEvent(String userId, Event event) {
         Todo condition = new Todo();
         condition.setUserId(userId);
-        condition.setStartDate(start);
-        condition.setEndDate(start.plusMonths(1));
+        condition.setStartDate(event.getStartDateTime());
+        condition.setEndDate(event.getEndDateTime());
         List<Todo> todos = todoMapper.findByCondition(condition);
         return convert(todos);
     }
@@ -75,8 +70,8 @@ public class TodoService extends BaseService<Todo> {
         Event event = new Event();
         event.setId(todo.getId());
         event.setTitle(getTextFromHtml(todo.getTitle()));
-        event.setStart(todo.getExpectedStartDate());
-        event.setEnd(todo.getExpectedEndDate());
+        event.setStart(todo.getExpectedStartDate().format(FORMATTER));
+        event.setEnd(todo.getExpectedEndDate().format(FORMATTER));
         event.setAllDay(todo.getExpectedEndDate().minusDays(1).isAfter(todo.getExpectedStartDate()));
         event.setTextColor("white");
         event.setBackgroundColor(getBackgroundColorByStatus(todo.getStatus()));

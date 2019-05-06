@@ -77,9 +77,7 @@ function removeOne(id, url) {
             success: function(result) {
                 if(result.status) {
                     swal('成功!', result.msg, 'success');
-                    table.ajax.reload(function() {
-
-                    }, false);
+                    table.ajax.reload(false);
                 }
             },
             error: function(result) {

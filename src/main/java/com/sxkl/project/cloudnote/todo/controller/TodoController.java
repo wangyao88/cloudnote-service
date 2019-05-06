@@ -3,15 +3,14 @@ package com.sxkl.project.cloudnote.todo.controller;
 import com.sxkl.project.cloudnote.base.controller.BaseController;
 import com.sxkl.project.cloudnote.base.service.BaseService;
 import com.sxkl.project.cloudnote.project.service.ProjectService;
+import com.sxkl.project.cloudnote.todo.entity.Event;
 import com.sxkl.project.cloudnote.todo.entity.Status;
 import com.sxkl.project.cloudnote.todo.entity.Todo;
 import com.sxkl.project.cloudnote.todo.service.TodoService;
 import com.sxkl.project.cloudnote.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,9 +46,13 @@ public class TodoController extends BaseController<Todo> {
 
     @GetMapping("calendarPage")
     public ModelAndView calendarPage(HttpServletRequest request) {
+        return new ModelAndView(getViewName("calendar"));
+    }
+
+    @PostMapping("findCalendarEvents")
+    @ResponseBody
+    public List<Event> findCalendarEvents(@RequestBody Event event, HttpServletRequest request) {
         String userId = RequestUtils.getUserId(request);
-        ModelAndView mv = new ModelAndView(getViewName("calendar"));
-        mv.addObject("events", todoService.findAllEvent(userId));
-        return mv;
+        return todoService.findAllEvent(userId, event);
     }
 }
