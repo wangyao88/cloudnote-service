@@ -1,0 +1,6 @@
+<div class="row" th:replace="/attendance/form::attendance_form(update)"></div>
+
+<script th:inline="javascript">
+    var id = [[${id}]];
+</script>
+<script th:src="@{/js/attendance/update.js}" src="../../static/js/attendance/update.js"></script>

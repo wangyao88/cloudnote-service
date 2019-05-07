@@ -1,0 +1,45 @@
+<div class="row" th:fragment="attendance_form(func)">
+    <div class="col-12">
+        <div class="card-box">
+            <div class="row">
+                <div class="col-12">
+                    <div class="p-20">
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">打卡类型</label>
+                            <div class="col-10">
+                                <select id="attendance_type" class="form-control">
+                                    <option value="" selected>请选择打卡类型</option>
+                                    <option value="上午上班">上午上班</option>
+                                    <option value="上午下班">上午下班</option>
+                                    <option value="下午上班">下午上班</option>
+                                    <option value="下午下班">下午下班</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-2 col-form-label">打卡时间</label>
+                            <div class="col-10">
+                                <input id="attendance_date" type="text" class="datepicker form-control" placeholder="请选择开始时间">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-4"></div>
+                            <div class="col-1">
+                                <button th:if=" ${func} eq 'add'" onclick="addAttendance()" type="button" class="btn btn-success btn-rounded waves-light waves-effect w-md">提交</button>
+                                <button th:if=" ${func} eq 'update'" onclick="updateAttendance()" type="button" class="btn btn-success btn-rounded waves-light waves-effect w-md">提交</button>
+                            </div>
+                            <div class="col-1"></div>
+                            <div class="col-1">
+                                <button onclick="gotoPage('attendance/tablePage', '打卡列表')" type="button" class="btn btn-danger btn-rounded waves-light waves-effect w-md">取消</button>
+                            </div>
+                            <div class="col-5"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- end row -->
+
+        </div> <!-- end card-box -->
+    </div><!-- end col -->
+</div>

@@ -12,4 +12,6 @@ public class Attendance extends BaseEntity {
     private LocalDateTime amEnd;
     private LocalDateTime pmStart;
     private LocalDateTime pmEnd;
+    private String attendanceType;
+    private LocalDateTime attendanceDate;
 }

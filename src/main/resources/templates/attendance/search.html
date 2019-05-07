@@ -1,0 +1,30 @@
+<div class="row" th:fragment="attendance_search()">
+    <div class="col-md-12">
+        <div class="card-box">
+            <div class="button-list">
+                <button onclick="gotoPage('attendance/addPage','新增打卡')" type="button" class="btn btn-gradient waves-light waves-effect w-md">
+                    新增
+                </button>
+                <button onclick="searchAttendance()" type="button" class="btn btn-pink waves-light waves-effect w-md">
+                    搜索
+                </button>
+                <button onclick="clearSearch()" type="button" class="btn btn-dark waves-light waves-effect w-md">
+                    清空
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card-box">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <button type="button" class="form-control" id="daterange-btn">
+                        <i class="fa fa-calendar"></i>
+                        <span>请选择时间范围</span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

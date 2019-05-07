@@ -102,3 +102,17 @@ CREATE TABLE `cloudnote`.`cn_leave` (
   `userId` varchar(36) COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='请假表';
+
+CREATE TABLE `cloudnote`.`cn_attendance` (
+  `id` VARCHAR(36) NOT NULL,
+  `amStart` datetime NULL,
+  `amEnd` datetime NULL,
+  `pmStart` datetime NULL,
+  `pmEnd` datetime NULL,
+  `createTime` DATETIME NOT NULL,
+  `userId` VARCHAR(36) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_bin
+COMMENT = '打卡表';
