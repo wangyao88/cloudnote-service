@@ -232,7 +232,16 @@ function randomNum(minNum,maxNum){
 }
 
 function convertDate(dateArr) {
+    if(dateArr.length === 3) {
+        return new Date(dateArr[0], dateArr[1]-1, dateArr[2], 0, 0);
+    }
     return new Date(dateArr[0], dateArr[1]-1, dateArr[2], dateArr[3], dateArr[4]);
+}
+
+function newDate(dateStr) {
+    var date = new Date(dateStr);
+    date.setHours(date.getHours()+8);
+    return date;
 }
 
 $(document).ready(function () {

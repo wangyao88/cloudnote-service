@@ -7,13 +7,13 @@ function addTodo() {
     var expectedStartDate = null;
     var expectedEndDate = null;
     if(expectedStartDateStr) {
-        expectedStartDate = new Date(expectedStartDateStr);
+        expectedStartDate = newDate(expectedStartDateStr);
     }else {
         swal('系统提示', '预计开始日期为必填项！', 'error');
         return;
     }
     if(expectedEndDateStr) {
-        expectedEndDate = new Date(expectedEndDateStr);
+        expectedEndDate = newDate(expectedEndDateStr);
     }else {
         swal('系统提示', '预计完成日期为必填项！', 'error');
         return;

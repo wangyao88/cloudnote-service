@@ -1,0 +1,22 @@
+<div class="row" th:replace="/absence/search::absence_search()"></div>
+<div class="row">
+    <div class="col-12">
+        <div class="card-box table-responsive">
+            <h4 class="m-t-0 header-title"><b>节假日列表</b></h4>
+            <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>名称</th>
+                    <th>备注</th>
+                    <th>开始日期</th>
+                    <th>结束日期</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/absence/table.js}" src="../../static/js/absence/table.js"></script>

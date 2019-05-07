@@ -1,0 +1,6 @@
+<div class="row" th:replace="/leave/form::leave_form(update)"></div>
+
+<script th:inline="javascript">
+    var id = [[${id}]];
+</script>
+<script th:src="@{/js/leave/update.js}" src="../../static/js/leave/update.js"></script>

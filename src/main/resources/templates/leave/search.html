@@ -1,0 +1,43 @@
+<div class="row" th:fragment="leave_search()">
+    <div class="col-md-12">
+        <div class="card-box">
+            <div class="button-list">
+                <button onclick="gotoPage('leave/addPage','新增请假')" type="button" class="btn btn-gradient waves-light waves-effect w-md">
+                    新增
+                </button>
+                <button onclick="searchLeave()" type="button" class="btn btn-pink waves-light waves-effect w-md">
+                    搜索
+                </button>
+                <button onclick="clearSearch()" type="button" class="btn btn-dark waves-light waves-effect w-md">
+                    清空
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card-box">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <select id="search_leave_name" class="form-control">
+                        <option value="" selected>请选择请假类型</option>
+                        <option value="事假">事假</option>
+                        <option value="病假">病假</option>
+                        <option value="婚假">婚假</option>
+                        <option value="丧假">丧假</option>
+                        <option value="年假">年假</option>
+                        <option value="调休">调休</option>
+                        <option value="陪产假">陪产假</option>
+                        <option value="产假">产假</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <button type="button" class="form-control" id="daterange-btn">
+                        <i class="fa fa-calendar"></i>
+                        <span>请选择时间范围</span>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,6 @@
+<div class="row" th:replace="/standardworkdatetime/form::standardworkdatetime_form(update)"></div>
+
+<script th:inline="javascript">
+    var id = [[${id}]];
+</script>
+<script th:src="@{/js/standardworkdatetime/update.js}" src="../../static/js/standardworkdatetime/update.js"></script>

@@ -52,7 +52,7 @@ public abstract class BaseService<T extends BaseEntity> {
     public PageInfo<T> findPage(int pageNum, int pageSize, T entity) {
         PageHelper.startPage(pageNum, pageSize);
         List<T> entities = getMapper().findByCondition(entity);
-        return new PageInfo<>(addIndex(entities));
+        return new PageInfo<>(entities);
     }
 
     public List<T> findByCondition(T entity) {
@@ -60,7 +60,7 @@ public abstract class BaseService<T extends BaseEntity> {
         return addIndex(entities);
     }
 
-    private List<T> addIndex(List<T> entities) {
+    public List<T> addIndex(List<T> entities) {
         int size = entities.size();
         List<T> datas = Lists.newArrayListWithCapacity(size);
         IntStream.range(0, size).forEach(num->{

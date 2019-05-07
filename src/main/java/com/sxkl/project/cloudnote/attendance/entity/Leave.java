@@ -13,6 +13,6 @@ public class Leave extends BaseEntity {
     /**
      * 事假 病假 婚假 丧假 年假 调休 陪产假
      */
-    private String type;
+    private String name;
     private String tips;
 }

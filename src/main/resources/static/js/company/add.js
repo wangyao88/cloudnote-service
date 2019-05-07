@@ -5,13 +5,13 @@ function addCompany() {
     var inDate = null;
     var outDate = null;
     if(inDateStr) {
-        inDate = new Date(inDateStr);
+        inDate = newDate(inDateStr);
     }else {
         swal('系统提示', '入职时间为必填项！', 'error');
         return;
     }
     if(outDateStr) {
-        outDate = new Date(outDateStr);
+        outDate = newDate(outDateStr);
     }
     if(inDateStr && outDateStr) {
         if(inDate > outDate) {

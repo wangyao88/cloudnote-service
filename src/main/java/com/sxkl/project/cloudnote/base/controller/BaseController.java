@@ -102,6 +102,9 @@ public abstract class BaseController<T extends BaseEntity> {
         entity.setUserId(userId);
         Pageable pageable = PaginationHelper.buildPageInfo(request);
         PageInfo<T> pageInfo = getBaseService().findPage(pageable.getPageNumber(), pageable.getPageSize(), entity);
+        List<T> entities = pageInfo.getList();
+        List<T> indexedEntities = getBaseService().addIndex(entities);
+        pageInfo.setList(indexedEntities);
         return new BasePageInfo<>(pageInfo);
     }
 
@@ -112,5 +115,9 @@ public abstract class BaseController<T extends BaseEntity> {
 
     protected String getViewName(String name) {
         return StringUtils.appendJoinEmpty(getEntityName(), "/", name);
+    }
+
+    protected String getUserId(HttpServletRequest request) {
+        return RequestUtils.getUserId(request);
     }
 }
