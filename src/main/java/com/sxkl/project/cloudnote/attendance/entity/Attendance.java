@@ -8,10 +8,5 @@ import java.time.LocalDateTime;
 @Data
 public class Attendance extends BaseEntity {
 
-    private LocalDateTime amStart;
-    private LocalDateTime amEnd;
-    private LocalDateTime pmStart;
-    private LocalDateTime pmEnd;
-    private String attendanceType;
     private LocalDateTime attendanceDate;
 }

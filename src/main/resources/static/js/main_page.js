@@ -239,7 +239,12 @@ function convertDate(dateArr) {
 }
 
 function newDate(dateStr) {
-    var date = new Date(dateStr);
+    var date;
+    if(dateStr) {
+        date = new Date(dateStr);
+    }else {
+        date = new Date();
+    }
     date.setHours(date.getHours()+8);
     return date;
 }

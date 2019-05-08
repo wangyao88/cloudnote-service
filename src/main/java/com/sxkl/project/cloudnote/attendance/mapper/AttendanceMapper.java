@@ -12,8 +12,8 @@ import java.util.List;
 public interface AttendanceMapper extends BaseMapper<Attendance> {
 
     @Override
-    @Insert("insert into cn_attendance(id, amStart, amEnd, pmStart, pmEnd, createDate, userId) values " +
-            "(#{id}, #{amStart}, #{amEnd}, #{pmStart}, #{pmEnd}, #{createDate}, #{userId})")
+    @Insert("insert into cn_attendance(id, attendanceDate, createDate, userId) values " +
+            "(#{id}, #{attendanceDate}, #{createDate}, #{userId})")
     void add(Attendance attendance);
 
     @Override
@@ -27,18 +27,15 @@ public interface AttendanceMapper extends BaseMapper<Attendance> {
     @Override
     @Results(id = "attendanceResult", value = {
             @Result(column = "id", property = "id", jdbcType = JdbcType.VARCHAR, id = true),
-            @Result(column = "amStart", property = "amStart", jdbcType = JdbcType.TIMESTAMP),
-            @Result(column = "amEnd", property = "amEnd", jdbcType = JdbcType.TIMESTAMP),
-            @Result(column = "pmStart", property = "pmStart", jdbcType = JdbcType.TIMESTAMP),
-            @Result(column = "pmEnd", property = "pmEnd", jdbcType = JdbcType.TIMESTAMP),
+            @Result(column = "attendanceDate", property = "attendanceDate", jdbcType = JdbcType.TIMESTAMP),
             @Result(column = "createDate", property = "createDate", jdbcType = JdbcType.TIMESTAMP),
             @Result(column = "userId", property = "userId", jdbcType = JdbcType.VARCHAR)
     })
-    @Select("select id, amStart, amEnd, pmStart, pmEnd, createDate, userId from cn_attendance where id=#{id}")
+    @Select("select id, attendanceDate, createDate, userId from cn_attendance where id=#{id}")
     Attendance findOne(@Param("id") String id);
 
     @Override
-    @Select("select id, amStart, amEnd, pmStart, pmEnd, createDate, userId from cn_attendance")
+    @Select("select id, attendanceDate, createDate, userId from cn_attendance")
     @ResultMap("attendanceResult")
     List<Attendance> findAll();
 
@@ -51,10 +48,10 @@ public interface AttendanceMapper extends BaseMapper<Attendance> {
 
         public String findByCondition(Attendance attendance) {
             return MyBatisSQL.builder()
-                    .SELECT("id, amStart, amEnd, pmStart, pmEnd, createDate, userId")
+                    .SELECT("id, attendanceDate, createDate, userId")
                     .FROM("cn_attendance")
-                    .whereIfNotNull(attendance.getStartDate(), "amStart>=#{startDate}")
-                    .whereIfNotNull(attendance.getEndDate(), "pmEnd<=#{endDate}")
+                    .whereIfNotNull(attendance.getStartDate(), "attendanceDate>=#{startDate}")
+                    .whereIfNotNull(attendance.getEndDate(), "attendanceDate<=#{endDate}")
                     .whereIfNotNull(attendance.getUserId(), "userId=#{userId}")
                     .whereIfNotNull(attendance.getId(), "id=#{id}")
                     .build();
@@ -63,10 +60,7 @@ public interface AttendanceMapper extends BaseMapper<Attendance> {
         public String updateByCondition(final Attendance attendance) {
             return MyBatisSQL.builder()
                     .UPDATE("cn_attendance")
-                    .setIfNotNull(attendance.getAmStart(), "amStart=#{amStart}")
-                    .setIfNotNull(attendance.getAmEnd(), "amEnd=#{amEnd}")
-                    .setIfNotNull(attendance.getPmStart(), "pmStart=#{pmStart}")
-                    .setIfNotNull(attendance.getPmEnd(), "pmEnd=#{pmEnd}")
+                    .setIfNotNull(attendance.getAttendanceDate(), "amStart=#{attendanceDate}")
                     .setIfNotNull(attendance.getUserId(), "userId=#{userId}")
                     .whereIfNotNull(attendance.getId(), "id=#{id}")
                     .build();

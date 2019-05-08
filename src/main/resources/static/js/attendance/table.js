@@ -14,6 +14,13 @@ function clearSearch() {
     $('#daterange-btn span').html('请选择时间范围');
 }
 
+function addAttendance() {
+    var data = JSON.stringify({
+        attendanceDate: newDate(),
+    });
+    addOne('attendance/add', data, 'attendance/tablePage', '打卡');
+}
+
 function init() {
     //定义locale汉化插件
     var locale = {
@@ -69,14 +76,11 @@ function init() {
 $(document).ready(function() {
     var columns = [
         {data: "index"},
-        {data: "amStart"},
-        {data: "amEnd"},
-        {data: "pmStart"},
-        {data: "pmEnd"},
+        {data: "attendanceDate"},
         {data: null, render: function (data, type, row, meta) {
                 var content = '<div class="button-list">'+
-                    '<button onclick="removeOne(\''+row.id+'\', \'attendance/removeOne\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> ' +
-                        '<i class="fa fa-remove"></i> ' +
+                    '<button onclick="removeOne(\''+row.id+'\', \'attendance/removeOne\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger">' +
+                        '<i class="fa fa-remove"></i>' +
                     '</button>'+
                 '</div>';
                 return content;

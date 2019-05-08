@@ -105,11 +105,8 @@ CREATE TABLE `cloudnote`.`cn_leave` (
 
 CREATE TABLE `cloudnote`.`cn_attendance` (
   `id` VARCHAR(36) NOT NULL,
-  `amStart` datetime NULL,
-  `amEnd` datetime NULL,
-  `pmStart` datetime NULL,
-  `pmEnd` datetime NULL,
-  `createTime` DATETIME NOT NULL,
+  `attendanceDate` datetime NULL,
+  `createDate` DATETIME NOT NULL,
   `userId` VARCHAR(36) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
