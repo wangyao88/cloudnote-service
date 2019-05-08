@@ -55,7 +55,7 @@
             <div class="topbar">
                 <!-- LOGO -->
                 <div class="topbar-left">
-                    <a href="/" class="logo">
+                    <a href="" class="logo">
                         <span>
                             <img th:src="@{/images/logo.png}" src="../static/images/logo.png" alt="" height="16">
                         </span>
@@ -268,6 +268,7 @@
                                 <a href="javascript: void(0);"><i class="fi-clock"></i> <span> 考勤打卡 </span> <span class="menu-arrow"></span></a>
                                 <ul class="nav-second-level nav" aria-expanded="false">
                                     <li><a href="javascript: void(0);" onclick="gotoPage('attendance/tablePage', '日常打卡')">日常打卡</a></li>
+                                    <li><a href="javascript: void(0);" onclick="gotoPage('attendance/calendarPage', '打卡日历')">打卡日历</a></li>
                                     <li><a href="javascript: void(0);" onclick="gotoPage('absence/tablePage', '节假日')">节假日</a></li>
                                     <li><a href="javascript: void(0);" onclick="gotoPage('leave/tablePage', '请假管理')">请假管理</a></li>
                                     <li><a href="javascript: void(0);" onclick="gotoPage('standardWorkDateTime/tablePage', '工作作息时间')">工作作息时间</a></li>
@@ -359,7 +360,9 @@
                             </div>
                         </div>
                         <!-- end row -->
-                        <div id="main_content"></div>
+                        <div id="main_content">
+                            <div th:replace="/content::home_content()"></div>
+                        </div>
 
                     </div> <!-- container -->
 
@@ -389,6 +392,8 @@
         <script th:src="@{/js/metisMenu.min.js}" src="../static/js/metisMenu.min.js"></script>
         <script th:src="@{/js/waves.js}" src="../static/js/waves.js"></script>
         <script th:src="@{/js/jquery.slimscroll.js}" src="../static/js/jquery.slimscroll.js"></script>
+        <script th:src="@{/plugins/waypoints/lib/jquery.waypoints.min.js}" src="../static/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
+        <script th:src="@{/plugins/counterup/jquery.counterup.min.js}" src="../static/plugins/counterup/jquery.counterup.min.js"></script>
         <script th:src="@{/plugins/encrypt/core-min.js}" src="../static/plugins/encrypt/core-min.js"></script>
         <script th:src="@{/plugins/encrypt/enc-base64-min.js}" src="../static/plugins/encrypt/enc-base64-min.js"></script>
 

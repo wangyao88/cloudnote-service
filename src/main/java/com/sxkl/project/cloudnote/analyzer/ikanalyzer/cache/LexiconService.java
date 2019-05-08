@@ -198,7 +198,6 @@ public class LexiconService {
     public List<Map<String, Object>> statisticLexcion() {
         List<Map<String, Object>> datas = mapper.statisticLexcion();
         datas.forEach(data -> {
-            Object discriminator = data.get("discriminator");
             String prettyDiscriminator = kvs.get(data.get("discriminator"));
             data.put("prettyDiscriminator", prettyDiscriminator);
         });

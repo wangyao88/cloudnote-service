@@ -1,6 +1,7 @@
 package com.sxkl.project.cloudnote.attendance.controller;
 
 import com.sxkl.project.cloudnote.attendance.entity.Absence;
+import com.sxkl.project.cloudnote.attendance.entity.Event;
 import com.sxkl.project.cloudnote.attendance.service.AbsenceService;
 import com.sxkl.project.cloudnote.base.controller.BaseController;
 import com.sxkl.project.cloudnote.base.entity.OperateResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 @RequestMapping("/absence")

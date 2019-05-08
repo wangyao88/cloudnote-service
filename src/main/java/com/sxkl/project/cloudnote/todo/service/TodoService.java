@@ -8,15 +8,11 @@ import com.sxkl.project.cloudnote.todo.entity.Status;
 import com.sxkl.project.cloudnote.todo.entity.Todo;
 import com.sxkl.project.cloudnote.todo.mapper.TodoMapper;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
