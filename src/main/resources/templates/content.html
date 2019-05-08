@@ -4,7 +4,7 @@
             <div class="card-box tilebox-one">
                 <i class="fi-box float-right"></i>
                 <h6 class="text-muted text-uppercase mb-3">主词库</h6>
-                <h4 class="mb-3" data-plugin="counterup">1,587,234,567</h4>
+                <h4 class="mb-3" data-plugin="counterup" th:text="${main_lexicons}">0</h4>
             </div>
         </div>
 
@@ -12,7 +12,7 @@
             <div class="card-box tilebox-one">
                 <i class="fi-layers float-right"></i>
                 <h6 class="text-muted text-uppercase mb-3">扩展词库</h6>
-                <h4 class="mb-3">$<span data-plugin="counterup">46,782</span></h4>
+                <h4 class="mb-3" data-plugin="counterup" th:text="${ext_lexicons}">0</h4>
             </div>
         </div>
 
@@ -20,7 +20,7 @@
             <div class="card-box tilebox-one">
                 <i class="fi-tag float-right"></i>
                 <h6 class="text-muted text-uppercase mb-3">量词库</h6>
-                <h4 class="mb-3">$<span data-plugin="counterup">15.9</span></h4>
+                <h4 class="mb-3" data-plugin="counterup" th:text="${quantifier_lexicons}">0</h4>
             </div>
         </div>
 
@@ -28,7 +28,7 @@
             <div class="card-box tilebox-one">
                 <i class="fi-briefcase float-right"></i>
                 <h6 class="text-muted text-uppercase mb-3">停用词库</h6>
-                <h4 class="mb-3" data-plugin="counterup">1,890</h4>
+                <h4 class="mb-3" data-plugin="counterup" th:text="${stop_lexicons}">0</h4>
             </div>
         </div>
     </div>
@@ -36,83 +36,24 @@
     <div class="row">
         <div class="col-lg-6">
             <div class="card-box">
-                <h4 class="m-t-0 header-title">Basic example</h4>
-                <p class="text-muted font-14 m-b-20">
-                    For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.
-                </p>
-
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                    </tbody>
-                </table>
+                <div id='calendar' style="margin: 10px auto 50px auto; padding: 0 10px;"></div>
             </div>
-
         </div>
         <div class="col-lg-6">
             <div class="card-box">
-                <h4 class="m-t-0 header-title">Basic example</h4>
-                <p class="text-muted font-14 m-b-20">
-                    For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.
-                </p>
-
-                <table class="table">
+                <h4 class="m-t-0 header-title"><b>待办事项列表</b></h4>
+                <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0" width="100%">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
+                        <th>标题</th>
+                        <th>预计开始日期</th>
+                        <th>预计完成日期</th>
+                        <th>状态</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                    </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 </div>

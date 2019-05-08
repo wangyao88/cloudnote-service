@@ -251,4 +251,5 @@ function newDate(dateStr) {
 
 $(document).ready(function () {
     getPublicKey();
+    initAttendanceCalendar();
 });

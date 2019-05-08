@@ -6,6 +6,7 @@ import com.sxkl.project.cloudnote.attendance.entity.*;
 import com.sxkl.project.cloudnote.attendance.mapper.AbsenceMapper;
 import com.sxkl.project.cloudnote.attendance.mapper.AttendanceMapper;
 import com.sxkl.project.cloudnote.attendance.mapper.LeaveMapper;
+import com.sxkl.project.cloudnote.base.entity.OperateResult;
 import com.sxkl.project.cloudnote.base.mapper.BaseMapper;
 import com.sxkl.project.cloudnote.base.service.BaseService;
 import com.sxkl.project.cloudnote.etl.utils.ObjectUtils;
@@ -196,5 +197,13 @@ public class AttendanceService extends BaseService<Attendance> {
         event.setEnd(end.format(FORMATTER));
         event.setColor(subEvent.get(COLOR));
         return event;
+    }
+
+    public OperateResult check(String userId) {
+        StandardWorkDateTime standardWorkDateTime = standardWorkDateTimeService.getStandardWorkDateTime(userId);
+        if(ObjectUtils.isNull(standardWorkDateTime)) {
+            return OperateResult.builder().msg("").status(Boolean.FALSE).build();
+        }
+        return null;
     }
 }

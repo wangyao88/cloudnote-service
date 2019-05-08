@@ -40,8 +40,15 @@
         <!-- Toastr css -->
         <link th:href="@{/plugins/jquery-toastr/jquery.toast.min.css}" href="../static/plugins/jquery-toastr/jquery.toast.min.css" rel="stylesheet" />
 
+        <!-- bootstrap-colorpicker css -->
         <link th:href="@{/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css}" href="../static/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
         <link th:href="@{/plugins/clockpicker/css/bootstrap-clockpicker.min.css}" href="../static/plugins/clockpicker/css/bootstrap-clockpicker.min.css" rel="stylesheet">
+
+        <!-- fullcalendar css -->
+        <link th:href="@{/plugins/fullcalendar/core/main.css}" href='../static/plugins/fullcalendar/core/main.css' rel='stylesheet' />
+        <link th:href="@{/plugins/fullcalendar/timegrid/main.css}" href='../static/plugins/fullcalendar/timegrid/main.css' rel='stylesheet' />
+        <link th:href="@{/plugins/fullcalendar/daygrid/main.css}" href='../static/plugins/fullcalendar/daygrid/main.css' rel='stylesheet' />
+        <link th:href="@{/plugins/fullcalendar/list/main.css}" href='../static/plugins/fullcalendar/list/main.css' rel='stylesheet' />
 
         <script th:src="@{/js/modernizr.min.js}" src="../static/js/modernizr.min.js"></script>
     </head>
@@ -458,8 +465,20 @@
         <script th:src="@{/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js}" src="../static/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
         <script th:src="@{/plugins/clockpicker/js/bootstrap-clockpicker.min.js}" src="../static/plugins/clockpicker/js/bootstrap-clockpicker.min.js"></script>
 
+        <!-- fullcalendar js -->
+        <script th:src="@{/plugins/fullcalendar/core/main.js}" src='../static/plugins/fullcalendar/core/main.js'></script>
+        <script th:src="@{/plugins/fullcalendar/interaction/main.js}" src='../static/plugins/fullcalendar/interaction/main.js'></script>
+        <script th:src="@{/plugins/fullcalendar/daygrid/main.js}" src='../static/plugins/fullcalendar/daygrid/main.js'></script>
+        <script th:src="@{/plugins/fullcalendar/timegrid/main.js}" src='../static/plugins/fullcalendar/timegrid/main.js'></script>
+        <script th:src="@{/plugins/fullcalendar/list/main.js}" src='../static/plugins/fullcalendar/list/main.js'></script>
+
+        <!-- customer js -->
+        <script th:inline="javascript">
+            var statusMap = [[${statusMap}]];
+        </script>
+        <script th:src="@{/js/todo/tableForHome.js}" src="../static/js/todo/tableForHome.js"></script>
+        <script th:src="@{/js/attendance/calendar.js}" src="../static/js/attendance/calendar.js"></script>
         <script th:src="@{/js/main_page.js}" src="../static/js/main_page.js"></script>
-        <script th:src="@{/js/lexicon/lexicon.js}" src="../static/js/lexicon/lexicon.js"></script>
 
     </body>
 </html>
