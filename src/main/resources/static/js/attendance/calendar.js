@@ -23,13 +23,13 @@ function initAttendanceCalendar() {
                         dataType: 'json',
                         success : function(result) {
                             if(result.status) {
-                                swal('系统提示', '新增打卡成功！', 'success');
+                                swal('系统提示', '打卡成功！', 'success');
                             }else {
-                                swal('系统提示', '新增打卡失败！', 'error');
+                                swal('系统提示', status.msg, 'error');
                             }
                         },
                         error : function() {
-                            swal('系统提示', '新增打卡失败，请稍候重试！', 'error');
+                            swal('系统提示', '打卡失败，请稍候重试！', 'error');
                         }
                     });
                 }

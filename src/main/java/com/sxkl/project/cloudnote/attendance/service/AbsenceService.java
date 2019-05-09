@@ -3,6 +3,7 @@ package com.sxkl.project.cloudnote.attendance.service;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.sxkl.project.cloudnote.attendance.entity.Absence;
+import com.sxkl.project.cloudnote.attendance.entity.Event;
 import com.sxkl.project.cloudnote.attendance.mapper.AbsenceMapper;
 import com.sxkl.project.cloudnote.base.entity.OperateResult;
 import com.sxkl.project.cloudnote.base.mapper.BaseMapper;
@@ -96,5 +97,18 @@ public class AbsenceService extends BaseService<Absence> {
         absence.setName("周末");
         absence.setTips(tips);
         return absence;
+    }
+
+    public List<Event> getAbsenceEvents(Event event, String userId) {
+        Absence condition = new Absence();
+        condition.setUserId(userId);
+        condition.setStartDate(event.getStartDateTime());
+        condition.setEndDate(event.getEndDateTime());
+        List<Absence> absences = absenceMapper.findByCondition(condition);
+        return absences.stream().map(absence -> {
+            LocalDateTime start = absence.getAbsenceStart().atTime(0, 0, 0);
+            LocalDateTime end = absence.getAbsenceEnd().atTime(23, 59, 59);
+            return AttendanceServiceHelper.initEvent(absence.getId(), AttendanceServiceHelper.ABSENCE, start, end);
+        }).collect(Collectors.toList());
     }
 }
