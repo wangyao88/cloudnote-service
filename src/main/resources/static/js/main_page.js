@@ -242,10 +242,10 @@ function newDate(dateStr) {
     var date;
     if(dateStr) {
         date = new Date(dateStr);
+        // date.setHours(date.getHours()+8);
     }else {
         date = new Date();
     }
-    date.setHours(date.getHours()+8);
     return date;
 }
 

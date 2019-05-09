@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +49,7 @@ public class AttendanceController extends BaseController<Attendance> {
         String userId = getUserId(request);
         OperateResult operateResult = attendanceService.check(userId);
         if(operateResult.isStatus()) {
+            attendance.setAttendanceDate(LocalDateTime.now());
             return super.add(attendance, request, response);
         }
         return operateResult;
