@@ -71,6 +71,7 @@ public interface TodoMapper extends BaseMapper<Todo> {
                     .UPDATE("cn_todo")
                     .setIfNotNull(todo.getTitle(), "title=#{title}")
                     .setIfNotNull(todo.getStatus(), "status=#{status}")
+                    .setIfNotNull(todo.getProjectId(), "projectId=#{projectId}")
                     .setIfNotNull(todo.getExpectedStartDate(), "expectedStartDate=#{expectedStartDate}")
                     .setIfNotNull(todo.getExpectedEndDate(), "expectedEndDate=#{expectedEndDate}")
                     .whereIfNotNull(todo.getId(), "id=#{id}")

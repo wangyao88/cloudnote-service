@@ -34,6 +34,7 @@ public class TodoController extends BaseController<Todo> {
     public ModelAndView tablePage() {
         ModelAndView mv = new ModelAndView(getViewName("table"));
         mv.addObject("statusMap", todoService.findAllStatusMap());
+        mv.addObject("statuses", todoService.findAllStatusList());
         mv.addObject("projects", projectService.findAll());
         return mv;
     }

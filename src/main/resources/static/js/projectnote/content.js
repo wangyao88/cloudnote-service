@@ -41,8 +41,3 @@ function initProjectSelector() {
         }
     });
 }
-
-$(document).ready(function () {
-    initProjectNoteContentContainer();
-    initProjectSelector();
-});

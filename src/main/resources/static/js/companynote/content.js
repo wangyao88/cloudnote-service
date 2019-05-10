@@ -41,8 +41,3 @@ function initCompanySelector() {
         }
     });
 }
-
-$(document).ready(function () {
-    initCompanyNoteContentContainer();
-    initCompanySelector();
-});

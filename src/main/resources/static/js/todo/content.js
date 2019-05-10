@@ -59,9 +59,3 @@ function initStatusSelector() {
         }
     });
 }
-
-$(document).ready(function () {
-    initTodoTitleContainer();
-    initProjectSelector();
-    initStatusSelector();
-});

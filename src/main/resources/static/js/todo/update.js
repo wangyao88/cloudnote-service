@@ -52,7 +52,7 @@ function updateTodo() {
         expectedStartDate: expectedStartDate,
         expectedEndDate: expectedEndDate
     });
-    updateOne('todo/update', data, 'todo/tablePage', '项目资料');
+    updateOne('todo/update', data, 'todo/tablePage', '待办事项');
 }
 
 function initDatepicker(dateId) {
@@ -69,7 +69,10 @@ function initDatepicker(dateId) {
 $(document).ready(function () {
     initDatepicker('#expectedStartDate');
     initDatepicker('#expectedEndDate');
-    tinyMCE.activeEditor.remove("#todo_title");
+
     initTodoTitleContainer();
+    initProjectSelector();
+    initStatusSelector();
+
     getTodoById();
 });

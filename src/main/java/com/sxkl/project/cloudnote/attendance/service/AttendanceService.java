@@ -103,7 +103,7 @@ public class AttendanceService extends BaseService<Attendance> {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate today = LocalDate.now();
         LocalDate firstday = LocalDate.of(today.getYear(),today.getMonth(),1);
-        LocalDate lastDay =today.with(TemporalAdjusters.lastDayOfMonth());
+        LocalDate lastDay = today.with(TemporalAdjusters.lastDayOfMonth());
         Event event = new Event();
         event.setStart(firstday.format(formatter));
         event.setEnd(lastDay.format(formatter));

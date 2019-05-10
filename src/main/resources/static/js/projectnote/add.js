@@ -9,3 +9,8 @@ function addProjectNote() {
     });
     addOne('projectNote/add', data, 'projectNote/tablePage', '项目资料');
 }
+
+$(document).ready(function () {
+    initProjectNoteContentContainer();
+    initProjectSelector();
+});

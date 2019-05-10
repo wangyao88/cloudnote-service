@@ -107,7 +107,7 @@ $(document).ready(function() {
                                 '<button onclick="removeOne(\''+row.id+'\', \'todo/removeOne\')" type="button" class="btn btn-icon waves-effect waves-light btn-danger"> ' +
                                     '<i class="fa fa-remove"></i> ' +
                                 '</button>'+
-                                '<button onclick="gotoUpdatePage(\'todo/updatePage\',\'更新带吧事项\',\''+row.id+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-warning"> ' +
+                                '<button onclick="gotoUpdatePage(\'todo/updatePage\',\'更新待办事项\',\''+row.id+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-warning"> ' +
                                     '<i class="fa fa-wrench"></i>' +
                                 '</button>'+
                                 '<button onclick="showDetail(\''+row.title+'\')" type="button" class="btn btn-icon waves-effect waves-light btn-info"> ' +

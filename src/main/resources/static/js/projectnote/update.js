@@ -29,7 +29,7 @@ function updateProjectNote() {
 }
 
 $(document).ready(function () {
-    tinyMCE.activeEditor.remove("#project_note_content");
     initProjectNoteContentContainer();
+    initProjectSelector();
     getProjectNoteById();
 });

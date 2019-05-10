@@ -49,4 +49,7 @@ function initDatepicker(dateId) {
 $(document).ready(function () {
     initDatepicker('#expectedStartDate');
     initDatepicker('#expectedEndDate');
+    initTodoTitleContainer();
+    initProjectSelector();
+    initStatusSelector();
 });

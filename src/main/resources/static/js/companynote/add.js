@@ -9,3 +9,8 @@ function addCompanyNote() {
     });
     addOne('companyNote/add', data, 'companyNote/tablePage', '办公资料');
 }
+
+$(document).ready(function () {
+    initCompanyNoteContentContainer();
+    initCompanySelector();
+});

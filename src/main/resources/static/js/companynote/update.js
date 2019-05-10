@@ -29,7 +29,7 @@ function updateCompanyNote() {
 }
 
 $(document).ready(function () {
-    tinyMCE.activeEditor.remove("#company_note_content");
     initCompanyNoteContentContainer();
+    initCompanySelector();
     getCompanyNoteById();
 });
