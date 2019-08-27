@@ -21,6 +21,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -126,7 +127,7 @@ public class SearchService {
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         byte[] rawKey = str2Bytes(HOT_LABELS_ZSET_KEY_IN_REDIS);
         Set<RedisZSetCommands.Tuple> tuples = redisTemplate.getConnectionFactory().getConnection().zRevRangeWithScores(rawKey, start, end);
-        List<RedisZSetCommands.Tuple> lists = tuples.stream().collect(Collectors.toList());
+        List<RedisZSetCommands.Tuple> lists = new ArrayList<>(tuples);
         int size = lists.size();
         List<HotLabel> hotLabels = Lists.newArrayListWithCapacity(size);
         IntStream.range(0, size).forEach(num->{

@@ -3,6 +3,7 @@ package com.sxkl.project.cloudnote.search.api;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.sxkl.project.cloudnote.analyzer.ikanalyzer.cache.LexiconService;
 import com.sxkl.project.cloudnote.etl.entity.Article;
 import com.sxkl.project.cloudnote.search.service.DataService;
 import com.sxkl.project.cloudnote.search.service.SearchService;
@@ -21,6 +22,8 @@ public class SearchApi {
     private DataService dataService;
     @Autowired
     private SearchService searchService;
+    @Autowired
+    private LexiconService lexiconService;
 
     @GetMapping("/search")
     public List<Article> search(String words, int page, int size) {
@@ -71,5 +74,11 @@ public class SearchApi {
     @PostMapping("/delete")
     public boolean delete(String id) {
         return dataService.delete(id);
+    }
+
+    @GetMapping("/analysis")
+    @ResponseBody
+    public List<String> analysis(@RequestParam("words")  String words) {
+        return lexiconService.analysis(words);
     }
 }
